@@ -12,10 +12,11 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2021-11-25" />
+<meta name="date" content="2022-01-06" />
 
 <title>Extracting data from Transfermarkt</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,41 +37,69 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -98,7 +127,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -112,7 +141,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Extracting data from Transfermarkt</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2021-11-25</h4>
+<h4 class="date">2022-01-06</h4>
 
 
 
@@ -128,9 +157,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>You can install the <code>worldfootballR</code> package from github with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(worldfootballR)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
 <hr />
 </div>
 <div id="usage" class="section level2">
@@ -148,29 +177,48 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="join-fbref-and-transfermarkt-data" class="section level2">
 <h2>Join FBref and Transfermarkt data</h2>
 <p>To be able to join data player between FBref and Transfermarkt, <code>player_dictionary_mapping()</code> has been created. There are over 6,100 players who have been listed for teams in the Big 5 Euro leagues on FBref since the start of the 2017-18 seasons, with all of these mapped together. This is expected to be updated and grow over time. The raw data is stored <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/fbref-tm-player-mapping/output/fbref_to_tm_mapping.csv">here</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mapped_players &lt;-<span class="st"> </span><span class="kw">player_dictionary_mapping</span>()
-dplyr<span class="op">::</span><span class="kw">glimpse</span>(mapped_players)
-<span class="co">#&gt; Rows: 6,300</span>
-<span class="co">#&gt; Columns: 4</span>
-<span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span>
-<span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span>
-<span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span>
-<span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mapped_players <span class="ot">&lt;-</span> <span class="fu">player_dictionary_mapping</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mapped_players)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 6,378</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 4</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></span></code></pre></div>
 </div>
 <div id="transfermarkt-helper-functions" class="section level2">
 <h2>Transfermarkt Helper Functions</h2>
 <p>The following section will outline the various functions available to find different URLs to be able to pass through the Transfermarkt suite of functions outlined in this vignette.</p>
 <div id="team-urls" class="section level3">
 <h3>Team URLs</h3>
-<p>To get a list of URLs for each team in a particular season from transfermarkt.com, the <code>tm_league_team_urls()</code> function can be used. If the country/countries aren't available in the main data set, the function can also accept a League URL from transfermarkt.com. To get the league URL, use the filtering options towards the top of transfermarkt.com, select the country and league you want to collect data from, head to that page, and copy the URL.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">team_urls &lt;-<span class="st"> </span><span class="kw">tm_league_team_urls</span>(<span class="dt">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="dt">start_year =</span> <span class="dv">2020</span>)
-<span class="co"># if it's not a league in the stored leagues data in worldfootballR_data repo:</span>
-league_one_teams &lt;-<span class="st"> </span><span class="kw">tm_league_team_urls</span>(<span class="dt">start_year =</span> <span class="dv">2020</span>, <span class="dt">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</code></pre></div>
+<p>To get a list of URLs for each team in a particular season from transfermarkt.com, the <code>tm_league_team_urls()</code> function can be used. If the country/countries aren’t available in the main data set, the function can also accept a League URL from transfermarkt.com. To get the league URL, use the filtering options towards the top of transfermarkt.com, select the country and league you want to collect data from, head to that page, and copy the URL.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if it&#39;s not a league in the stored leagues data in worldfootballR_data repo:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>league_one_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">start_year =</span> <span class="dv">2020</span>, <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
 </div>
 <div id="player-urls" class="section level3">
 <h3>Player URLs</h3>
 <p>To get a list of player URLs for a particular team in transfermarkt.com, the <code>tm_team_player_urls()</code> function can be used.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tm_team_player_urls</span>(<span class="dt">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span></code></pre></div>
+</div>
+<div id="staff-urls" class="section level3">
+<h3>Staff URLs</h3>
+<p>To get a list of staff URLs for a particular team(s) and staff role in transfermarkt.com, the <code>tm_league_staff_urls()</code> function can be used.</p>
+<p>The staff roles that can be passed to the function via the <code>staff_role</code> argument are below:</p>
+<ul>
+<li>“Manager” (this will also return caretaker managers)</li>
+<li>“Assistant Manager”</li>
+<li>“Goalkeeping Coach”</li>
+<li>“Fitness Coach”</li>
+<li>“Conditioning Coach”</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL managers for the 2021/22 season</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>epl_managers <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -181,14 +229,14 @@ league_one_teams &lt;-<span class="st"> </span><span class="kw">tm_league_team_u
 <h3>League Table by Matchdays</h3>
 <p>To be able to extract league tables for select matchday(s), the below function can be used.</p>
 <p>The function can accept either the country name, season start year and matchday number(s), or for leagues not contained in the <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/transfermarkt_leagues/main_comp_seasons.csv">worldfootballR_data</a> repository, it can accept the league URL, season start year and matchday number(s).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># to get the EPL table after matchday 1 of the 20/21 season:</span>
-epl_matchday_1_table &lt;-<span class="st"> </span><span class="kw">tm_matchday_table</span>(<span class="dt">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="dt">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="dt">matchday=</span><span class="dv">1</span>)
-
-<span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span>
-epl_matchday_1to35_table &lt;-<span class="st"> </span><span class="kw">tm_matchday_table</span>(<span class="dt">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="dt">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="dt">matchday=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">35</span>))
-
-<span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span>
-league_one_matchday_1_table &lt;-<span class="st"> </span><span class="kw">tm_matchday_table</span>(<span class="dt">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="dt">matchday=</span><span class="dv">1</span>, <span class="dt">league_url=</span><span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after matchday 1 of the 20/21 season:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>epl_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>epl_matchday_1to35_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>league_one_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span>, <span class="at">league_url=</span><span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -198,28 +246,28 @@ league_one_matchday_1_table &lt;-<span class="st"> </span><span class="kw">tm_ma
 <div id="transfer-activity-by-team" class="section level3">
 <h3>Transfer activity by team</h3>
 <p>To get all the arrivals and departures for a team (or teams) in a season and data regarding the transfer (transfer value, contract length, where they came from/went to, etc), the <code>tm_team_transfers()</code> function can be used. This function can return either <code>summer</code>, <code>winter</code> or <code>all</code> for both <code>transfer_windows</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for one team:</span>
-bayern &lt;-<span class="st"> </span><span class="kw">tm_team_transfers</span>(<span class="dt">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>, <span class="dt">transfer_window =</span> <span class="st">&quot;all&quot;</span>)
-
-<span class="co"># or for multiple teams:</span>
-team_urls &lt;-<span class="st"> </span><span class="kw">tm_league_team_urls</span>(<span class="dt">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="dt">start_year =</span> <span class="dv">2020</span>)
-epl_xfers_<span class="dv">2020</span> &lt;-<span class="st"> </span><span class="kw">tm_team_transfers</span>(<span class="dt">team_url =</span> team_urls, <span class="dt">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>epl_xfers_2020 <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> team_urls, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 </div>
 <div id="squad-player-stats" class="section level3">
 <h3>Squad Player Stats</h3>
 <p>To get basic statistics (goals, appearances, minutes played, etc) for all games played by players for a squad season, the <code>tm_squad_stats()</code> function can be used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for one team:</span>
-bayern &lt;-<span class="st"> </span><span class="kw">tm_squad_stats</span>(<span class="dt">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>)
-
-<span class="co"># or for multiple teams:</span>
-team_urls &lt;-<span class="st"> </span><span class="kw">tm_league_team_urls</span>(<span class="dt">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="dt">start_year =</span> <span class="dv">2020</span>)
-epl_team_players_<span class="dv">2020</span> &lt;-<span class="st"> </span><span class="kw">tm_squad_stats</span>(<span class="dt">team_url =</span> team_urls)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>epl_team_players_2020 <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> team_urls)</span></code></pre></div>
 </div>
 <div id="player-valuations" class="section level3">
 <h3>Player Valuations</h3>
 <p>To get player valuations for all teams in a league season, use the <code>get_player_market_values()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">big_5_valuations &lt;-<span class="st"> </span><span class="kw">get_player_market_values</span>(<span class="dt">country_name =</span> <span class="kw">c</span>(<span class="st">&quot;England&quot;</span>, <span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Germany&quot;</span>),
-                                       <span class="dt">start_year =</span> <span class="dv">2021</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>big_5_valuations <span class="ot">&lt;-</span> <span class="fu">get_player_market_values</span>(<span class="at">country_name =</span> <span class="fu">c</span>(<span class="st">&quot;England&quot;</span>, <span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Germany&quot;</span>),</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">start_year =</span> <span class="dv">2021</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -229,15 +277,43 @@ epl_team_players_<span class="dv">2020</span> &lt;-<span class="st"> </span><spa
 <div id="player-bios" class="section level3">
 <h3>Player Bios</h3>
 <p>To get information about a player, like their age, foot, where they were born, who they play for, their contract details, social media accounts and a whole lot more, use the <code>tm_player_bio()</code> function.:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for a single player </span>
-hazard_bio &lt;-<span class="st"> </span><span class="kw">tm_player_bio</span>(<span class="dt">player_url =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)
-
-<span class="co"># for multiple players:</span>
-<span class="co"># can make use of a tm helper function:</span>
-burnley_player_urls &lt;-<span class="st"> </span><span class="kw">tm_team_player_urls</span>(<span class="dt">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)
-<span class="co"># then pass all those URLs to the tm_player_bio</span>
-burnley_bios &lt;-<span class="st"> </span><span class="kw">tm_player_bio</span>(<span class="dt">player_urls =</span> burnley_player_urls)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a single player </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>hazard_bio <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_url =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple players:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># can make use of a tm helper function:</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>burnley_player_urls <span class="ot">&lt;-</span> <span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass all those URLs to the tm_player_bio</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>burnley_bios <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_urls =</span> burnley_player_urls)</span></code></pre></div>
 <hr />
+</div>
+</div>
+<div id="club-staff-data" class="section level2">
+<h2>Club Staff Data</h2>
+<p>From version 0.4.7, users now have the ability to get historical data for club staff from transfermarkt.</p>
+<p>The following two functions can be used, depending on the need (in addition to the helper function <code>tm_team_staff_urls()</code> detailed above).</p>
+<div id="club-staff-history" class="section level3">
+<h3>Club Staff History</h3>
+<p>You can extract all employees by role in a club’s history using <code>tm_team_staff_history()</code>.</p>
+<p>The list of roles that can be passed to the <code>staff_roles</code> argument can be found <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/transfermarkt_staff/tm_staff_types.csv">here</a></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then use the URLs to pass to the function, and select the role you wish to see results for</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>club_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>club_caretaker_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Caretaker Manager&quot;</span>)</span></code></pre></div>
+</div>
+<div id="staff-members-history" class="section level3">
+<h3>Staff Member’s History</h3>
+<p>To be able to get all roles held by a selected staff member(s), the <code>tm_staff_job_history()</code> function can be used.</p>
+<p>The function accepts one argument, <code>staff_urls</code>, which can be extracted using <code>tm_team_staff_urls()</code> explained in the helpers section above.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># then you can pass these URLs to the function and get job histories for the selected staff members</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coach_job_histories <span class="ot">&lt;-</span> <span class="fu">tm_staff_job_history</span>(<span class="at">staff_urls =</span> epl_gk_coaches)</span></code></pre></div>
 </div>
 </div>
 

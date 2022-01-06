@@ -1,7 +1,7 @@
 Type: Package
 Package: worldfootballR
 Title: Functions to Extract and Clean World Football (Soccer) Data
-Version: 0.4.5
+Version: 0.4.8
 Authors@R: c(
     person("Jason", "Zivkovic", , "jaseziv83@gmail.com", role = c("aut", "cre", "cph")),
     person("Tony", "ElHabr", , "anthonyelhabr@gmail.com", role = "ctb")
@@ -25,9 +25,9 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 NeedsCompilation: no
-Packaged: 2021-11-25 09:54:00 UTC; jasonzivkovic
+Packaged: 2022-01-06 04:25:18 UTC; zivkovij
 Author: Jason Zivkovic [aut, cre, cph],
   Tony ElHabr [ctb]
 Maintainer: Jason Zivkovic <jaseziv83@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-11-25 19:50:02 UTC
+Date/Publication: 2022-01-06 04:40:02 UTC

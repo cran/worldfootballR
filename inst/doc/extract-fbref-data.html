@@ -12,10 +12,11 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2021-11-25" />
+<meta name="date" content="2022-01-06" />
 
 <title>Extracting data from FBref</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,41 +37,69 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -98,7 +127,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -112,7 +141,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Extracting data from FBref</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2021-11-25</h4>
+<h4 class="date">2022-01-06</h4>
 
 
 
@@ -128,9 +157,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p>You can install the <code>worldfootballR</code> package from github with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;devtools&quot;)</span>
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(worldfootballR)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
 <hr />
 </div>
 <div id="usage" class="section level2">
@@ -148,39 +177,39 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="join-fbref-and-transfermarkt-data" class="section level2">
 <h2>Join FBref and Transfermarkt data</h2>
 <p>To be able to join data player between FBref and Transfermarkt, <code>player_dictionary_mapping()</code> has been created. There are over 6,100 players who have been listed for teams in the Big 5 Euro leagues on FBref since the start of the 2017-18 seasons, with all of these mapped together. This is expected to be updated and grow over time. The raw data is stored <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/fbref-tm-player-mapping/output/fbref_to_tm_mapping.csv">here</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mapped_players &lt;-<span class="st"> </span><span class="kw">player_dictionary_mapping</span>()
-dplyr<span class="op">::</span><span class="kw">glimpse</span>(mapped_players)
-<span class="co">#&gt; Rows: 6,300</span>
-<span class="co">#&gt; Columns: 4</span>
-<span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span>
-<span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span>
-<span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span>
-<span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mapped_players <span class="ot">&lt;-</span> <span class="fu">player_dictionary_mapping</span>()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mapped_players)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 6,378</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 4</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></span></code></pre></div>
 </div>
 <div id="fbref-helper-functions" class="section level2">
 <h2>FBref Helper Functions</h2>
 <p>The following section will outline the various functions available to find different URLs to be able to pass through the FBref suite of functions outlined in this vignette.</p>
 <div id="league-urls" class="section level3">
 <h3>League URLs</h3>
-<p>To extract the URL of any country's league(s) (provided fbref have data for the league), use the <code>fb_league_urls()</code> function.</p>
-<p>This function also accepts a <code>tier</code> argument. for first-tier leagues, select '1st', for second-tier select '2nd' and so on.</p>
+<p>To extract the URL of any country’s league(s) (provided fbref have data for the league), use the <code>fb_league_urls()</code> function.</p>
+<p>This function also accepts a <code>tier</code> argument. for first-tier leagues, select ‘1st’, for second-tier select ‘2nd’ and so on.</p>
 <p>A fill list of countries available can be found in the <code>worldfootballR_data</code> repository and can be found <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/all_leages_and_cups/all_competitions.csv">here</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fb_league_urls</span>(<span class="dt">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2021</span>, <span class="dt">tier =</span> <span class="st">'2nd'</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_league_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&#39;2nd&#39;</span>)</span></code></pre></div>
 </div>
 <div id="team-urls" class="section level3">
 <h3>Team URLs</h3>
 <p>To get a list of URLs for each team in a particular season, the <code>fb_teams_urls()</code> function can be used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)</span></code></pre></div>
 </div>
 <div id="player-urls" class="section level3">
 <h3>Player URLs</h3>
 <p>To get a list of player URLs for a particular team, the <code>fb_player_urls()</code> function can be used. The results of this output can be passed through to the player season stat functions <code>fb_player_season_stats()</code> and <code>fb_player_scouting_report()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fb_player_urls</span>(<span class="st">&quot;https://fbref.com/en/squads/fd962109/Fulham-Stats&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_player_urls</span>(<span class="st">&quot;https://fbref.com/en/squads/fd962109/Fulham-Stats&quot;</span>)</span></code></pre></div>
 </div>
 <div id="get-match-urls" class="section level3">
 <h3>Get match urls</h3>
 <p>To get the match URLs needed to pass in to some of the match-level functions below, <code>get_match_urls()</code> can be used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">epl_2021_urls &lt;-<span class="st"> </span><span class="kw">get_match_urls</span>(<span class="dt">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2021</span>, <span class="dt">tier=</span><span class="st">&quot;1st&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>epl_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier=</span><span class="st">&quot;1st&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="league-season-level-data" class="section level2">
@@ -206,16 +235,16 @@ dplyr<span class="op">::</span><span class="kw">glimpse</span>(mapped_players)
 <li><em>playing_time</em></li>
 <li><em>misc</em></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to extract season teams stats</span>
-prem_2020_shooting &lt;-<span class="st"> </span><span class="kw">get_season_team_stats</span>(<span class="dt">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="dt">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="dt">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)
-<span class="co"># to get shooting stats for the English Championship:</span>
-championship_2020_shooting &lt;-<span class="st"> </span><span class="kw">get_season_team_stats</span>(<span class="dt">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="dt">tier =</span> <span class="st">&quot;2nd&quot;</span>, <span class="dt">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract season teams stats</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>prem_2020_shooting <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to get shooting stats for the English Championship:</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>championship_2020_shooting <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="at">tier =</span> <span class="st">&quot;2nd&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</span></code></pre></div>
 <div id="more-than-one-league-season" class="section level4">
 <h4>More than one league season</h4>
 <p>The <code>get_season_team_stats</code> function can be used to get data for multiple seasons/leagues/genders/etc.</p>
 <p>Important to note, this function can only be used for one <code>stat-type</code> at a time, however all other parameters can have multiple values:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">big_5_2020_possessions &lt;-<span class="st"> </span><span class="kw">get_season_team_stats</span>(<span class="dt">country =</span> <span class="kw">c</span>(<span class="st">&quot;ENG&quot;</span>, <span class="st">&quot;ESP&quot;</span>, <span class="st">&quot;ITA&quot;</span>, <span class="st">&quot;GER&quot;</span>, <span class="st">&quot;FRA&quot;</span>),
-                                        <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2020</span>, <span class="dt">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="dt">stat_type =</span> <span class="st">&quot;possession&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>big_5_2020_possessions <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;ENG&quot;</span>, <span class="st">&quot;ESP&quot;</span>, <span class="st">&quot;ITA&quot;</span>, <span class="st">&quot;GER&quot;</span>, <span class="st">&quot;FRA&quot;</span>),</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2020</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>)</span></code></pre></div>
 </div>
 <div id="the-big-5-euro-leagues" class="section level4">
 <h4>The Big 5 Euro Leagues</h4>
@@ -235,8 +264,8 @@ championship_2020_shooting &lt;-<span class="st"> </span><span class="kw">get_se
 <li><em>keepers_adv</em></li>
 </ul>
 <p>The function also accepts a season or seasons and whether you want data for the player, or team.</p>
-<p>Note that when selecting <code>team_or_player=&quot;team&quot;</code>, results will be returned for both the team's for and against stats. To filter on this, use the <code>Team_or_Opponent</code> column in the resulting data frame, selecting 'team' if you want the team's for stats, or 'opponent' if you want the team's against stats.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">big5_team_shooting &lt;-<span class="st"> </span><span class="kw">fb_big5_advanced_season_stats</span>(<span class="dt">season_end_year=</span> <span class="kw">c</span>(<span class="dv">2019</span><span class="op">:</span><span class="dv">2021</span>), <span class="dt">stat_type=</span> <span class="st">&quot;shooting&quot;</span>, <span class="dt">team_or_player=</span> <span class="st">&quot;team&quot;</span>)</code></pre></div>
+<p>Note that when selecting <code>team_or_player=&quot;team&quot;</code>, results will be returned for both the team’s for and against stats. To filter on this, use the <code>Team_or_Opponent</code> column in the resulting data frame, selecting ‘team’ if you want the team’s for stats, or ‘opponent’ if you want the team’s against stats.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>big5_team_shooting <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="fu">c</span>(<span class="dv">2019</span><span class="sc">:</span><span class="dv">2021</span>), <span class="at">stat_type=</span> <span class="st">&quot;shooting&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;team&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -247,46 +276,46 @@ championship_2020_shooting &lt;-<span class="st"> </span><span class="kw">get_se
 <div id="get-match-results" class="section level3">
 <h3>Get match results</h3>
 <p>To get the match results (and additional metadata) for all leagues and comps listed <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/all_leages_and_cups/all_competitions.csv">here</a>, the following function can be used:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to extract Serie A match results data</span>
-serieA_<span class="dv">2020</span> &lt;-<span class="st"> </span><span class="kw">get_match_results</span>(<span class="dt">country =</span> <span class="st">&quot;ITA&quot;</span>, <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2020</span>, <span class="dt">tier =</span> <span class="st">&quot;1st&quot;</span>)</code></pre></div>
-<p>The function can also be used to return match URLs for a non-domestic league season. To use this functionality, simply leave <code>country = ''</code> and pass the non-domestic league URL, which can be found at <a href="https://fbref.com/en/comps/" class="uri">https://fbref.com/en/comps/</a></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for international friendlies:</span>
-<span class="kw">get_match_results</span>(<span class="dt">country =</span> <span class="st">&quot;&quot;</span>, <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2018</span>, <span class="dt">tier =</span> <span class="st">&quot;&quot;</span>, <span class="dt">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract Serie A match results data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>serieA_2020 <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;ITA&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2020</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>)</span></code></pre></div>
+<p>The function can also be used to return match URLs for a non-domestic league season. To use this functionality, simply leave <code>country = &#39;&#39;</code> and pass the non-domestic league URL, which can be found at <a href="https://fbref.com/en/comps/" class="uri">https://fbref.com/en/comps/</a></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for international friendlies:</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2018</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</span></code></pre></div>
 <div id="more-than-one-league-season-1" class="section level4">
 <h4>More than one league season</h4>
 <p>The <code>get_match_results()</code> function can be used to get data for multiple seasons/leagues/genders/etc also:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">big_5_2020_results &lt;-<span class="st"> </span><span class="kw">get_match_results</span>(<span class="dt">country =</span> <span class="kw">c</span>(<span class="st">&quot;ENG&quot;</span>, <span class="st">&quot;ESP&quot;</span>, <span class="st">&quot;ITA&quot;</span>, <span class="st">&quot;GER&quot;</span>, <span class="st">&quot;FRA&quot;</span>),
-                                        <span class="dt">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2020</span>, <span class="dt">tier =</span> <span class="st">&quot;1st&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>big_5_2020_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;ENG&quot;</span>, <span class="st">&quot;ESP&quot;</span>, <span class="st">&quot;ITA&quot;</span>, <span class="st">&quot;GER&quot;</span>, <span class="st">&quot;FRA&quot;</span>),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2020</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="get-match-report" class="section level3">
 <h3>Get match report</h3>
 <p>This function will return similar results to that of <code>get_match_results()</code>, however <code>get_match_report()</code> will provide some additional information. It will also only provide it for a single match, not the whole season:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to extract match report data</span>
-liv_mci_<span class="dv">2020</span> &lt;-<span class="st"> </span><span class="kw">get_match_report</span>(<span class="dt">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match report data</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020 <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span></code></pre></div>
 </div>
 <div id="get-match-summaries" class="section level3">
 <h3>Get match summaries</h3>
 <p>This function will return the main events that occur during a match, including goals, substitutions and red/yellow cards:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to extract match summary data</span>
-liv_mci_2020_summary &lt;-<span class="st"> </span><span class="kw">get_match_summary</span>(<span class="dt">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match summary data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020_summary <span class="ot">&lt;-</span> <span class="fu">get_match_summary</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span></code></pre></div>
 </div>
 <div id="get-match-lineups" class="section level3">
 <h3>Get match lineups</h3>
 <p>This function will return a dataframe of all players listed for that match, including whether they started on the pitch, or on the bench.</p>
 <p>From version 0.2.7, this function now also returns some summary performance data for each player that played, including their position, minutes played, goals, cards, etc.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function to extract match lineups</span>
-liv_mci_2020_lineups &lt;-<span class="st"> </span><span class="kw">get_match_lineups</span>(<span class="dt">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match lineups</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020_lineups <span class="ot">&lt;-</span> <span class="fu">get_match_lineups</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span></code></pre></div>
 </div>
 <div id="get-shooting-and-shot-creation-events" class="section level3">
 <h3>Get shooting and shot creation events</h3>
 <p>The below function allows users to extract shooting and shot creation event data for a match or selected matches. The data returned includes who took the shot, when, with which body part and from how far away. Additionally, the player creating the chance and also the creation before this are included in the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">shot_one_match &lt;-<span class="st"> </span><span class="kw">get_match_shooting</span>(<span class="dt">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/a3eb7a37/Sheffield-United-Wolverhampton-Wanderers-September-14-2020-Premier-League&quot;</span>)
-
-test_urls_multiple &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,
-                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,
-                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)
-shot_multiple_matches &lt;-<span class="st"> </span><span class="kw">get_match_shooting</span>(test_urls_multiple)</code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>shot_one_match <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/a3eb7a37/Sheffield-United-Wolverhampton-Wanderers-September-14-2020-Premier-League&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>test_urls_multiple <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>shot_multiple_matches <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(test_urls_multiple)</span></code></pre></div>
 </div>
 <div id="get-advanced-match-statistics" class="section level3">
 <h3>Get advanced match statistics</h3>
@@ -303,17 +332,17 @@ shot_multiple_matches &lt;-<span class="st"> </span><span class="kw">get_match_s
 <li><em>keeper</em></li>
 </ul>
 <p>The function can be used for either all players individually:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_urls_multiple &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,
-                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,
-                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)
-
-advanced_match_stats &lt;-<span class="st"> </span><span class="kw">get_advanced_match_stats</span>(<span class="dt">match_url =</span> test_urls_multiple, <span class="dt">stat_type =</span> <span class="st">&quot;possession&quot;</span>, <span class="dt">team_or_player =</span> <span class="st">&quot;player&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>test_urls_multiple <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>advanced_match_stats <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> test_urls_multiple, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;player&quot;</span>)</span></code></pre></div>
 <p>Or used for the team totals for each match:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_urls_multiple &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,
-                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,
-                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)
-
-advanced_match_stats_team &lt;-<span class="st"> </span><span class="kw">get_advanced_match_stats</span>(<span class="dt">match_url =</span> test_urls_multiple, <span class="dt">stat_type =</span> <span class="st">&quot;passing_types&quot;</span>, <span class="dt">team_or_player =</span> <span class="st">&quot;team&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_urls_multiple <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_team <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> test_urls_multiple, <span class="at">stat_type =</span> <span class="st">&quot;passing_types&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;team&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -323,12 +352,12 @@ advanced_match_stats_team &lt;-<span class="st"> </span><span class="kw">get_adv
 <div id="match-results-by-team" class="section level3">
 <h3>Match Results by team</h3>
 <p>To get all the results a team(s) has competed in for a season, the following function can be used. The resulting data frame output will include all game results, including any cup games played, and will accept either one, or many team URLs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># for single teams:</span>
-man_city_2021_url &lt;-<span class="st"> &quot;https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats&quot;</span>
-man_city_2021_results &lt;-<span class="st"> </span><span class="kw">get_team_match_results</span>(man_city_url)
-<span class="co"># get all team URLs for a league</span>
-epl_2021_team_urls &lt;-<span class="st"> </span><span class="kw">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)
-epl_2021_team_results &lt;-<span class="st"> </span><span class="kw">get_team_match_results</span>(<span class="dt">team_url =</span> team_urls)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for single teams:</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>man_city_2021_url <span class="ot">&lt;-</span> <span class="st">&quot;https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats&quot;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>man_city_2021_results <span class="ot">&lt;-</span> <span class="fu">get_team_match_results</span>(man_city_url)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all team URLs for a league</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>epl_2021_team_urls <span class="ot">&lt;-</span> <span class="fu">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>epl_2021_team_results <span class="ot">&lt;-</span> <span class="fu">get_team_match_results</span>(<span class="at">team_url =</span> team_urls)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -340,41 +369,41 @@ epl_2021_team_results &lt;-<span class="st"> </span><span class="kw">get_team_ma
 <h3>Get Player Scouting Report</h3>
 <p>The <code>fb_player_scouting_report()</code> function takes in two inputs;</p>
 <ul>
-<li><code>player_url</code> - the URL of the player's main page</li>
-<li><code>pos_versus</code> which can return the player's comparison against players in their &quot;primary&quot;, OR &quot;secondary&quot; position</li>
+<li><code>player_url</code> - the URL of the player’s main page</li>
+<li><code>pos_versus</code> which can return the player’s comparison against players in their “primary”, OR “secondary” position</li>
 </ul>
 <p>and returns the full scouting report for the player selected.</p>
-<p>As of version <code>0.3.6</code>, the function now returns the scouting report of ALL available periods, not just the &quot;Last 365 Days&quot;. As a result, there is now an additional column called <code>scouting_period</code>. This column should be used to filter out the period/season you want the scouting report for:</p>
+<p>As of version <code>0.3.6</code>, the function now returns the scouting report of ALL available periods, not just the “Last 365 Days”. As a result, there is now an additional column called <code>scouting_period</code>. This column should be used to filter out the period/season you want the scouting report for:</p>
 <pre><code># TO GET THE LAST 365 DAYS REPORT:
 scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;,
                                    pos_versus = &quot;primary&quot;) %&gt;% 
                dplyr::filter(scouting_period == &quot;Last 365 Days&quot;)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dplyr<span class="op">::</span><span class="kw">glimpse</span>(<span class="kw">fb_player_scouting_report</span>(<span class="dt">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="dt">pos_versus =</span> <span class="st">&quot;primary&quot;</span>))
-<span class="co">#&gt; Rows: 745</span>
-<span class="co">#&gt; Columns: 8</span>
-<span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span>
-<span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwa…</span>
-<span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span>
-<span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span>
-<span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.88, 0.24, 0.80, 0.08, 0.16, 0.08, 0.00, 0.69, 0.56, …</span>
-<span class="co">#&gt; $ Percentile      &lt;dbl&gt; 98, 85, 98, 73, 86, 71, 58, 96, 92, 98, 98, 98, 99, 99…</span>
-<span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 3393, 3393, 3393, 3393, 3393, 3393, 3393, 3393, 3393, …</span>
-<span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span>
-dplyr<span class="op">::</span><span class="kw">glimpse</span>(<span class="kw">fb_player_scouting_report</span>(<span class="dt">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="dt">pos_versus =</span> <span class="st">&quot;secondary&quot;</span>))
-<span class="co">#&gt; Rows: 745</span>
-<span class="co">#&gt; Columns: 8</span>
-<span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span>
-<span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Att Mid / Wingers&quot;, &quot;Att Mid / Wingers&quot;, &quot;Att Mid / W…</span>
-<span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span>
-<span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span>
-<span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.88, 0.24, 0.80, 0.08, 0.16, 0.08, 0.00, 0.69, 0.56, …</span>
-<span class="co">#&gt; $ Percentile      &lt;dbl&gt; 99, 75, 99, 87, 92, 74, 58, 99, 99, 92, 99, 99, 99, 99…</span>
-<span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 3393, 3393, 3393, 3393, 3393, 3393, 3393, 3393, 3393, …</span>
-<span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;primary&quot;</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 894</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 8</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwa…</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.87, 0.31, 0.76, 0.11, 0.17, 0.06, 0.00, 0.65, 0.52, …</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 98, 92, 96, 80, 85, 78, 56, 92, 86, 98, 97, 98, 99, 98…</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, …</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;secondary&quot;</span>))</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 894</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 8</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Att Mid / Wingers&quot;, &quot;Att Mid / Wingers&quot;, &quot;Att Mid / W…</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.87, 0.31, 0.76, 0.11, 0.17, 0.06, 0.00, 0.65, 0.52, …</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 99, 85, 99, 91, 94, 78, 58, 99, 98, 94, 99, 99, 99, 99…</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, …</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span></code></pre></div>
 </div>
 <div id="get-player-season-stats" class="section level3">
 <h3>Get Player Season Stats</h3>
-<p>The <code>fb_player_season_stats()</code> function allows for the extraction of season totals for selected player URLs and stat_type.</p>
+<p>The <code>fb_player_season_stats()</code> function allows for the extraction of historical season totals for selected player URLs and stat_type.</p>
 <p>The stat_types available for use in this function are below:</p>
 <ul>
 <li><em>standard</em></li>
@@ -389,11 +418,11 @@ dplyr<span class="op">::</span><span class="kw">glimpse</span>(<span class="kw">
 <li><em>keeper</em></li>
 <li><em>keeper_adv</em></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mo_shooting &lt;-<span class="st"> </span><span class="kw">fb_player_season_stats</span>(<span class="st">&quot;https://fbref.com/en/players/e342ad68/Mohamed-Salah&quot;</span>, <span class="dt">stat_type =</span> <span class="st">'shooting'</span>)
-
-multiple_playing_time &lt;-<span class="st"> </span><span class="kw">fb_player_season_stats</span>(<span class="dt">player_url =</span> <span class="kw">c</span>(<span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>,
-                                                <span class="st">&quot;https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo&quot;</span>),
-                                 <span class="dt">stat_type =</span> <span class="st">&quot;playing_time&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mo_shooting <span class="ot">&lt;-</span> <span class="fu">fb_player_season_stats</span>(<span class="st">&quot;https://fbref.com/en/players/e342ad68/Mohamed-Salah&quot;</span>, <span class="at">stat_type =</span> <span class="st">&#39;shooting&#39;</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>multiple_playing_time <span class="ot">&lt;-</span> <span class="fu">fb_player_season_stats</span>(<span class="at">player_url =</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                                <span class="st">&quot;https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo&quot;</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">stat_type =</span> <span class="st">&quot;playing_time&quot;</span>)</span></code></pre></div>
 </div>
 <div id="the-big-5-euro-league-players" class="section level3">
 <h3>The Big 5 Euro League Players</h3>
@@ -413,12 +442,38 @@ multiple_playing_time &lt;-<span class="st"> </span><span class="kw">fb_player_s
 <li><em>keepers_adv</em></li>
 </ul>
 <p>The function also accepts a season or seasons and whether you want data for the player, or team.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">big5_player_possession &lt;-<span class="st"> </span><span class="kw">fb_big5_advanced_season_stats</span>(<span class="dt">season_end_year=</span> <span class="dv">2021</span>, <span class="dt">stat_type=</span> <span class="st">&quot;possession&quot;</span>, <span class="dt">team_or_player=</span> <span class="st">&quot;player&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>big5_player_possession <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="dv">2021</span>, <span class="at">stat_type=</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;player&quot;</span>)</span></code></pre></div>
+</div>
+<div id="player-season-statistics-for-a-teams-season" class="section level3">
+<h3>Player Season Statistics for a teams season</h3>
+<p>The <code>fb_team_player_stats()</code> function allows users to extract data for any of the below listed stat types for all players of selected team(s) seasons,</p>
+<p>The stat types available for this function are below:</p>
+<ul>
+<li><em>standard</em></li>
+<li><em>shooting</em></li>
+<li><em>passing</em></li>
+<li><em>passing_types</em></li>
+<li><em>gca</em></li>
+<li><em>defense</em></li>
+<li><em>possession</em></li>
+<li><em>playing_time</em></li>
+<li><em>misc</em></li>
+<li><em>keepers</em></li>
+<li><em>keepers_adv</em></li>
+</ul>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get stats for just a single team</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fleetwood_standard_stats <span class="ot">&lt;-</span> <span class="fu">fb_team_player_stats</span>(<span class="at">team_urls=</span> <span class="st">&quot;https://fbref.com/en/squads/d6a369a2/Fleetwood-Town-Stats&quot;</span>, <span class="at">stat_type=</span> <span class="st">&#39;standard&#39;</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Can even get stats for a series of teams:</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>league_url <span class="ot">&lt;-</span> <span class="fu">fb_league_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">fb_teams_urls</span>(league_url)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>multiple_playing_time <span class="ot">&lt;-</span> <span class="fu">fb_team_player_stats</span>(<span class="at">team_urls=</span> teams, <span class="at">stat_type=</span> <span class="st">&quot;playing_time&quot;</span>)</span></code></pre></div>
 </div>
 <div id="player-match-logs" class="section level3">
 <h3>Player Match Logs</h3>
-<p>The <code>fb_player_match_logs()</code> function allows the user to return a data frame of the match logs of different stat types for a player's matches played in a season.</p>
-<p>The following stat types can be selected, depending on the player's position (ie a striker probably won't have &quot;keepers&quot; stats):</p>
+<p>The <code>fb_player_match_logs()</code> function allows the user to return a data frame of the match logs of different stat types for a player’s matches played in a season.</p>
+<p>The following stat types can be selected, depending on the player’s position (ie a striker probably won’t have “keepers” stats):</p>
 <ul>
 <li><em>summary</em></li>
 <li><em>keepers</em></li>
@@ -429,7 +484,7 @@ multiple_playing_time &lt;-<span class="st"> </span><span class="kw">fb_player_s
 <li><em>possession</em></li>
 <li><em>misc</em></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ederson_summary &lt;-<span class="st"> </span><span class="kw">fb_player_match_logs</span>(<span class="st">&quot;https://fbref.com/en/players/3bb7b8b4/Ederson&quot;</span>, <span class="dt">season_end_year =</span> <span class="dv">2021</span>, <span class="dt">stat_type =</span> <span class="st">'summary'</span>)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ederson_summary <span class="ot">&lt;-</span> <span class="fu">fb_player_match_logs</span>(<span class="st">&quot;https://fbref.com/en/players/3bb7b8b4/Ederson&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">stat_type =</span> <span class="st">&#39;summary&#39;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>

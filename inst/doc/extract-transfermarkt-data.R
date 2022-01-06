@@ -25,6 +25,15 @@ dplyr::glimpse(mapped_players)
 ## ----tm_player_urls, eval=FALSE-----------------------------------------------
 #  tm_team_player_urls(team_url = "https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020")
 
+## ---- tm_staff_urls, eval=FALSE-----------------------------------------------
+#  # get a list of team URLs for the EPL 2021/22 season
+#  epl_teams <- tm_league_team_urls(country_name = "England", start_year = 2021)
+#  # get all EPL managers for the 2021/22 season
+#  epl_managers <- tm_team_staff_urls(team_urls = epl_teams, staff_role = "Manager")
+#  
+#  # get all EPL goal keeping coaches for the 2021/22 season
+#  epl_gk_coaches <- tm_team_staff_urls(team_urls = epl_teams, staff_role = "Goalkeeping Coach")
+
 ## ----matchday_league_table, eval=FALSE----------------------------------------
 #  # to get the EPL table after matchday 1 of the 20/21 season:
 #  epl_matchday_1_table <- tm_matchday_table(country_name="England", start_year="2020", matchday=1)
@@ -64,4 +73,21 @@ dplyr::glimpse(mapped_players)
 #  burnley_player_urls <- tm_team_player_urls(team_url = "https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020")
 #  # then pass all those URLs to the tm_player_bio
 #  burnley_bios <- tm_player_bio(player_urls = burnley_player_urls)
+
+## ----tm_team_staff_history, eval=FALSE----------------------------------------
+#  # get a list of team URLs for the EPL 2021/22 season
+#  epl_teams <- tm_league_team_urls(country_name = "England", start_year = 2021)
+#  
+#  # then use the URLs to pass to the function, and select the role you wish to see results for
+#  club_manager_history <- tm_team_staff_history(team_urls = epl_teams, staff_role = "Manager")
+#  club_caretaker_manager_history <- tm_team_staff_history(team_urls = epl_teams, staff_role = "Caretaker Manager")
+
+## ----tm_staff_job_history, eval=FALSE-----------------------------------------
+#  # get a list of team URLs for the EPL 2021/22 season
+#  epl_teams <- tm_league_team_urls(country_name = "England", start_year = 2021)
+#  
+#  # get all EPL goal keeping coaches for the 2021/22 season
+#  epl_gk_coaches <- tm_team_staff_urls(team_urls = epl_teams[1:3], staff_role = "Goalkeeping Coach")
+#  # then you can pass these URLs to the function and get job histories for the selected staff members
+#  epl_gk_coach_job_histories <- tm_staff_job_history(staff_urls = epl_gk_coaches)
 

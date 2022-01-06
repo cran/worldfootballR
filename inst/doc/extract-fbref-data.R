@@ -110,6 +110,16 @@ dplyr::glimpse(fb_player_scouting_report(player_url = "https://fbref.com/en/play
 ## ----big5_player, eval=FALSE--------------------------------------------------
 #  big5_player_possession <- fb_big5_advanced_season_stats(season_end_year= 2021, stat_type= "possession", team_or_player= "player")
 
+## ----team_player_season_stats, eval=FALSE-------------------------------------
+#  # to get stats for just a single team
+#  fleetwood_standard_stats <- fb_team_player_stats(team_urls= "https://fbref.com/en/squads/d6a369a2/Fleetwood-Town-Stats", stat_type= 'standard')
+#  
+#  # Can even get stats for a series of teams:
+#  league_url <- fb_league_urls(country = "ENG", gender = "M",
+#  teams <- fb_teams_urls(league_url)
+#  
+#  multiple_playing_time <- fb_team_player_stats(team_urls= teams, stat_type= "playing_time")
+
 ## ----player_match_logs, eval=FALSE--------------------------------------------
 #  ederson_summary <- fb_player_match_logs("https://fbref.com/en/players/3bb7b8b4/Ederson", season_end_year = 2021, stat_type = 'summary')
 
