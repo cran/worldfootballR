@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-01-06" />
+<meta name="date" content="2022-01-16" />
 
 <title>Extracting data from FBref</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from FBref</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-01-06</h4>
+<h4 class="date">2022-01-16</h4>
 
 
 
@@ -379,27 +379,7 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
                                    pos_versus = &quot;primary&quot;) %&gt;% 
                dplyr::filter(scouting_period == &quot;Last 365 Days&quot;)</code></pre>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;primary&quot;</span>))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 894</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 8</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwa…</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.87, 0.31, 0.76, 0.11, 0.17, 0.06, 0.00, 0.65, 0.52, …</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 98, 92, 96, 80, 85, 78, 56, 92, 86, 98, 97, 98, 99, 98…</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, …</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;secondary&quot;</span>))</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 894</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 8</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Att Mid / Wingers&quot;, &quot;Att Mid / Wingers&quot;, &quot;Att Mid / W…</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.87, 0.31, 0.76, 0.11, 0.17, 0.06, 0.00, 0.65, 0.52, …</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 99, 85, 99, 91, 94, 78, 58, 99, 98, 94, 99, 99, 99, 99…</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, 3213, …</span></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span></code></pre></div>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;secondary&quot;</span>))</span></code></pre></div>
 </div>
 <div id="get-player-season-stats" class="section level3">
 <h3>Get Player Season Stats</h3>

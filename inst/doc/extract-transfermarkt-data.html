@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-01-06" />
+<meta name="date" content="2022-01-16" />
 
 <title>Extracting data from Transfermarkt</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from Transfermarkt</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-01-06</h4>
+<h4 class="date">2022-01-16</h4>
 
 
 
@@ -224,7 +224,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="league-season-level-data" class="section level2">
 <h2>League Season-Level Data</h2>
-<p>This section will cover the functions to aid in the extraction of season team statistics.</p>
+<p>This section will cover the functions to aid in the extraction of season team statistics and information for whole leagues.</p>
 <div id="league-table-by-matchdays" class="section level3">
 <h3>League Table by Matchdays</h3>
 <p>To be able to extract league tables for select matchday(s), the below function can be used.</p>
@@ -237,6 +237,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>league_one_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span>, <span class="at">league_url=</span><span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
+</div>
+<div id="league-debutants" class="section level3">
+<h3>League Debutants</h3>
+<p>To be able to extract all debutants making either their league or professional debut, the <code>tm_league_debutants()</code> function can be used.</p>
+<p>To see all league debutants (regardless of their professional status), set <code>debut_type = &quot;league&quot;</code>, while setting <code>debut_type = &quot;pro&quot;</code> will only return debutants in the selected league who are making their professional debuts.</p>
+<p>The variables <code>debut_start_year</code> and <code>debut_end_year</code> set time periods on when debutant data is required for. As with all transfermarkt functions, this season value is the starting year if the season, ie for the 2021-22 LaLiga season, this value is set to 2021.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laliga players making their LaLiga debut in 2021/2022</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>laliga_debutants <span class="ot">&lt;-</span> <span class="fu">tm_league_debutants</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">debut_type =</span> <span class="st">&quot;league&quot;</span>, <span class="at">debut_start_year =</span> <span class="dv">2021</span>, <span class="at">debut_end_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># English League One players making their PRO debuts in 2021/2022</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>league_one_PRO_debutants <span class="ot">&lt;-</span> <span class="fu">tm_league_debutants</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>, <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>, <span class="at">debut_type =</span> <span class="st">&quot;pro&quot;</span>, <span class="at">debut_start_year =</span> <span class="dv">2021</span>, <span class="at">debut_end_year =</span> <span class="dv">2021</span>)</span></code></pre></div>
+</div>
+<div id="expiring-contracts" class="section level3">
+<h3>Expiring Contracts</h3>
+<p>To be able to extract a list of all players whose contracts expire in a selected year, the <code>tm_expiring_contracts()</code> can be used.</p>
+<p>Set the <code>contract_end_year</code> to be equal to the calendar year the contracts are due to expire.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LaLiga players with expiring contracts in 2022</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>laliga_expiring <span class="ot">&lt;-</span> <span class="fu">tm_expiring_contracts</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">contract_end_year =</span> <span class="dv">2023</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># English League One players with expiring contracts in 2022</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>league_one_expiring <span class="ot">&lt;-</span> <span class="fu">tm_expiring_contracts</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">contract_end_year =</span> <span class="dv">2023</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
+</div>
+<div id="league-injuries" class="section level3">
+<h3>League Injuries</h3>
+<p>To get a list of all reported <em>current</em> injuries for a selected league, use the <code>tm_league_injuries()</code> function:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get all current injuries for LaLiga</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>laliga_injuries <span class="ot">&lt;-</span> <span class="fu">tm_league_injuries</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all current injuries for League One in England</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>league_one_injuries <span class="ot">&lt;-</span> <span class="fu">tm_league_injuries</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -246,28 +279,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="transfer-activity-by-team" class="section level3">
 <h3>Transfer activity by team</h3>
 <p>To get all the arrivals and departures for a team (or teams) in a season and data regarding the transfer (transfer value, contract length, where they came from/went to, etc), the <code>tm_team_transfers()</code> function can be used. This function can return either <code>summer</code>, <code>winter</code> or <code>all</code> for both <code>transfer_windows</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>epl_xfers_2020 <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> team_urls, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>epl_xfers_2020 <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> team_urls, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
 </div>
 <div id="squad-player-stats" class="section level3">
 <h3>Squad Player Stats</h3>
 <p>To get basic statistics (goals, appearances, minutes played, etc) for all games played by players for a squad season, the <code>tm_squad_stats()</code> function can be used:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>epl_team_players_2020 <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> team_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>epl_team_players_2020 <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> team_urls)</span></code></pre></div>
 </div>
 <div id="player-valuations" class="section level3">
 <h3>Player Valuations</h3>
 <p>To get player valuations for all teams in a league season, use the <code>get_player_market_values()</code> function:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>big_5_valuations <span class="ot">&lt;-</span> <span class="fu">get_player_market_values</span>(<span class="at">country_name =</span> <span class="fu">c</span>(<span class="st">&quot;England&quot;</span>, <span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Germany&quot;</span>),</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">start_year =</span> <span class="dv">2021</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>big_5_valuations <span class="ot">&lt;-</span> <span class="fu">get_player_market_values</span>(<span class="at">country_name =</span> <span class="fu">c</span>(<span class="st">&quot;England&quot;</span>, <span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Germany&quot;</span>),</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">start_year =</span> <span class="dv">2021</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -277,14 +310,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="player-bios" class="section level3">
 <h3>Player Bios</h3>
 <p>To get information about a player, like their age, foot, where they were born, who they play for, their contract details, social media accounts and a whole lot more, use the <code>tm_player_bio()</code> function.:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a single player </span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>hazard_bio <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_url =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple players:</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># can make use of a tm helper function:</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>burnley_player_urls <span class="ot">&lt;-</span> <span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass all those URLs to the tm_player_bio</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>burnley_bios <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_urls =</span> burnley_player_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a single player </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hazard_bio <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_url =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple players:</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># can make use of a tm helper function:</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>burnley_player_urls <span class="ot">&lt;-</span> <span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass all those URLs to the tm_player_bio</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>burnley_bios <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_urls =</span> burnley_player_urls)</span></code></pre></div>
+</div>
+<div id="player-injury-history" class="section level3">
+<h3>Player Injury History</h3>
+<p>To be able to get an individual player(s) injury history from transfermarkt, use the <code>tm_player_injury_history()</code> function.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a single player</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hazard_injuries <span class="ot">&lt;-</span> <span class="fu">tm_player_injury_history</span>(<span class="at">player_urls =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple players:</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># can make use of a tm helper function:</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>burnley_player_urls <span class="ot">&lt;-</span> <span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2021&quot;</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass all those URLs to the tm_player_bio</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>burnley_player_injuries <span class="ot">&lt;-</span> <span class="fu">tm_player_injury_history</span>(<span class="at">player_urls =</span> burnley_player_urls)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -296,24 +341,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Club Staff History</h3>
 <p>You can extract all employees by role in a club’s history using <code>tm_team_staff_history()</code>.</p>
 <p>The list of roles that can be passed to the <code>staff_roles</code> argument can be found <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/transfermarkt_staff/tm_staff_types.csv">here</a></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then use the URLs to pass to the function, and select the role you wish to see results for</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>club_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>club_caretaker_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Caretaker Manager&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then use the URLs to pass to the function, and select the role you wish to see results for</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>club_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>club_caretaker_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Caretaker Manager&quot;</span>)</span></code></pre></div>
 </div>
 <div id="staff-members-history" class="section level3">
 <h3>Staff Member’s History</h3>
 <p>To be able to get all roles held by a selected staff member(s), the <code>tm_staff_job_history()</code> function can be used.</p>
 <p>The function accepts one argument, <code>staff_urls</code>, which can be extracted using <code>tm_team_staff_urls()</code> explained in the helpers section above.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># then you can pass these URLs to the function and get job histories for the selected staff members</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coach_job_histories <span class="ot">&lt;-</span> <span class="fu">tm_staff_job_history</span>(<span class="at">staff_urls =</span> epl_gk_coaches)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># then you can pass these URLs to the function and get job histories for the selected staff members</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coach_job_histories <span class="ot">&lt;-</span> <span class="fu">tm_staff_job_history</span>(<span class="at">staff_urls =</span> epl_gk_coaches)</span></code></pre></div>
 </div>
 </div>
 

@@ -96,9 +96,9 @@ dplyr::glimpse(mapped_players)
 #  epl_2021_team_urls <- fb_teams_urls("https://fbref.com/en/comps/9/Premier-League-Stats")
 #  epl_2021_team_results <- get_team_match_results(team_url = team_urls)
 
-## ----get_player_scouting_report-----------------------------------------------
-dplyr::glimpse(fb_player_scouting_report(player_url = "https://fbref.com/en/players/d70ce98e/Lionel-Messi", pos_versus = "primary"))
-dplyr::glimpse(fb_player_scouting_report(player_url = "https://fbref.com/en/players/d70ce98e/Lionel-Messi", pos_versus = "secondary"))
+## ----get_player_scouting_report, eval=FALSE-----------------------------------
+#  dplyr::glimpse(fb_player_scouting_report(player_url = "https://fbref.com/en/players/d70ce98e/Lionel-Messi", pos_versus = "primary"))
+#  dplyr::glimpse(fb_player_scouting_report(player_url = "https://fbref.com/en/players/d70ce98e/Lionel-Messi", pos_versus = "secondary"))
 
 ## ----player_season_stats, eval=FALSE------------------------------------------
 #  mo_shooting <- fb_player_season_stats("https://fbref.com/en/players/e342ad68/Mohamed-Salah", stat_type = 'shooting')

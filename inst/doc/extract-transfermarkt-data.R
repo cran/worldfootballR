@@ -44,6 +44,30 @@ dplyr::glimpse(mapped_players)
 #  # to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:
 #  league_one_matchday_1_table <- tm_matchday_table(start_year="2020", matchday=1, league_url="https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3")
 
+## ----league_debutants, eval=FALSE---------------------------------------------
+#  # Laliga players making their LaLiga debut in 2021/2022
+#  laliga_debutants <- tm_league_debutants(country_name = "Spain", debut_type = "league", debut_start_year = 2021, debut_end_year = 2021)
+#  
+#  # English League One players making their PRO debuts in 2021/2022
+#  league_one_PRO_debutants <- tm_league_debutants(country_name = "", league_url = "https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3", debut_type = "pro", debut_start_year = 2021, debut_end_year = 2021)
+
+## ----expiring_contracts, eval=FALSE-------------------------------------------
+#  # LaLiga players with expiring contracts in 2022
+#  laliga_expiring <- tm_expiring_contracts(country_name = "Spain", contract_end_year = 2023)
+#  
+#  # English League One players with expiring contracts in 2022
+#  league_one_expiring <- tm_expiring_contracts(country_name = "",
+#                                                 contract_end_year = 2023,
+#                                                 league_url = "https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3")
+
+## ----league_injuries, eval=FALSE----------------------------------------------
+#  # to get all current injuries for LaLiga
+#  laliga_injuries <- tm_league_injuries(country_name = "Spain")
+#  
+#  # get all current injuries for League One in England
+#  league_one_injuries <- tm_league_injuries(country_name = "",
+#                                                 league_url = "https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3")
+
 ## ----team_transfers, eval=FALSE-----------------------------------------------
 #  # for one team:
 #  bayern <- tm_team_transfers(team_url = "https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020", transfer_window = "all")
@@ -73,6 +97,16 @@ dplyr::glimpse(mapped_players)
 #  burnley_player_urls <- tm_team_player_urls(team_url = "https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020")
 #  # then pass all those URLs to the tm_player_bio
 #  burnley_bios <- tm_player_bio(player_urls = burnley_player_urls)
+
+## ----player_injury_history, eval=FALSE----------------------------------------
+#  # for a single player
+#  hazard_injuries <- tm_player_injury_history(player_urls = "https://www.transfermarkt.com/eden-hazard/profil/spieler/50202")
+#  
+#  # for multiple players:
+#  # can make use of a tm helper function:
+#  burnley_player_urls <- tm_team_player_urls(team_url = "https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2021")
+#  # then pass all those URLs to the tm_player_bio
+#  burnley_player_injuries <- tm_player_injury_history(player_urls = burnley_player_urls)
 
 ## ----tm_team_staff_history, eval=FALSE----------------------------------------
 #  # get a list of team URLs for the EPL 2021/22 season
