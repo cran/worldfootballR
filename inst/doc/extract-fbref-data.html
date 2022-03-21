@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-02-08" />
+<meta name="date" content="2022-03-21" />
 
 <title>Extracting data from FBref</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from FBref</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-02-08</h4>
+<h4 class="date">2022-03-21</h4>
 
 
 
@@ -152,23 +152,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://fbref.com/en/">FBref</a></li>
 <li><a href="https://www.transfermarkt.com/">Transfermarkt</a></li>
 <li><a href="https://understat.com/">Understat</a></li>
+<li><a href="https://www.fotmob.com/">Fotmob</a></li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
-<p>You can install the <code>worldfootballR</code> package from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
+<p>You can install the CRAN version of <a href="https://CRAN.R-project.org/package=worldfootballR"><strong><code>worldfootballR</code></strong></a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;worldfootballR&quot;</span>)</span></code></pre></div>
+<p>You can install the released version of <a href="https://github.com/JaseZiv/worldfootballR/"><strong><code>worldfootballR</code></strong></a> from <a href="https://github.com/JaseZiv/worldfootballR">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
 <hr />
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
 <p>Package vignettes have been built to help you get started with the package.</p>
 <ul>
-<li>For functions to extract data from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fbref-data.html">here</a></li>
 <li>For functions to extract data from Transfermarkt, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-transfermarkt-data.html">here</a></li>
 <li>For functions to extract data from Understat, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-understat-data.html">here</a></li>
+<li>For functions to extract data from fotmob, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fotmob-data.html">here</a></li>
 <li>For functions to extract data for international matches from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/fbref-data-internationals.html">here</a></li>
 </ul>
 <p>This vignette will cover the functions to extract data from FBref.com.</p>
@@ -177,14 +180,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="join-fbref-and-transfermarkt-data" class="section level2">
 <h2>Join FBref and Transfermarkt data</h2>
 <p>To be able to join data player between FBref and Transfermarkt, <code>player_dictionary_mapping()</code> has been created. There are over 6,100 players who have been listed for teams in the Big 5 Euro leagues on FBref since the start of the 2017-18 seasons, with all of these mapped together. This is expected to be updated and grow over time. The raw data is stored <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/fbref-tm-player-mapping/output/fbref_to_tm_mapping.csv">here</a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mapped_players <span class="ot">&lt;-</span> <span class="fu">player_dictionary_mapping</span>()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mapped_players)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 6,378</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 4</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mapped_players <span class="ot">&lt;-</span> <span class="fu">player_dictionary_mapping</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mapped_players)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 6,378</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 4</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></span></code></pre></div>
 </div>
 <div id="fbref-helper-functions" class="section level2">
 <h2>FBref Helper Functions</h2>
@@ -194,22 +197,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To extract the URL of any country’s league(s) (provided fbref have data for the league), use the <code>fb_league_urls()</code> function.</p>
 <p>This function also accepts a <code>tier</code> argument. for first-tier leagues, select ‘1st’, for second-tier select ‘2nd’ and so on.</p>
 <p>A fill list of countries available can be found in the <code>worldfootballR_data</code> repository and can be found <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/all_leages_and_cups/all_competitions.csv">here</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_league_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&#39;2nd&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_league_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&#39;2nd&#39;</span>)</span></code></pre></div>
 </div>
 <div id="team-urls" class="section level3">
 <h3>Team URLs</h3>
 <p>To get a list of URLs for each team in a particular season, the <code>fb_teams_urls()</code> function can be used:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)</span></code></pre></div>
 </div>
 <div id="player-urls" class="section level3">
 <h3>Player URLs</h3>
 <p>To get a list of player URLs for a particular team, the <code>fb_player_urls()</code> function can be used. The results of this output can be passed through to the player season stat functions <code>fb_player_season_stats()</code> and <code>fb_player_scouting_report()</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_player_urls</span>(<span class="st">&quot;https://fbref.com/en/squads/fd962109/Fulham-Stats&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fb_player_urls</span>(<span class="st">&quot;https://fbref.com/en/squads/fd962109/Fulham-Stats&quot;</span>)</span></code></pre></div>
 </div>
 <div id="get-match-urls" class="section level3">
 <h3>Get match urls</h3>
 <p>To get the match URLs needed to pass in to some of the match-level functions below, <code>get_match_urls()</code> can be used:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>epl_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier=</span><span class="st">&quot;1st&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>epl_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier=</span><span class="st">&quot;1st&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="league-season-level-data" class="section level2">
@@ -218,7 +221,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="get-season-team-stats" class="section level3">
 <h3>Get Season Team Stats</h3>
 <p>The <code>get_season_team_stats</code> function allows the user to return a data frame of different stat types for all teams in Domestic leagues <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/all_leages_and_cups/all_competitions.csv">here</a>.</p>
-<p>Note, some stats may not be available for all leagues. The big five European leagues should have all of these stats.</p>
+<p>Note, some stats may not be available for all leagues. The big five European leagues should have all of these stats, but for those leagues, it’s more efficient to use <code>fb_big5_advanced_season_stats()</code>.</p>
 <p>The following stat types can be selected:</p>
 <ul>
 <li><em>league_table</em></li>
@@ -235,17 +238,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><em>playing_time</em></li>
 <li><em>misc</em></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract season teams stats</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>prem_2020_shooting <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to get shooting stats for the English Championship:</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>championship_2020_shooting <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="at">tier =</span> <span class="st">&quot;2nd&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</span></code></pre></div>
-<div id="more-than-one-league-season" class="section level4">
-<h4>More than one league season</h4>
-<p>The <code>get_season_team_stats</code> function can be used to get data for multiple seasons/leagues/genders/etc.</p>
-<p>Important to note, this function can only be used for one <code>stat-type</code> at a time, however all other parameters can have multiple values:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>big_5_2020_possessions <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;ENG&quot;</span>, <span class="st">&quot;ESP&quot;</span>, <span class="st">&quot;ITA&quot;</span>, <span class="st">&quot;GER&quot;</span>, <span class="st">&quot;FRA&quot;</span>),</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2020</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>)</span></code></pre></div>
-</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- function to extract season teams stats -----#</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>prem_2020_shooting <span class="ot">&lt;-</span> <span class="fu">get_season_team_stats</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="st">&quot;2020&quot;</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>, <span class="at">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(prem_2020_shooting)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 40</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 25</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Competition_Name         &lt;chr&gt; &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;Premier …</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gender                   &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, …</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country                  &lt;chr&gt; &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;EN…</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season_End_Year          &lt;int&gt; 2020, 2020, 2020, 2020, 2020, 2020, 2020, 202…</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad                    &lt;chr&gt; &quot;Arsenal&quot;, &quot;Aston Villa&quot;, &quot;Bournemouth&quot;, &quot;Bri…</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team_or_Opponent         &lt;chr&gt; &quot;team&quot;, &quot;team&quot;, &quot;team&quot;, &quot;team&quot;, &quot;team&quot;, &quot;team…</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Num_Players              &lt;dbl&gt; 29, 28, 27, 25, 22, 27, 25, 24, 24, 24, 24, 2…</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mins_Per_90              &lt;dbl&gt; 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 3…</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls_Standard             &lt;dbl&gt; 56, 40, 38, 35, 41, 69, 29, 42, 65, 83, 100, …</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_Standard              &lt;dbl&gt; 401, 453, 384, 456, 384, 619, 372, 465, 533, …</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_Standard             &lt;dbl&gt; 144, 146, 116, 137, 124, 210, 116, 155, 181, …</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_percent_Standard     &lt;dbl&gt; 35.9, 32.2, 30.2, 30.0, 32.3, 33.9, 31.2, 33.…</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_per_90_Standard       &lt;dbl&gt; 10.55, 11.92, 10.11, 12.00, 10.11, 16.29, 9.7…</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_per_90_Standard      &lt;dbl&gt; 3.79, 3.84, 3.05, 3.61, 3.26, 5.53, 3.05, 4.0…</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_Sh_Standard        &lt;dbl&gt; 0.13, 0.09, 0.09, 0.07, 0.10, 0.10, 0.07, 0.0…</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_SoT_Standard       &lt;dbl&gt; 0.37, 0.27, 0.29, 0.25, 0.31, 0.30, 0.22, 0.2…</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dist_Standard            &lt;dbl&gt; 15.9, 16.9, 16.4, 17.1, 15.7, 16.2, 16.5, 15.…</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ FK_Standard              &lt;dbl&gt; 19, 17, 21, 11, 17, 27, 15, 20, 20, 18, 27, 3…</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PK_Standard              &lt;dbl&gt; 3, 1, 4, 1, 3, 7, 3, 1, 5, 5, 6, 10, 0, 2, 1,…</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PKatt_Standard           &lt;dbl&gt; 3, 3, 4, 2, 3, 7, 3, 1, 7, 5, 11, 14, 1, 2, 1…</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG_Expected              &lt;dbl&gt; 49.2, 40.1, 42.7, 41.2, 43.9, 66.6, 34.0, 49.…</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_Expected            &lt;dbl&gt; 46.9, 37.7, 39.7, 39.7, 41.6, 61.7, 31.9, 48.…</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_per_Sh_Expected     &lt;dbl&gt; 0.12, 0.08, 0.10, 0.09, 0.11, 0.10, 0.09, 0.1…</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_minus_xG_Expected      &lt;dbl&gt; 6.8, -0.1, -4.7, -6.2, -2.9, 2.4, -5.0, -7.3,…</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `np:G_minus_xG_Expected` &lt;dbl&gt; 6.1, 1.3, -5.7, -5.7, -3.6, 0.3, -5.9, -7.5, …</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">#----- to get shooting stats for the English Championship: -----#</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="co"># championship_2020_shooting &lt;- get_season_team_stats(country = &quot;ENG&quot;, gender = &quot;M&quot;, season_end_year = &quot;2020&quot;, tier = &quot;2nd&quot;, stat_type = &quot;shooting&quot;)</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can also run this for multiple leagues at a time: -----#</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co"># multiple_2020_shooting &lt;- get_season_team_stats(country = c(&quot;USA&quot;, &quot;NED&quot;),</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 gender = &quot;M&quot;, season_end_year = 2020, </span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 tier = &quot;1st&quot;, stat_type = &quot;shooting&quot;)</span></span></code></pre></div>
 <div id="the-big-5-euro-leagues" class="section level4">
 <h4>The Big 5 Euro Leagues</h4>
 <p>The <code>fb_big5_advanced_season_stats()</code> function allows users to extract data for any of the below listed stat types for all teams of the big five European leagues (EPL, La Liga, Ligue 1, Serie A, Bundesliga).</p>
@@ -265,7 +295,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>The function also accepts a season or seasons and whether you want data for the player, or team.</p>
 <p>Note that when selecting <code>team_or_player=&quot;team&quot;</code>, results will be returned for both the team’s for and against stats. To filter on this, use the <code>Team_or_Opponent</code> column in the resulting data frame, selecting ‘team’ if you want the team’s for stats, or ‘opponent’ if you want the team’s against stats.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>big5_team_shooting <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="fu">c</span>(<span class="dv">2019</span><span class="sc">:</span><span class="dv">2021</span>), <span class="at">stat_type=</span> <span class="st">&quot;shooting&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;team&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Get data for big five leagues for TEAMS -----#</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>big5_team_shooting <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="fu">c</span>(<span class="dv">2019</span><span class="sc">:</span><span class="dv">2021</span>), <span class="at">stat_type=</span> <span class="st">&quot;shooting&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;team&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(big5_team_shooting)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 588</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 24</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season_End_Year          &lt;int&gt; 2019, 2019, 2019, 2019, 2019, 2019, 2019, 201…</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad                    &lt;chr&gt; &quot;Alavés&quot;, &quot;Alavés&quot;, &quot;Amiens&quot;, &quot;Amiens&quot;, &quot;Ange…</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp                     &lt;chr&gt; &quot;La Liga&quot;, &quot;La Liga&quot;, &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;…</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team_or_Opponent         &lt;chr&gt; &quot;team&quot;, &quot;opponent&quot;, &quot;team&quot;, &quot;opponent&quot;, &quot;team…</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Num_Players              &lt;dbl&gt; 26, 26, 26, 26, 24, 24, 28, 28, 27, 27, 27, 2…</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mins_Per_90              &lt;dbl&gt; 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 3…</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls_Standard             &lt;dbl&gt; 39, 48, 30, 50, 42, 47, 69, 49, 75, 43, 38, 4…</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_Standard              &lt;dbl&gt; 419, 492, 393, 498, 453, 463, 467, 488, 642, …</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_Standard             &lt;dbl&gt; 118, 159, 115, 155, 151, 160, 159, 173, 211, …</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_percent_Standard     &lt;dbl&gt; 28.2, 32.3, 29.3, 31.1, 33.3, 34.6, 34.0, 35.…</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_per_90_Standard       &lt;dbl&gt; 11.03, 12.95, 10.34, 13.11, 11.92, 12.18, 12.…</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_per_90_Standard      &lt;dbl&gt; 3.11, 4.18, 3.03, 4.08, 3.97, 4.21, 4.18, 4.5…</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_Sh_Standard        &lt;dbl&gt; 0.09, 0.09, 0.07, 0.09, 0.08, 0.10, 0.14, 0.0…</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_SoT_Standard       &lt;dbl&gt; 0.31, 0.26, 0.24, 0.28, 0.25, 0.28, 0.41, 0.2…</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dist_Standard            &lt;dbl&gt; 17.7, 17.0, 19.2, 18.3, 17.9, 18.1, 16.3, 17.…</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ FK_Standard              &lt;dbl&gt; 15, 26, 21, 18, 19, 30, 11, 18, 16, 17, 6, 23…</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PK_Standard              &lt;dbl&gt; 2, 6, 2, 6, 5, 3, 4, 7, 2, 4, 5, 5, 3, 5, 5, …</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PKatt_Standard           &lt;dbl&gt; 3, 6, 3, 9, 10, 5, 5, 7, 4, 5, 7, 5, 4, 5, 5,…</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG_Expected              &lt;dbl&gt; 37.3, 51.0, 34.6, 46.4, 47.7, 46.9, 59.1, 53.…</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_Expected            &lt;dbl&gt; 35.0, 46.8, 32.3, 39.7, 39.8, 43.2, 55.1, 48.…</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_per_Sh_Expected     &lt;dbl&gt; 0.08, 0.10, 0.08, 0.08, 0.09, 0.09, 0.12, 0.1…</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_minus_xG_Expected      &lt;dbl&gt; 1.7, -3.0, -4.6, 3.6, -5.7, 0.1, 9.9, -4.8, 8…</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `np:G_minus_xG_Expected` &lt;dbl&gt; 2.0, -4.8, -4.3, 4.3, -2.8, 0.8, 9.9, -6.5, 9…</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Url                      &lt;chr&gt; &quot;https://fbref.com/en/squads/8d6fd021/2018-20…</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Get data for big five leagues for PLAYERS -----#</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>big5_player_shooting <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="fu">c</span>(<span class="dv">2019</span><span class="sc">:</span><span class="dv">2021</span>), <span class="at">stat_type=</span> <span class="st">&quot;shooting&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;team&quot;</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(big5_player_shooting)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 588</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 24</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season_End_Year          &lt;int&gt; 2019, 2019, 2019, 2019, 2019, 2019, 2019, 201…</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad                    &lt;chr&gt; &quot;Alavés&quot;, &quot;Alavés&quot;, &quot;Amiens&quot;, &quot;Amiens&quot;, &quot;Ange…</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp                     &lt;chr&gt; &quot;La Liga&quot;, &quot;La Liga&quot;, &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;…</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team_or_Opponent         &lt;chr&gt; &quot;team&quot;, &quot;opponent&quot;, &quot;team&quot;, &quot;opponent&quot;, &quot;team…</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Num_Players              &lt;dbl&gt; 26, 26, 26, 26, 24, 24, 28, 28, 27, 27, 27, 2…</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mins_Per_90              &lt;dbl&gt; 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 3…</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls_Standard             &lt;dbl&gt; 39, 48, 30, 50, 42, 47, 69, 49, 75, 43, 38, 4…</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_Standard              &lt;dbl&gt; 419, 492, 393, 498, 453, 463, 467, 488, 642, …</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_Standard             &lt;dbl&gt; 118, 159, 115, 155, 151, 160, 159, 173, 211, …</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_percent_Standard     &lt;dbl&gt; 28.2, 32.3, 29.3, 31.1, 33.3, 34.6, 34.0, 35.…</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_per_90_Standard       &lt;dbl&gt; 11.03, 12.95, 10.34, 13.11, 11.92, 12.18, 12.…</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_per_90_Standard      &lt;dbl&gt; 3.11, 4.18, 3.03, 4.08, 3.97, 4.21, 4.18, 4.5…</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_Sh_Standard        &lt;dbl&gt; 0.09, 0.09, 0.07, 0.09, 0.08, 0.10, 0.14, 0.0…</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_SoT_Standard       &lt;dbl&gt; 0.31, 0.26, 0.24, 0.28, 0.25, 0.28, 0.41, 0.2…</span></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dist_Standard            &lt;dbl&gt; 17.7, 17.0, 19.2, 18.3, 17.9, 18.1, 16.3, 17.…</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ FK_Standard              &lt;dbl&gt; 15, 26, 21, 18, 19, 30, 11, 18, 16, 17, 6, 23…</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PK_Standard              &lt;dbl&gt; 2, 6, 2, 6, 5, 3, 4, 7, 2, 4, 5, 5, 3, 5, 5, …</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PKatt_Standard           &lt;dbl&gt; 3, 6, 3, 9, 10, 5, 5, 7, 4, 5, 7, 5, 4, 5, 5,…</span></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG_Expected              &lt;dbl&gt; 37.3, 51.0, 34.6, 46.4, 47.7, 46.9, 59.1, 53.…</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_Expected            &lt;dbl&gt; 35.0, 46.8, 32.3, 39.7, 39.8, 43.2, 55.1, 48.…</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_per_Sh_Expected     &lt;dbl&gt; 0.08, 0.10, 0.08, 0.08, 0.09, 0.09, 0.12, 0.1…</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_minus_xG_Expected      &lt;dbl&gt; 1.7, -3.0, -4.6, 3.6, -5.7, 0.1, 9.9, -4.8, 8…</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `np:G_minus_xG_Expected` &lt;dbl&gt; 2.0, -4.8, -4.3, 4.3, -2.8, 0.8, 9.9, -6.5, 9…</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Url                      &lt;chr&gt; &quot;https://fbref.com/en/squads/8d6fd021/2018-20…</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -277,11 +365,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Get match results</h3>
 <p>To get the match results (and additional metadata) for all leagues and comps listed <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/all_leages_and_cups/all_competitions.csv">here</a>, the following function can be used:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract Serie A match results data</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>serieA_2020 <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;ITA&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2020</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>)</span></code></pre></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>serieA_2020 <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;ITA&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2020</span>, <span class="at">tier =</span> <span class="st">&quot;1st&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(serieA_2020)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 380</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Competition_Name &lt;chr&gt; &quot;Serie A&quot;, &quot;Serie A&quot;, &quot;Serie A&quot;, &quot;Serie A&quot;, &quot;Serie A&quot;…</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gender           &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;…</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country          &lt;chr&gt; &quot;ITA&quot;, &quot;ITA&quot;, &quot;ITA&quot;, &quot;ITA&quot;, &quot;ITA&quot;, &quot;ITA&quot;, &quot;ITA&quot;, &quot;ITA…</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season_End_Year  &lt;int&gt; 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020,…</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Round            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Wk               &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,…</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Day              &lt;chr&gt; &quot;Sat&quot;, &quot;Sat&quot;, &quot;Sun&quot;, &quot;Sun&quot;, &quot;Sun&quot;, &quot;Sun&quot;, &quot;Sun&quot;, &quot;Sun…</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Date             &lt;date&gt; 2019-08-24, 2019-08-24, 2019-08-25, 2019-08-25, 2019…</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Time             &lt;chr&gt; &quot;18:00&quot;, &quot;20:45&quot;, &quot;18:00&quot;, &quot;20:45&quot;, &quot;20:45&quot;, &quot;20:45&quot;,…</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home             &lt;chr&gt; &quot;Parma&quot;, &quot;Fiorentina&quot;, &quot;Udinese&quot;, &quot;SPAL&quot;, &quot;Roma&quot;, &quot;To…</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ HomeGoals        &lt;dbl&gt; 0, 3, 1, 2, 3, 2, 1, 0, 0, 4, 1, 1, 4, 1, 4, 1, 2, 1,…</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_xG          &lt;dbl&gt; 0.4, 1.7, 0.9, 1.6, 1.9, 1.2, 0.2, 0.8, 1.0, 1.7, 2.8…</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away             &lt;chr&gt; &quot;Juventus&quot;, &quot;Napoli&quot;, &quot;Milan&quot;, &quot;Atalanta&quot;, &quot;Genoa&quot;, &quot;…</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ AwayGoals        &lt;dbl&gt; 1, 4, 0, 3, 3, 1, 1, 3, 1, 0, 0, 0, 3, 1, 1, 3, 1, 2,…</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_xG          &lt;dbl&gt; 1.3, 2.0, 0.4, 1.7, 1.3, 1.5, 1.6, 2.3, 1.5, 0.7, 0.7…</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Attendance       &lt;dbl&gt; 20073, 33614, 24584, 11706, 38779, 16536, 16324, 1950…</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Venue            &lt;chr&gt; &quot;Stadio Ennio Tardini&quot;, &quot;Stadio Artemio Franchi&quot;, &quot;Da…</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Referee          &lt;chr&gt; &quot;Fabio Maresca&quot;, &quot;Davide Massa&quot;, &quot;Fabrizio Pasqua&quot;, &quot;…</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Notes            &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ MatchURL         &lt;chr&gt; &quot;https://fbref.com/en/matches/2b01c68a/Parma-Juventus…</span></span></code></pre></div>
 <p>The function can also be used to return match URLs for a non-domestic league season. To use this functionality, simply leave <code>country = &#39;&#39;</code> and pass the non-domestic league URL, which can be found at <a href="https://fbref.com/en/comps/" class="uri">https://fbref.com/en/comps/</a></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for international friendlies:</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2018</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</span></code></pre></div>
-<div id="more-than-one-league-season-1" class="section level4">
+<div id="more-than-one-league-season" class="section level4">
 <h4>More than one league season</h4>
 <p>The <code>get_match_results()</code> function can be used to get data for multiple seasons/leagues/genders/etc also:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>big_5_2020_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="fu">c</span>(<span class="st">&quot;ENG&quot;</span>, <span class="st">&quot;ESP&quot;</span>, <span class="st">&quot;ITA&quot;</span>, <span class="st">&quot;GER&quot;</span>, <span class="st">&quot;FRA&quot;</span>),</span>
@@ -292,30 +403,109 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Get match report</h3>
 <p>This function will return similar results to that of <code>get_match_results()</code>, however <code>get_match_report()</code> will provide some additional information. It will also only provide it for a single match, not the whole season:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match report data</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020 <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020 <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(liv_mci_2020)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 1</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 21</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ League            &lt;chr&gt; &quot;Premier League&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gender            &lt;chr&gt; &quot;M&quot;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country           &lt;chr&gt; &quot;ENG&quot;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season            &lt;chr&gt; &quot;2019-2020&quot;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Match_Date        &lt;chr&gt; &quot;Sunday November 10, 2019&quot;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Matchweek         &lt;chr&gt; &quot;Premier League (Matchweek 12)&quot;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Team         &lt;chr&gt; &quot;Liverpool&quot;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Formation    &lt;chr&gt; &quot;4-3-3&quot;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Score        &lt;dbl&gt; 3</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_xG           &lt;dbl&gt; 1</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Goals        &lt;chr&gt; &quot;\n\t\t\n\t\t\tFabinho · 6&amp;rsquor; \n\t\t\n\t\t\tMoh…</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Yellow_Cards &lt;chr&gt; &quot;0&quot;</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Red_Cards    &lt;chr&gt; &quot;0&quot;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Team         &lt;chr&gt; &quot;Manchester City&quot;</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Formation    &lt;chr&gt; &quot;4-2-3-1&quot;</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Score        &lt;dbl&gt; 1</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_xG           &lt;dbl&gt; 1.3</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Goals        &lt;chr&gt; &quot;\n\t\t\n\t\t\t Bernardo Silva · 78&amp;rsquor;\n\t\t\n\…</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Yellow_Cards &lt;chr&gt; &quot;2&quot;</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Red_Cards    &lt;chr&gt; &quot;0&quot;</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Game_URL          &lt;chr&gt; &quot;https://fbref.com/en/matches/47880eb7/Liverpool-Man…</span></span></code></pre></div>
 </div>
 <div id="get-match-summaries" class="section level3">
 <h3>Get match summaries</h3>
 <p>This function will return the main events that occur during a match, including goals, substitutions and red/yellow cards:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match summary data</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020_summary <span class="ot">&lt;-</span> <span class="fu">get_match_summary</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span></code></pre></div>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020_summary <span class="ot">&lt;-</span> <span class="fu">get_match_summary</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(liv_mci_2020_summary)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 10</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 30</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ League            &lt;chr&gt; &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;Premier League&quot;…</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gender            &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country           &lt;chr&gt; &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;EN…</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season            &lt;chr&gt; &quot;2019-2020&quot;, &quot;2019-2020&quot;, &quot;2019-2020&quot;, &quot;2019-2020&quot;, …</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Match_Date        &lt;chr&gt; &quot;Sunday November 10, 2019&quot;, &quot;Sunday November 10, 201…</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Matchweek         &lt;chr&gt; &quot;Premier League (Matchweek 12)&quot;, &quot;Premier League (Ma…</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Team         &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, …</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Formation    &lt;chr&gt; &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;…</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Score        &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_xG           &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Goals        &lt;chr&gt; &quot;\n\t\t\n\t\t\tFabinho · 6&amp;rsquor; \n\t\t\n\t\t\tMoh…</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Yellow_Cards &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Red_Cards    &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Team         &lt;chr&gt; &quot;Manchester City&quot;, &quot;Manchester City&quot;, &quot;Manchester Ci…</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Formation    &lt;chr&gt; &quot;4-2-3-1&quot;, &quot;4-2-3-1&quot;, &quot;4-2-3-1&quot;, &quot;4-2-3-1&quot;, &quot;4-2-3-1…</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Score        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_xG           &lt;dbl&gt; 1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3, 1.3</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Goals        &lt;chr&gt; &quot;\n\t\t\n\t\t\t Bernardo Silva · 78&amp;rsquor;\n\t\t\n\…</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Yellow_Cards &lt;chr&gt; &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Red_Cards    &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Game_URL          &lt;chr&gt; &quot;https://fbref.com/en/matches/47880eb7/Liverpool-Man…</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team              &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, …</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Away         &lt;chr&gt; &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Away&quot;, &quot;Away&quot;, &quot;Awa…</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Event_Time        &lt;dbl&gt; 6, 13, 51, 61, 65, 71, 78, 79, 87, 95</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Is_Pens           &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL…</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Event_Half        &lt;dbl&gt; 1, 1, 2, 2, 2, 2, 2, 2, 2, 2</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Event_Type        &lt;chr&gt; &quot;Goal&quot;, &quot;Goal&quot;, &quot;Goal&quot;, &quot;Substitute&quot;, &quot;Yellow Card&quot;,…</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Event_Players     &lt;chr&gt; &quot;Fabinho&quot;, &quot;Mohamed Salah Assist: Andrew Robertson&quot;,…</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Score_Progression &lt;chr&gt; &quot;1:0&quot;, &quot;2:0&quot;, &quot;3:0&quot;, &quot;3:0&quot;, &quot;3:0&quot;, &quot;3:0&quot;, &quot;3:1&quot;, &quot;3:…</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Penalty_Number    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA</span></span></code></pre></div>
 </div>
 <div id="get-match-lineups" class="section level3">
 <h3>Get match lineups</h3>
 <p>This function will return a dataframe of all players listed for that match, including whether they started on the pitch, or on the bench.</p>
 <p>From version 0.2.7, this function now also returns some summary performance data for each player that played, including their position, minutes played, goals, cards, etc.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match lineups</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020_lineups <span class="ot">&lt;-</span> <span class="fu">get_match_lineups</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span></code></pre></div>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>liv_mci_2020_lineups <span class="ot">&lt;-</span> <span class="fu">get_match_lineups</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/47880eb7/Liverpool-Manchester-City-November-10-2019-Premier-League&quot;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(liv_mci_2020_lineups)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 36</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 17</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Matchday    &lt;date&gt; 2019-11-10, 2019-11-10, 2019-11-10, 2019-11-10, 2019-11-1…</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team        &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liver…</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Away   &lt;chr&gt; &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;H…</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Formation   &lt;chr&gt; &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3…</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player_Num  &lt;chr&gt; &quot;1&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;9&quot;, &quot;10&quot;, &quot;11&quot;, &quot;14&quot;, &quot;26&quot;, &quot;66&quot;…</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player_Name &lt;chr&gt; &quot;Alisson&quot;, &quot;Fabinho&quot;, &quot;Virgil van Dijk&quot;, &quot;Georginio Wijnal…</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Starting    &lt;chr&gt; &quot;Pitch&quot;, &quot;Pitch&quot;, &quot;Pitch&quot;, &quot;Pitch&quot;, &quot;Pitch&quot;, &quot;Pitch&quot;, &quot;Pit…</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerURL   &lt;chr&gt; &quot;https://fbref.com/en/players/7a2e46a8/Alisson&quot;, &quot;https://…</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Nation      &lt;chr&gt; &quot;BRA&quot;, &quot;BRA&quot;, &quot;NED&quot;, &quot;NED&quot;, &quot;CRO&quot;, &quot;BRA&quot;, &quot;SEN&quot;, &quot;EGY&quot;, &quot;E…</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Pos         &lt;chr&gt; &quot;GK&quot;, &quot;DM&quot;, &quot;CB&quot;, &quot;CM,DM&quot;, &quot;CB&quot;, &quot;FW,AM&quot;, &quot;LW,RM,FW&quot;, &quot;RW,…</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age         &lt;chr&gt; &quot;27-039&quot;, &quot;26-018&quot;, &quot;28-125&quot;, &quot;28-364&quot;, &quot;30-128&quot;, &quot;28-039&quot;…</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Min         &lt;dbl&gt; 90, 90, 90, 90, 90, 78, 90, 86, 60, 90, 90, NA, 30, NA, 4,…</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls         &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, NA, 0, NA, 0, 0, NA, NA, …</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Ast         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, NA, 0, NA, 0, 0, NA, NA, …</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CrdY        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, NA, 0, 0, NA, NA, …</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CrdR        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NA, 0, NA, 0, 0, NA, NA, …</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ MatchURL    &lt;chr&gt; &quot;https://fbref.com/en/matches/47880eb7/Liverpool-Mancheste…</span></span></code></pre></div>
 </div>
 <div id="get-shooting-and-shot-creation-events" class="section level3">
 <h3>Get shooting and shot creation events</h3>
 <p>The below function allows users to extract shooting and shot creation event data for a match or selected matches. The data returned includes who took the shot, when, with which body part and from how far away. Additionally, the player creating the chance and also the creation before this are included in the data.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>shot_one_match <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/a3eb7a37/Sheffield-United-Wolverhampton-Wanderers-September-14-2020-Premier-League&quot;</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>test_urls_multiple <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>shot_multiple_matches <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(test_urls_multiple)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Get shots data for a single match played: -----#</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>shot_one_match <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(<span class="at">match_url =</span> <span class="st">&quot;https://fbref.com/en/matches/a3eb7a37/Sheffield-United-Wolverhampton-Wanderers-September-14-2020-Premier-League&quot;</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can also extract for multiple matches at a time: -----#</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># test_urls_multiple &lt;- c(&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                         &quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;,</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                         &quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;)</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># shot_multiple_matches &lt;- get_match_shooting(test_urls_multiple)</span></span></code></pre></div>
 </div>
 <div id="get-advanced-match-statistics" class="section level3">
 <h3>Get advanced match statistics</h3>
@@ -333,16 +523,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>The function can be used for either all players individually:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>test_urls_multiple <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>advanced_match_stats <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> test_urls_multiple, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;player&quot;</span>)</span></code></pre></div>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>advanced_match_stats <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> test_urls_multiple, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;player&quot;</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(advanced_match_stats)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 61</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 53</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ League                &lt;chr&gt; &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;Lig…</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gender                &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;…</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country               &lt;chr&gt; &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;,…</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season                &lt;chr&gt; &quot;2020-2021&quot;, &quot;2020-2021&quot;, &quot;2020-2021&quot;, &quot;2020-202…</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Match_Date            &lt;chr&gt; &quot;Friday August 21, 2020&quot;, &quot;Friday August 21, 202…</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Matchweek             &lt;chr&gt; &quot;Ligue 1 (Matchweek 1)&quot;, &quot;Ligue 1 (Matchweek 1)&quot;…</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Team             &lt;chr&gt; &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, …</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Formation        &lt;chr&gt; &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-…</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Score            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_xG               &lt;dbl&gt; 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4…</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Goals            &lt;chr&gt; &quot;\n\t\t\n\t\t\tMehdi Zerkane · 20&amp;rsquor; \n\t\t…</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Yellow_Cards     &lt;chr&gt; &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;…</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Red_Cards        &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;…</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Team             &lt;chr&gt; &quot;Nantes&quot;, &quot;Nantes&quot;, &quot;Nantes&quot;, &quot;Nantes&quot;, &quot;Nantes&quot;…</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Formation        &lt;chr&gt; &quot;4-4-2&quot;, &quot;4-4-2&quot;, &quot;4-4-2&quot;, &quot;4-4-2&quot;, &quot;4-4-2&quot;, &quot;4-…</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Score            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_xG               &lt;dbl&gt; 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3…</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Goals            &lt;chr&gt; &quot;\n\t\t\n\t&quot;, &quot;\n\t\t\n\t&quot;, &quot;\n\t\t\n\t&quot;, &quot;\n\t\…</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Yellow_Cards     &lt;chr&gt; &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;, &quot;3&quot;…</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Red_Cards        &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;…</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Game_URL              &lt;chr&gt; &quot;https://fbref.com/en/matches/c0996cac/Bordeaux-…</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team                  &lt;chr&gt; &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, …</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Away             &lt;chr&gt; &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Home&quot;, …</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player                &lt;chr&gt; &quot;Josh Maja&quot;, &quot;Remi Oudin&quot;, &quot;Hwang Ui-jo&quot;, &quot;Samue…</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player_Num            &lt;dbl&gt; 9, 28, 18, 10, 12, 7, 26, 17, 5, 29, 25, 6, 24, …</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Nation                &lt;chr&gt; &quot;NGA&quot;, &quot;FRA&quot;, &quot;KOR&quot;, &quot;NGA&quot;, &quot;FRA&quot;, &quot;FRA&quot;, &quot;CRO&quot;,…</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Pos                   &lt;chr&gt; &quot;FW&quot;, &quot;FW&quot;, &quot;LW&quot;, &quot;LW&quot;, &quot;RW&quot;, &quot;RW&quot;, &quot;CM&quot;, &quot;CM&quot;, …</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age                   &lt;chr&gt; &quot;21-238&quot;, &quot;23-277&quot;, &quot;27-359&quot;, &quot;22-361&quot;, &quot;29-226&quot;…</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Min                   &lt;dbl&gt; 45, 45, 74, 16, 63, 27, 90, 19, 90, 74, 16, 90, …</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Touches_Touches       &lt;dbl&gt; 14, 22, 34, 13, 42, 13, 48, 18, 82, 47, 10, 69, …</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Def Pen_Touches`     &lt;dbl&gt; 0, 1, 1, 0, 0, 0, 0, 0, 2, 2, 2, 12, 11, 5, 28, …</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Def 3rd_Touches`     &lt;dbl&gt; 0, 9, 6, 2, 3, 3, 14, 0, 21, 14, 7, 52, 49, 21, …</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Mid 3rd_Touches`     &lt;dbl&gt; 9, 7, 17, 5, 27, 7, 29, 17, 50, 27, 4, 21, 36, 4…</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Att 3rd_Touches`     &lt;dbl&gt; 5, 6, 12, 7, 14, 4, 8, 2, 16, 7, 0, 0, 1, 19, 0,…</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Att Pen_Touches`     &lt;dbl&gt; 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Live_Touches          &lt;dbl&gt; 14, 21, 33, 13, 36, 13, 47, 17, 82, 43, 9, 69, 8…</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Succ_Dribbles         &lt;dbl&gt; 0, 0, 1, 0, 2, 0, 0, 2, 1, 1, 0, 0, 0, 1, 0, 0, …</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Att_Dribbles          &lt;dbl&gt; 0, 1, 3, 1, 4, 0, 2, 3, 1, 2, 0, 0, 0, 2, 0, 0, …</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Succ_percent_Dribbles &lt;dbl&gt; NA, 0.0, 33.3, 0.0, 50.0, NA, 0.0, 66.7, 100.0, …</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player_NumPl_Dribbles &lt;dbl&gt; 0, 0, 2, 0, 2, 0, 0, 2, 1, 1, 0, 0, 0, 1, 0, 0, …</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Megs_Dribbles         &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Carries_Carries       &lt;dbl&gt; 10, 9, 24, 10, 28, 6, 36, 19, 62, 35, 6, 51, 55,…</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TotDist_Carries       &lt;dbl&gt; 67, 39, 94, 31, 130, 48, 179, 99, 185, 71, 25, 2…</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PrgDist_Carries       &lt;dbl&gt; 15, 7, 49, 15, 67, 32, 72, 54, 106, 32, 23, 82, …</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Prog_Carries          &lt;dbl&gt; 0, 0, 5, 0, 2, 2, 2, 3, 3, 2, 0, 0, 2, 2, 0, 5, …</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Final_Third_Carries   &lt;dbl&gt; 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, …</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CPA_Carries           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mis_Carries           &lt;dbl&gt; 1, 1, 4, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3, …</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dis_Carries           &lt;dbl&gt; 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Targ_Receiving        &lt;dbl&gt; 18, 22, 33, 16, 37, 16, 41, 18, 67, 35, 3, 47, 6…</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Rec_Receiving         &lt;dbl&gt; 12, 13, 22, 11, 28, 8, 37, 17, 64, 34, 3, 47, 60…</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Rec_percent_Receiving &lt;dbl&gt; 66.7, 59.1, 66.7, 68.8, 75.7, 50.0, 90.2, 94.4, …</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Prog_Receiving        &lt;dbl&gt; 4, 0, 3, 2, 6, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 6, …</span></span></code></pre></div>
 <p>Or used for the team totals for each match:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_urls_multiple <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nantes-August-21-2020-Ligue-1&quot;</span>,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>,</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/f96cd5a0/Lorient-Strasbourg-August-23-2020-Ligue-1&quot;</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_team <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> test_urls_multiple, <span class="at">stat_type =</span> <span class="st">&quot;passing_types&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;team&quot;</span>)</span></code></pre></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;https://fbref.com/en/matches/9cbccb37/Dijon-Angers-August-22-2020-Ligue-1&quot;</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_team <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> test_urls_multiple, <span class="at">stat_type =</span> <span class="st">&quot;passing_types&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;team&quot;</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(advanced_match_stats_team)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 4</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 49</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ League            &lt;chr&gt; &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;Ligue 1&quot;, &quot;Ligue 1&quot;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gender            &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country           &lt;chr&gt; &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;, &quot;FRA&quot;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season            &lt;chr&gt; &quot;2020-2021&quot;, &quot;2020-2021&quot;, &quot;2020-2021&quot;, &quot;2020-2021&quot;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Match_Date        &lt;chr&gt; &quot;Friday August 21, 2020&quot;, &quot;Friday August 21, 2020&quot;, …</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Matchweek         &lt;chr&gt; &quot;Ligue 1 (Matchweek 1)&quot;, &quot;Ligue 1 (Matchweek 1)&quot;, &quot;L…</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Team         &lt;chr&gt; &quot;Bordeaux&quot;, &quot;Bordeaux&quot;, &quot;Dijon&quot;, &quot;Dijon&quot;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Formation    &lt;chr&gt; &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Score        &lt;dbl&gt; 0, 0, 0, 0</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_xG           &lt;dbl&gt; 0.4, 0.4, 0.5, 0.5</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Goals        &lt;chr&gt; &quot;\n\t\t\n\t\t\tMehdi Zerkane · 20&amp;rsquor; \n\t\t\n\t…</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Yellow_Cards &lt;chr&gt; &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Red_Cards    &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Team         &lt;chr&gt; &quot;Nantes&quot;, &quot;Nantes&quot;, &quot;Angers&quot;, &quot;Angers&quot;</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Formation    &lt;chr&gt; &quot;4-4-2&quot;, &quot;4-4-2&quot;, &quot;4-1-4-1&quot;, &quot;4-1-4-1&quot;</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Score        &lt;dbl&gt; 0, 0, 1, 1</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_xG           &lt;dbl&gt; 0.3, 0.3, 2.1, 2.1</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Goals        &lt;chr&gt; &quot;\n\t\t\n\t&quot;, &quot;\n\t\t\n\t&quot;, &quot;\n\t\t\n\t\t\t Ismaël T…</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Yellow_Cards &lt;chr&gt; &quot;3&quot;, &quot;3&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Away_Red_Cards    &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Game_URL          &lt;chr&gt; &quot;https://fbref.com/en/matches/c0996cac/Bordeaux-Nant…</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team              &lt;chr&gt; &quot;Bordeaux&quot;, &quot;Nantes&quot;, &quot;Dijon&quot;, &quot;Angers&quot;</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Home_Away         &lt;chr&gt; &quot;Home&quot;, &quot;Away&quot;, &quot;Home&quot;, &quot;Away&quot;</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Min               &lt;dbl&gt; 919, 990, 990, 990</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Att               &lt;dbl&gt; 525, 662, 578, 495</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Live_Pass_Types   &lt;dbl&gt; 476, 623, 530, 443</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dead_Pass_Types   &lt;dbl&gt; 49, 39, 48, 52</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ FK_Pass_Types     &lt;dbl&gt; 18, 9, 8, 18</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TB_Pass_Types     &lt;dbl&gt; 0, 1, 2, 3</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Press_Pass_Types  &lt;dbl&gt; 81, 40, 124, 28</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sw_Pass_Types     &lt;dbl&gt; 10, 12, 8, 15</span></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Crs_Pass_Types    &lt;dbl&gt; 5, 11, 7, 15</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CK_Pass_Types     &lt;dbl&gt; 2, 3, 3, 9</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ In_Corner_Kicks   &lt;dbl&gt; 2, 0, 2, 0</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Out_Corner_Kicks  &lt;dbl&gt; 0, 3, 1, 3</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Str_Corner_Kicks  &lt;dbl&gt; 0, 0, 0, 5</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Ground_Height     &lt;dbl&gt; 356, 529, 458, 369</span></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Low_Height        &lt;dbl&gt; 64, 64, 62, 46</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ High_Height       &lt;dbl&gt; 105, 69, 58, 80</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Left_Body_Parts   &lt;dbl&gt; 147, 277, 146, 198</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Right_Body_Parts  &lt;dbl&gt; 326, 331, 377, 253</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Head_Body_Parts   &lt;dbl&gt; 13, 24, 11, 9</span></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TI_Body_Parts     &lt;dbl&gt; 24, 19, 25, 19</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Other_Body_Parts  &lt;dbl&gt; 1, 4, 10, 10</span></span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Cmp_Outcomes      &lt;dbl&gt; 431, 577, 499, 416</span></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Off_Outcomes      &lt;dbl&gt; 0, 3, 1, 0</span></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Out_Outcomes      &lt;dbl&gt; 10, 7, 7, 9</span></span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Int_Outcomes      &lt;dbl&gt; 1, 2, 6, 3</span></span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Blocks_Outcomes   &lt;dbl&gt; 9, 18, 9, 11</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -352,12 +648,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="match-results-by-team" class="section level3">
 <h3>Match Results by team</h3>
 <p>To get all the results a team(s) has competed in for a season, the following function can be used. The resulting data frame output will include all game results, including any cup games played, and will accept either one, or many team URLs.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for single teams:</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for single teams: -----#</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>man_city_2021_url <span class="ot">&lt;-</span> <span class="st">&quot;https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats&quot;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>man_city_2021_results <span class="ot">&lt;-</span> <span class="fu">get_team_match_results</span>(man_city_url)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all team URLs for a league</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>epl_2021_team_urls <span class="ot">&lt;-</span> <span class="fu">fb_teams_urls</span>(<span class="st">&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>epl_2021_team_results <span class="ot">&lt;-</span> <span class="fu">get_team_match_results</span>(<span class="at">team_url =</span> team_urls)</span></code></pre></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>man_city_2021_results <span class="ot">&lt;-</span> <span class="fu">get_team_match_results</span>(man_city_2021_url)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(man_city_2021_results)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 55</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team_Url   &lt;chr&gt; &quot;https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats…</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Team       &lt;chr&gt; &quot;Manchester City&quot;, &quot;Manchester City&quot;, &quot;Manchester City&quot;, &quot;M…</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Date       &lt;chr&gt; &quot;2021-08-07&quot;, &quot;2021-08-15&quot;, &quot;2021-08-21&quot;, &quot;2021-08-28&quot;, &quot;20…</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Time       &lt;chr&gt; &quot;17:15&quot;, &quot;16:30&quot;, &quot;15:00&quot;, &quot;12:30&quot;, &quot;15:00&quot;, &quot;20:00&quot;, &quot;15:0…</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp       &lt;chr&gt; &quot;Community Shield&quot;, &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;Pr…</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Round      &lt;chr&gt; &quot;FA Community Shield&quot;, &quot;Matchweek 1&quot;, &quot;Matchweek 2&quot;, &quot;Match…</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Day        &lt;chr&gt; &quot;Sat&quot;, &quot;Sun&quot;, &quot;Sat&quot;, &quot;Sat&quot;, &quot;Sat&quot;, &quot;Wed&quot;, &quot;Sat&quot;, &quot;Tue&quot;, &quot;Sa…</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Venue      &lt;chr&gt; &quot;Neutral&quot;, &quot;Away&quot;, &quot;Home&quot;, &quot;Home&quot;, &quot;Away&quot;, &quot;Home&quot;, &quot;Home&quot;, …</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Result     &lt;chr&gt; &quot;L&quot;, &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;D&quot;, &quot;W&quot;, &quot;W&quot;, &quot;L&quot;, &quot;D&quot;, &quot;W&quot;,…</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ GF         &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;5&quot;, &quot;5&quot;, &quot;1&quot;, &quot;6&quot;, &quot;0&quot;, &quot;6&quot;, &quot;1&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;,…</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ GA         &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;3&quot;, &quot;0&quot;, &quot;1&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;0&quot;,…</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Opponent   &lt;chr&gt; &quot;Leicester City&quot;, &quot;Tottenham&quot;, &quot;Norwich City&quot;, &quot;Arsenal&quot;, &quot;…</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG         &lt;dbl&gt; NA, 1.9, 2.7, 3.8, 2.9, 2.1, 1.1, NA, 1.7, 1.9, 1.2, 1.9, 3…</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xGA        &lt;dbl&gt; NA, 1.3, 0.1, 0.1, 0.8, 0.6, 0.4, NA, 0.3, 0.8, 1.0, 1.0, 0…</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Poss       &lt;int&gt; 57, 64, 67, 80, 61, 51, 63, 79, 60, 54, 51, 69, 63, 52, 64,…</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Attendance &lt;dbl&gt; NA, 58262, 51437, 52276, 32087, 38062, 52698, 30959, 40036,…</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Captain    &lt;chr&gt; &quot;Fernandinho&quot;, &quot;Fernandinho&quot;, &quot;İlkay Gündoğan&quot;, &quot;İlkay Günd…</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Formation  &lt;chr&gt; &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-3&quot;, &quot;4-3-…</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Referee    &lt;chr&gt; &quot;Paul Tierney&quot;, &quot;Anthony Taylor&quot;, &quot;Graham Scott&quot;, &quot;Martin A…</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Notes      &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;We…</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co">#----- get all team URLs for a league: -----#</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a><span class="co"># epl_2021_team_urls &lt;- fb_teams_urls(&quot;https://fbref.com/en/comps/9/Premier-League-Stats&quot;)</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a><span class="co"># epl_2021_team_results &lt;- get_team_match_results(team_url = team_urls)</span></span></code></pre></div>
+</div>
+<div id="stat-logs-for-season" class="section level3">
+<h3>Stat Logs for Season</h3>
+<p>To be able to get full match logs for all available stat types for each team(s) season, the <code>fb_team_match_log_stats()</code> function can be used.</p>
+<p>Available stat types are below. Note, not all of the listed stat types are available for all teams, and for teams where they are, there still may be gaps in the resulting data frame as not all competitions participated in will have the stat available:</p>
+<ul>
+<li><em>shooting</em></li>
+<li><em>keeper</em></li>
+<li><em>passing</em></li>
+<li><em>passing_types</em></li>
+<li><em>gca</em></li>
+<li><em>defense</em></li>
+<li><em>misc</em></li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># can do it for one team:</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>man_city_url <span class="ot">&lt;-</span> <span class="st">&quot;https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats&quot;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>man_city_logs <span class="ot">&lt;-</span> <span class="fu">fb_team_match_log_stats</span>(<span class="at">team_urls =</span> man_city_url, <span class="at">stat_tyoe =</span> <span class="st">&quot;passing&quot;</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(man_city_logs)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># or multiple teams:</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/squads/822bd0ba/Liverpool-Stats&quot;</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats&quot;</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>shooting_logs <span class="ot">&lt;-</span> <span class="fu">fb_team_match_log_stats</span>(<span class="at">team_urls =</span> urls, <span class="at">stat_type =</span> <span class="st">&quot;shooting&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -378,8 +723,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;,
                                    pos_versus = &quot;primary&quot;) %&gt;% 
                dplyr::filter(scouting_period == &quot;Last 365 Days&quot;)</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;primary&quot;</span>))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(<span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;secondary&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Get scouting report for the players primary position (first position listed in fbref): -----#</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>messi_primary <span class="ot">&lt;-</span> <span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;primary&quot;</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(messi_primary)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 894</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 8</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Att Mid / Wingers&quot;, &quot;Att Mid / Wingers&quot;, &quot;Att Mid / W…</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.49, 0.36, 0.43, 0.06, 0.12, 0.03, 0.00, 0.54, 0.45, …</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 93, 92, 89, 85, 90, 87, 58, 97, 97, 96, 99, 93, 99, 97…</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, …</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Get scouting report for the players secondary position (second position listed in fbref): -----#</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>messi_secondary <span class="ot">&lt;-</span> <span class="fu">fb_player_scouting_report</span>(<span class="at">player_url =</span> <span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>, <span class="at">pos_versus =</span> <span class="st">&quot;secondary&quot;</span>)</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(messi_secondary)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 894</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 8</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player          &lt;chr&gt; &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lionel Messi&quot;, &quot;Lione…</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwa…</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.49, 0.36, 0.43, 0.06, 0.12, 0.03, 0.00, 0.54, 0.45, …</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 66, 97, 69, 61, 77, 90, 56, 80, 83, 99, 96, 66, 98, 85…</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, …</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span></code></pre></div>
 </div>
 <div id="get-player-season-stats" class="section level3">
 <h3>Get Player Season Stats</h3>
@@ -398,11 +768,41 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <li><em>keeper</em></li>
 <li><em>keeper_adv</em></li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mo_shooting <span class="ot">&lt;-</span> <span class="fu">fb_player_season_stats</span>(<span class="st">&quot;https://fbref.com/en/players/e342ad68/Mohamed-Salah&quot;</span>, <span class="at">stat_type =</span> <span class="st">&#39;shooting&#39;</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>multiple_playing_time <span class="ot">&lt;-</span> <span class="fu">fb_player_season_stats</span>(<span class="at">player_url =</span> <span class="fu">c</span>(<span class="st">&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;</span>,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                                <span class="st">&quot;https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo&quot;</span>),</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">stat_type =</span> <span class="st">&quot;playing_time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- can use for a single player: -----#</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>mo_shooting <span class="ot">&lt;-</span> <span class="fu">fb_player_season_stats</span>(<span class="st">&quot;https://fbref.com/en/players/e342ad68/Mohamed-Salah&quot;</span>, <span class="at">stat_type =</span> <span class="st">&#39;shooting&#39;</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mo_shooting)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 38</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 25</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name              &lt;chr&gt; &quot;Mohamed Salah&quot;, &quot;Mohamed Salah&quot;, &quot;Mohamed Sa…</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url               &lt;chr&gt; &quot;https://fbref.com/en/players/e342ad68/Mohame…</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season                   &lt;chr&gt; &quot;2012-2013&quot;, &quot;2012-2013&quot;, &quot;2013-2014&quot;, &quot;2013-…</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age                      &lt;dbl&gt; 20, 20, 21, 21, 21, 22, 22, 22, 22, 22, 22, 2…</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad                    &lt;chr&gt; &quot;Basel&quot;, &quot;Basel&quot;, &quot;Basel&quot;, &quot;Basel&quot;, &quot;Chelsea&quot;…</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Country                  &lt;chr&gt; &quot;&quot;, &quot;SUI&quot;, &quot;&quot;, &quot;SUI&quot;, &quot;ENG&quot;, &quot;&quot;, &quot;ENG&quot;, &quot;ENG&quot;…</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp                     &lt;chr&gt; &quot;2. Europa Lg&quot;, &quot;1. Swiss Super League&quot;, &quot;1. …</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mins_Per_90              &lt;dbl&gt; 10.5, 16.0, 5.9, 12.8, 5.6, 0.8, 0.8, 1.7, 0.…</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls_Standard             &lt;dbl&gt; 2, 5, 2, 4, 2, 0, 0, 0, 0, 2, 1, 6, 1, 0, 14,…</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_Standard              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_Standard             &lt;dbl&gt; 7, 14, 6, 14, 6, 2, NA, NA, 0, NA, 5, 13, 3, …</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_percent_Standard     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh_per_90_Standard       &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT_per_90_Standard      &lt;dbl&gt; 0.66, 0.87, 1.02, 1.10, 1.08, 2.37, NA, NA, 0…</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_Sh_Standard        &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_per_SoT_Standard       &lt;dbl&gt; 0.29, NA, 0.33, 0.29, 0.33, 0.00, NA, NA, NA,…</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dist_Standard            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ FK_Standard              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PK_Standard              &lt;dbl&gt; 0, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PKatt_Standard           &lt;dbl&gt; 0, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG_Expected              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_Expected            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_per_Sh_Expected     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_minus_xG_Expected      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `np:G_minus_xG_Expected` &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb24-31"><a href="#cb24-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-32"><a href="#cb24-32" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Or for multiple players at a time: -----#</span></span>
+<span id="cb24-33"><a href="#cb24-33" aria-hidden="true" tabindex="-1"></a><span class="co"># multiple_playing_time &lt;- fb_player_season_stats(player_url = c(&quot;https://fbref.com/en/players/d70ce98e/Lionel-Messi&quot;,</span></span>
+<span id="cb24-34"><a href="#cb24-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 &quot;https://fbref.com/en/players/dea698d9/Cristiano-Ronaldo&quot;),</span></span>
+<span id="cb24-35"><a href="#cb24-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                                  stat_type = &quot;playing_time&quot;)</span></span></code></pre></div>
 </div>
 <div id="the-big-5-euro-league-players" class="section level3">
 <h3>The Big 5 Euro League Players</h3>
@@ -422,7 +822,44 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <li><em>keepers_adv</em></li>
 </ul>
 <p>The function also accepts a season or seasons and whether you want data for the player, or team.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>big5_player_possession <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="dv">2021</span>, <span class="at">stat_type=</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;player&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>big5_player_possession <span class="ot">&lt;-</span> <span class="fu">fb_big5_advanced_season_stats</span>(<span class="at">season_end_year=</span> <span class="dv">2021</span>, <span class="at">stat_type=</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player=</span> <span class="st">&quot;player&quot;</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(big5_player_possession)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 2,822</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 34</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season_End_Year       &lt;int&gt; 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, …</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad                 &lt;chr&gt; &quot;Alavés&quot;, &quot;Alavés&quot;, &quot;Alavés&quot;, &quot;Alavés&quot;, &quot;Alavés&quot;…</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp                  &lt;chr&gt; &quot;La Liga&quot;, &quot;La Liga&quot;, &quot;La Liga&quot;, &quot;La Liga&quot;, &quot;La …</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player                &lt;chr&gt; &quot;Martin Agirregabiria&quot;, &quot;Rodrigo Battaglia&quot;, &quot;Bu…</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Nation                &lt;chr&gt; &quot;ESP&quot;, &quot;ARG&quot;, &quot;ESP&quot;, &quot;ESP&quot;, &quot;BRA&quot;, &quot;ESP&quot;, &quot;BRA&quot;,…</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Pos                   &lt;chr&gt; &quot;DF,MF&quot;, &quot;MF&quot;, &quot;MF&quot;, &quot;MF&quot;, &quot;FW&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;MF…</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age                   &lt;chr&gt; &quot;24&quot;, &quot;29&quot;, &quot;26&quot;, &quot;23&quot;, &quot;29&quot;, &quot;24&quot;, &quot;26&quot;, &quot;34&quot;, …</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Born                  &lt;dbl&gt; 1996, 1991, 1993, 1997, 1991, 1995, 1993, 1986, …</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mins_Per_90           &lt;dbl&gt; 17.3, 27.7, 0.2, 2.4, 9.7, 28.3, 5.2, 12.5, 0.2,…</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Touches_Touches       &lt;dbl&gt; 883, 1266, 12, 115, 443, 1656, 209, 521, 11, 87,…</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Def Pen_Touches`     &lt;dbl&gt; 48, 86, 1, 3, 13, 105, 37, 25, 0, 1, 57, 15, 0, …</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Def 3rd_Touches`     &lt;dbl&gt; 306, 380, 1, 26, 58, 521, 126, 123, 0, 4, 155, 1…</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Mid 3rd_Touches`     &lt;dbl&gt; 454, 813, 7, 51, 226, 830, 78, 341, 7, 47, 800, …</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Att 3rd_Touches`     &lt;dbl&gt; 155, 145, 6, 47, 175, 369, 10, 77, 4, 41, 565, 2…</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `Att Pen_Touches`     &lt;dbl&gt; 8, 21, 1, 3, 31, 12, 6, 13, 1, 10, 155, 15, 0, 1…</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Live_Touches          &lt;dbl&gt; 706, 1227, 12, 110, 433, 1344, 196, 510, 8, 79, …</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Succ_Dribbles         &lt;dbl&gt; 4, 18, 0, 3, 6, 5, 1, 2, 0, 1, 30, 22, 0, 0, 10,…</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Att_Dribbles          &lt;dbl&gt; 8, 23, 0, 3, 15, 11, 1, 6, 0, 2, 65, 45, 0, 0, 1…</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Succ_percent_Dribbles &lt;dbl&gt; 50.0, 78.3, NA, 100.0, 40.0, 45.5, 100.0, 33.3, …</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `#Pl_Dribbles`        &lt;dbl&gt; 4, 19, 0, 3, 6, 6, 1, 4, 0, 1, 35, 27, 0, 0, 10,…</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Megs_Dribbles         &lt;dbl&gt; 0, 0, 0, 0, 2, 1, 0, 1, 0, 0, 3, 3, 0, 0, 1, 0, …</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Carries_Carries       &lt;dbl&gt; 412, 804, 8, 62, 202, 713, 88, 281, 4, 44, 711, …</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TotDist_Carries       &lt;dbl&gt; 1633, 4594, 43, 225, 618, 3260, 252, 1079, 49, 1…</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PrgDist_Carries       &lt;dbl&gt; 843, 2104, 35, 120, 258, 1688, 98, 467, 26, 39, …</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Prog_Carries          &lt;dbl&gt; 33, 78, 3, 6, 14, 82, 2, 18, 2, 2, 42, 60, 1, 29…</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Final_Third_Carries   &lt;dbl&gt; 8, 23, 2, 2, 2, 25, 1, 6, 0, 2, 12, 25, 0, 1, 2,…</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CPA_Carries           &lt;dbl&gt; 2, 0, 1, 1, 2, 1, 0, 0, 0, 0, 11, 3, 0, 0, 0, 2,…</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mis_Carries           &lt;dbl&gt; 8, 15, 0, 8, 28, 8, 1, 8, 1, 5, 77, 23, 0, 3, 5,…</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Dis_Carries           &lt;dbl&gt; 9, 18, 0, 6, 13, 7, 0, 11, 0, 1, 50, 21, 0, 3, 6…</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Targ_Receiving        &lt;dbl&gt; 501, 840, 12, 93, 530, 808, 101, 370, 7, 124, 17…</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Rec_Receiving         &lt;dbl&gt; 425, 778, 7, 69, 301, 755, 98, 307, 5, 67, 1129,…</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Rec_percent_Receiving &lt;dbl&gt; 84.8, 92.6, 58.3, 74.2, 56.8, 93.4, 97.0, 83.0, …</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Prog_Receiving        &lt;dbl&gt; 19, 16, 1, 8, 75, 15, 4, 36, 1, 12, 211, 36, 0, …</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Url                   &lt;chr&gt; &quot;https://fbref.com/en/players/355c883a/Martin-Ag…</span></span></code></pre></div>
 </div>
 <div id="player-season-statistics-for-a-teams-season" class="section level3">
 <h3>Player Season Statistics for a teams season</h3>
@@ -441,14 +878,41 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <li><em>keepers</em></li>
 <li><em>keepers_adv</em></li>
 </ul>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get stats for just a single team</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fleetwood_standard_stats <span class="ot">&lt;-</span> <span class="fu">fb_team_player_stats</span>(<span class="at">team_urls=</span> <span class="st">&quot;https://fbref.com/en/squads/d6a369a2/Fleetwood-Town-Stats&quot;</span>, <span class="at">stat_type=</span> <span class="st">&#39;standard&#39;</span>)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Can even get stats for a series of teams:</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>league_url <span class="ot">&lt;-</span> <span class="fu">fb_league_urls</span>(<span class="at">country =</span> <span class="st">&quot;ENG&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>,</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">fb_teams_urls</span>(league_url)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>multiple_playing_time <span class="ot">&lt;-</span> <span class="fu">fb_team_player_stats</span>(<span class="at">team_urls=</span> teams, <span class="at">stat_type=</span> <span class="st">&quot;playing_time&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- to get stats for just a single team: -----#</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fleetwood_standard_stats <span class="ot">&lt;-</span> <span class="fu">fb_team_player_stats</span>(<span class="at">team_urls=</span> <span class="st">&quot;https://fbref.com/en/squads/d6a369a2/Fleetwood-Town-Stats&quot;</span>, <span class="at">stat_type=</span> <span class="st">&#39;standard&#39;</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(fleetwood_standard_stats)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 41</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 24</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season                     &lt;chr&gt; &quot;2021-2022&quot;, &quot;2021-2022&quot;, &quot;2021-2022&quot;, &quot;202…</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad                      &lt;chr&gt; &quot;Fleetwood Town&quot;, &quot;Fleetwood Town&quot;, &quot;Fleetw…</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp                       &lt;chr&gt; &quot;League One&quot;, &quot;League One&quot;, &quot;League One&quot;, &quot;…</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player                     &lt;chr&gt; &quot;Danny Andrew&quot;, &quot;Alex Cairns&quot;, &quot;Tom Clarke&quot;…</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Nation                     &lt;chr&gt; &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;NIR&quot;, &quot;…</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Pos                        &lt;chr&gt; &quot;DF,MF&quot;, &quot;GK&quot;, &quot;DF&quot;, &quot;DF,MF&quot;, &quot;MF&quot;, &quot;MF&quot;, &quot;…</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age                        &lt;chr&gt; &quot;31-088&quot;, &quot;29-076&quot;, &quot;34-090&quot;, &quot;25-149&quot;, &quot;26…</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ MP_Playing_Time            &lt;dbl&gt; 36, 35, 29, 30, 31, 23, 25, 26, 20, 22, 17,…</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Starts_Playing_Time        &lt;dbl&gt; 36, 35, 29, 27, 25, 21, 20, 19, 18, 17, 15,…</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Min_Playing_Time           &lt;dbl&gt; 3138, 3150, 2580, 2473, 2239, 1824, 1719, 1…</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Mins_Per_90_Playing_Time   &lt;dbl&gt; 34.9, 35.0, 28.7, 27.5, 24.9, 20.3, 19.1, 2…</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls                        &lt;dbl&gt; 6, 0, 2, 3, 5, 2, 7, 4, 1, 1, 0, 4, 2, 1, 0…</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Ast                        &lt;dbl&gt; 6, 0, 0, 1, 1, 3, 1, 8, 0, 3, 2, 4, 0, 0, 0…</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_minus_PK                 &lt;dbl&gt; 6, 0, 2, 3, 5, 2, 6, 4, 1, 1, 0, 3, 2, 1, 0…</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PK                         &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0…</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PKatt                      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0…</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CrdY                       &lt;dbl&gt; 4, 1, 3, 3, 4, 2, 2, 2, 6, 3, 0, 2, 1, 3, 3…</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CrdR                       &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1…</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls_Per_Minutes            &lt;dbl&gt; 0.17, 0.00, 0.07, 0.11, 0.20, 0.10, 0.37, 0…</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Ast_Per_Minutes            &lt;dbl&gt; 0.17, 0.00, 0.00, 0.04, 0.04, 0.15, 0.05, 0…</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `G+A_Per_Minutes`          &lt;dbl&gt; 0.34, 0.00, 0.07, 0.15, 0.24, 0.25, 0.42, 0…</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ G_minus_PK_Per_Minutes     &lt;dbl&gt; 0.17, 0.00, 0.07, 0.11, 0.20, 0.10, 0.31, 0…</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ `G+A_minus_PK_Per_Minutes` &lt;dbl&gt; 0.34, 0.00, 0.07, 0.15, 0.24, 0.25, 0.37, 0…</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerURL                  &lt;chr&gt; &quot;https://fbref.com/en/players/90b57521/Dann…</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can even get stats for a series of teams: -----#</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="co"># league_url &lt;- fb_league_urls(country = &quot;ENG&quot;, gender = &quot;M&quot;,</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="co"># teams &lt;- fb_teams_urls(league_url)</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="co"># multiple_playing_time &lt;- fb_team_player_stats(team_urls= teams, stat_type= &quot;playing_time&quot;)</span></span></code></pre></div>
 </div>
 <div id="player-match-logs" class="section level3">
 <h3>Player Match Logs</h3>
@@ -464,7 +928,49 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <li><em>possession</em></li>
 <li><em>misc</em></li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ederson_summary <span class="ot">&lt;-</span> <span class="fu">fb_player_match_logs</span>(<span class="st">&quot;https://fbref.com/en/players/3bb7b8b4/Ederson&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">stat_type =</span> <span class="st">&#39;summary&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ederson_summary <span class="ot">&lt;-</span> <span class="fu">fb_player_match_logs</span>(<span class="st">&quot;https://fbref.com/en/players/3bb7b8b4/Ederson&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">stat_type =</span> <span class="st">&#39;summary&#39;</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(ederson_summary)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 66</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 39</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player             &lt;chr&gt; &quot;Ederson&quot;, &quot;Ederson&quot;, &quot;Ederson&quot;, &quot;Ederson&quot;, &quot;Ederso…</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Season             &lt;chr&gt; &quot;2020-2021&quot;, &quot;2020-2021&quot;, &quot;2020-2021&quot;, &quot;2020-2021&quot;,…</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Date               &lt;chr&gt; &quot;2020-09-21&quot;, &quot;2020-09-27&quot;, &quot;2020-09-30&quot;, &quot;2020-10-…</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Day                &lt;chr&gt; &quot;Mon&quot;, &quot;Sun&quot;, &quot;Wed&quot;, &quot;Sat&quot;, &quot;Fri&quot;, &quot;Tue&quot;, &quot;Sat&quot;, &quot;W…</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Comp               &lt;chr&gt; &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;EFL Cup&quot;, &quot;Pre…</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Round              &lt;chr&gt; &quot;Matchweek 2&quot;, &quot;Matchweek 3&quot;, &quot;Fourth round&quot;, &quot;Matc…</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Venue              &lt;chr&gt; &quot;Away&quot;, &quot;Home&quot;, &quot;Away&quot;, &quot;Away&quot;, &quot;Home&quot;, &quot;Away&quot;, &quot;Ho…</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Result             &lt;chr&gt; &quot;W 3–1&quot;, &quot;L 2–5&quot;, &quot;W 3–0&quot;, &quot;D 1–1&quot;, &quot;W 5–0&quot;, &quot;W 4–2…</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Squad              &lt;chr&gt; &quot;Manchester City&quot;, &quot;Manchester City&quot;, &quot;Manchester C…</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Opponent           &lt;chr&gt; &quot;Wolves&quot;, &quot;Leicester City&quot;, &quot;Burnley&quot;, &quot;Leeds Unite…</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Start              &lt;chr&gt; &quot;Y&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;N&quot;, &quot;N&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;Y&quot;, &quot;…</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Pos                &lt;chr&gt; &quot;GK&quot;, &quot;GK&quot;, &quot;On matchday squad, but did not play&quot;, …</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Min                &lt;dbl&gt; 90, 90, NA, 90, NA, NA, 90, 90, 90, 90, 90, 90, 90,…</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Gls                &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Ast                &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PK                 &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PKatt              &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Sh                 &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SoT                &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CrdY               &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ CrdR               &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Touches            &lt;dbl&gt; 36, 19, NA, 36, NA, NA, 50, 39, 26, 22, 36, 30, 40,…</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Press              &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 1…</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Tkl                &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Int                &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Blocks             &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG_Expected        &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG_Expected      &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xA_Expected        &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ SCA_SCA            &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ GCA_SCA            &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Cmp_Passes         &lt;dbl&gt; 30, 15, NA, 24, NA, NA, 29, 31, 24, 19, 28, 24, 33,…</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Att_Passes         &lt;dbl&gt; 36, 15, NA, 30, NA, NA, 46, 38, 26, 21, 35, 29, 37,…</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Cmp_percent_Passes &lt;dbl&gt; 83.3, 100.0, NA, 80.0, NA, NA, 63.0, 81.6, 92.3, 90…</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Prog_Passes        &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Carries_Carries    &lt;dbl&gt; 27, 5, NA, 17, NA, NA, 29, 24, 13, 13, 27, 20, 25, …</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Prog_Carries       &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Succ_Dribbles      &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Att_Dribbles       &lt;dbl&gt; 0, 0, NA, 0, NA, NA, 0, 0, 0, 0, 0, 0, 0, NA, NA, 0…</span></span></code></pre></div>
 <hr />
 </div>
 </div>

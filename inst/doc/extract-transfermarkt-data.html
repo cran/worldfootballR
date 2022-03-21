@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-02-08" />
+<meta name="date" content="2022-03-21" />
 
 <title>Extracting data from Transfermarkt</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from Transfermarkt</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-02-08</h4>
+<h4 class="date">2022-03-21</h4>
 
 
 
@@ -152,14 +152,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://fbref.com/en/">FBref</a></li>
 <li><a href="https://www.transfermarkt.com/">Transfermarkt</a></li>
 <li><a href="https://understat.com/">Understat</a></li>
+<li><a href="https://www.fotmob.com/">Fotmob</a></li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
-<p>You can install the <code>worldfootballR</code> package from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
+<p>You can install the CRAN version of <a href="https://CRAN.R-project.org/package=worldfootballR"><strong><code>worldfootballR</code></strong></a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;worldfootballR&quot;</span>)</span></code></pre></div>
+<p>You can install the released version of <a href="https://github.com/JaseZiv/worldfootballR/"><strong><code>worldfootballR</code></strong></a> from <a href="https://github.com/JaseZiv/worldfootballR">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
 <hr />
 </div>
 <div id="usage" class="section level2">
@@ -167,8 +170,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Package vignettes have been built to help you get started with the package.</p>
 <ul>
 <li>For functions to extract data from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fbref-data.html">here</a></li>
-<li>For functions to extract data from Transfermarkt, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-transfermarkt-data.html">here</a></li>
 <li>For functions to extract data from Understat, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-understat-data.html">here</a></li>
+<li>For functions to extract data from fotmob, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fotmob-data.html">here</a></li>
 <li>For functions to extract data for international matches from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/fbref-data-internationals.html">here</a></li>
 </ul>
 <p>This vignette will cover the functions to extract data from transfermarkt.com</p>
@@ -177,14 +180,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="join-fbref-and-transfermarkt-data" class="section level2">
 <h2>Join FBref and Transfermarkt data</h2>
 <p>To be able to join data player between FBref and Transfermarkt, <code>player_dictionary_mapping()</code> has been created. There are over 6,100 players who have been listed for teams in the Big 5 Euro leagues on FBref since the start of the 2017-18 seasons, with all of these mapped together. This is expected to be updated and grow over time. The raw data is stored <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/fbref-tm-player-mapping/output/fbref_to_tm_mapping.csv">here</a></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mapped_players <span class="ot">&lt;-</span> <span class="fu">player_dictionary_mapping</span>()</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mapped_players)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 6,378</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 4</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mapped_players <span class="ot">&lt;-</span> <span class="fu">player_dictionary_mapping</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(mapped_players)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 6,378</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 4</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ PlayerFBref &lt;chr&gt; &quot;Aaron Connolly&quot;, &quot;Aaron Cresswell&quot;, &quot;Aarón Escandell&quot;, &quot;A…</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlFBref    &lt;chr&gt; &quot;https://fbref.com/en/players/27c01749/Aaron-Connolly&quot;, &quot;h…</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ UrlTmarkt   &lt;chr&gt; &quot;https://www.transfermarkt.com/aaron-connolly/profil/spiel…</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ TmPos       &lt;chr&gt; &quot;Centre-Forward&quot;, &quot;Left-Back&quot;, &quot;Goalkeeper&quot;, &quot;Attacking Mi…</span></span></code></pre></div>
 </div>
 <div id="transfermarkt-helper-functions" class="section level2">
 <h2>Transfermarkt Helper Functions</h2>
@@ -192,14 +195,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="team-urls" class="section level3">
 <h3>Team URLs</h3>
 <p>To get a list of URLs for each team in a particular season from transfermarkt.com, the <code>tm_league_team_urls()</code> function can be used. If the country/countries aren’t available in the main data set, the function can also accept a League URL from transfermarkt.com. To get the league URL, use the filtering options towards the top of transfermarkt.com, select the country and league you want to collect data from, head to that page, and copy the URL.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if it&#39;s not a league in the stored leagues data in worldfootballR_data repo:</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>league_one_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">start_year =</span> <span class="dv">2020</span>, <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># if it&#39;s not a league in the stored leagues data in worldfootballR_data repo:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>league_one_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">start_year =</span> <span class="dv">2020</span>, <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
 </div>
 <div id="player-urls" class="section level3">
 <h3>Player URLs</h3>
 <p>To get a list of player URLs for a particular team in transfermarkt.com, the <code>tm_team_player_urls()</code> function can be used.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span></code></pre></div>
 </div>
 <div id="staff-urls" class="section level3">
 <h3>Staff URLs</h3>
@@ -212,13 +215,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>“Fitness Coach”</li>
 <li>“Conditioning Coach”</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL managers for the 2021/22 season</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>epl_managers <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL managers for the 2021/22 season</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>epl_managers <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -229,47 +232,160 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>League Table by Matchdays</h3>
 <p>To be able to extract league tables for select matchday(s), the below function can be used.</p>
 <p>The function can accept either the country name, season start year and matchday number(s), or for leagues not contained in the <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/transfermarkt_leagues/main_comp_seasons.csv">worldfootballR_data</a> repository, it can accept the league URL, season start year and matchday number(s).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after matchday 1 of the 20/21 season:</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>epl_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>epl_matchday_1to35_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season:</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>league_one_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span>, <span class="at">league_url=</span><span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- to get the EPL table after matchday 1 of the 20/21 season: -----#</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>epl_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">country_name=</span><span class="st">&quot;England&quot;</span>, <span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(epl_matchday_1_table)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 40</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 13</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country  &lt;chr&gt; &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;Engla…</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league   &lt;chr&gt; &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;Premie…</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matchday &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ rk       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ squad    &lt;chr&gt; &quot;Arsenal&quot;, &quot;Leicester&quot;, &quot;Chelsea&quot;, &quot;Newcastle&quot;, &quot;Wolves&quot;, &quot;Ma…</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ p        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ w        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1…</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ d        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ l        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0…</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ gf       &lt;dbl&gt; 3, 3, 3, 2, 2, 2, 4, 1, 1, 1, 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3…</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ ga       &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 3, 0, 0, 0, 4, 1, 1, 1, 3, 2, 2, 2, 3, 3, 0…</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ g_diff   &lt;dbl&gt; 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, -1, -1, -1, -1, -2, -2, -2, -2,…</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ pts      &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3…</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># #----- to get the EPL table after each matchdays from matchday 1 to matchday 35 of the 20/21 season: -----#</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># epl_matchday_1to35_table &lt;- tm_matchday_table(country_name=&quot;England&quot;, start_year=&quot;2020&quot;, matchday=c(1:35))</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#----- to get the League One table after each matchdays from matchday 1 to matchday 5 of the 20/21 season: -----#</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>league_one_matchday_1_table <span class="ot">&lt;-</span> <span class="fu">tm_matchday_table</span>(<span class="at">start_year=</span><span class="st">&quot;2020&quot;</span>, <span class="at">matchday=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">league_url=</span><span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(league_one_matchday_1_table)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 240</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 13</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country  &lt;chr&gt; &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;Engla…</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league   &lt;chr&gt; &quot;League One&quot;, &quot;League One&quot;, &quot;League One&quot;, &quot;League One&quot;, &quot;Leag…</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matchday &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ rk       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ squad    &lt;chr&gt; &quot;Swindon Town&quot;, &quot;Lincoln City&quot;, &quot;Charlton&quot;, &quot;Ipswich&quot;, &quot;Accri…</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ p        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ w        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ d        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0…</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ l        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1…</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ gf       &lt;dbl&gt; 3, 2, 2, 2, 2, 2, 2, 1, 2, 2, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0…</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ ga       &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 1, 0, 2, 2, 1, 1, 1, 1, 0, 0, 2, 1, 3, 2, 2…</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ g_diff   &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -2, -…</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ pts      &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0…</span></span></code></pre></div>
 </div>
 <div id="league-debutants" class="section level3">
 <h3>League Debutants</h3>
 <p>To be able to extract all debutants making either their league or professional debut, the <code>tm_league_debutants()</code> function can be used.</p>
 <p>To see all league debutants (regardless of their professional status), set <code>debut_type = &quot;league&quot;</code>, while setting <code>debut_type = &quot;pro&quot;</code> will only return debutants in the selected league who are making their professional debuts.</p>
 <p>The variables <code>debut_start_year</code> and <code>debut_end_year</code> set time periods on when debutant data is required for. As with all transfermarkt functions, this season value is the starting year if the season, ie for the 2021-22 LaLiga season, this value is set to 2021.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laliga players making their LaLiga debut in 2021/2022</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>laliga_debutants <span class="ot">&lt;-</span> <span class="fu">tm_league_debutants</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">debut_type =</span> <span class="st">&quot;league&quot;</span>, <span class="at">debut_start_year =</span> <span class="dv">2021</span>, <span class="at">debut_end_year =</span> <span class="dv">2021</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># English League One players making their PRO debuts in 2021/2022</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>league_one_PRO_debutants <span class="ot">&lt;-</span> <span class="fu">tm_league_debutants</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>, <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>, <span class="at">debut_type =</span> <span class="st">&quot;pro&quot;</span>, <span class="at">debut_start_year =</span> <span class="dv">2021</span>, <span class="at">debut_end_year =</span> <span class="dv">2021</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Laliga players making their LaLiga debut in 2021/2022</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>laliga_debutants <span class="ot">&lt;-</span> <span class="fu">tm_league_debutants</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">debut_type =</span> <span class="st">&quot;league&quot;</span>, <span class="at">debut_start_year =</span> <span class="dv">2021</span>, <span class="at">debut_end_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(laliga_debutants)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 170</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name           &lt;chr&gt; &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, …</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country             &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_url            &lt;chr&gt; &quot;https://www.transfermarkt.com/laliga/startseite/w…</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Gavi&quot;, &quot;Cristhian Mosquera&quot;, &quot;Ilias Akhomach&quot;, &quot;Á…</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/gavi/profil/spieler…</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Central Midfield&quot;, &quot;Centre-Back&quot;, &quot;Right Winger&quot;,…</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Austria&quot;, &quot;Sp…</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; NA, &quot;Colombia&quot;, &quot;Morocco&quot;, &quot;Dominican Republic&quot;, N…</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ debut_for           &lt;chr&gt; &quot;FC Barcelona&quot;, &quot;Valencia CF&quot;, &quot;FC Barcelona&quot;, &quot;FC…</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ debut_date          &lt;date&gt; 2021-08-29, 2022-01-19, 2021-11-20, 2021-09-20, 2…</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ opponent            &lt;chr&gt; &quot;Getafe CF&quot;, &quot;Sevilla FC&quot;, &quot;RCD Espanyol Barcelona…</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals_for           &lt;dbl&gt; 2, 1, 1, 1, 1, 3, 1, 1, 3, 2, 3, 4, 5, 3, 0, 0, 0,…</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals_against       &lt;dbl&gt; 1, 1, 0, 1, 1, 0, 1, 0, 4, 0, 0, 3, 2, 2, 1, 0, 1,…</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age_debut           &lt;chr&gt; &quot;17 years 24 days&quot;, &quot;17 years 06 months 23 days&quot;, …</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ value_at_debut      &lt;dbl&gt; NA, NA, 1.0e+05, 5.0e+05, 8.0e+06, NA, 4.0e+05, NA…</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 4.0e+07, NA, 3.0e+06, 5.0e+06, 8.0e+06, NA, 4.0e+0…</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appearances         &lt;dbl&gt; 24, 4, 2, 4, 6, 1, 1, 1, 7, 12, 8, 3, 19, 4, 3, 1,…</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals               &lt;dbl&gt; 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0,…</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minutes_played      &lt;dbl&gt; 1587, 112, 125, 97, 189, 10, 4, 10, 418, 285, 430,…</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ debut_type          &lt;chr&gt; &quot;league&quot;, &quot;league&quot;, &quot;league&quot;, &quot;league&quot;, &quot;league&quot;, …</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># English League One players making their PRO debuts in 2021/2022</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>league_one_PRO_debutants <span class="ot">&lt;-</span> <span class="fu">tm_league_debutants</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>, <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>, <span class="at">debut_type =</span> <span class="st">&quot;pro&quot;</span>, <span class="at">debut_start_year =</span> <span class="dv">2021</span>, <span class="at">debut_end_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(league_one_PRO_debutants)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 149</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name           &lt;chr&gt; &quot;League One&quot;, &quot;League One&quot;, &quot;League One&quot;, &quot;League …</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country             &lt;chr&gt; &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;Engla…</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_url            &lt;chr&gt; &quot;https://www.transfermarkt.com/league-one/profideb…</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Tyreece Campbell&quot;, &quot;Chiekh Thiam&quot;, &quot;Daniel Kanu&quot;,…</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/tyreece-campbell/pr…</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;midfield&quot;, &quot;defence&quot;, &quot;attack&quot;, &quot;midfield&quot;, &quot;midf…</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;England&quot;, &quot;Italy&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England…</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; NA, NA, NA, NA, NA, &quot;England&quot;, NA, NA, NA, NA, &quot;Ni…</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ debut_for           &lt;chr&gt; &quot;Charlton Athletic&quot;, &quot;Fleetwood Town&quot;, &quot;Charlton A…</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ debut_date          &lt;date&gt; 2022-02-19, 2022-03-08, 2022-02-12, 2022-03-12, 2…</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ opponent            &lt;chr&gt; &quot;Oxford United&quot;, &quot;Sunderland AFC&quot;, &quot;Wigan Athletic…</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals_for           &lt;dbl&gt; 0, 1, 1, 1, 0, 4, 0, 1, 0, 2, 1, 2, 1, 1, 0, 1, 0,…</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals_against       &lt;dbl&gt; 4, 3, 2, 0, 2, 1, 2, 1, 2, 1, 2, 1, 4, 1, 2, 2, 2,…</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age_debut           &lt;chr&gt; &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;16 years 07 months 12 days&quot;, …</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ value_at_debut      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appearances         &lt;dbl&gt; 2, 3, 1, 1, 2, 1, 1, 8, 14, 34, 3, 13, 1, 4, 1, 2,…</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals               &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0,…</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minutes_played      &lt;dbl&gt; 4, 44, 8, 16, 16, 0, 4, 316, 1177, 2927, 78, 842, …</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ debut_type          &lt;chr&gt; &quot;pro&quot;, &quot;pro&quot;, &quot;pro&quot;, &quot;pro&quot;, &quot;pro&quot;, &quot;pro&quot;, &quot;pro&quot;, &quot;…</span></span></code></pre></div>
 </div>
 <div id="expiring-contracts" class="section level3">
 <h3>Expiring Contracts</h3>
 <p>To be able to extract a list of all players whose contracts expire in a selected year, the <code>tm_expiring_contracts()</code> can be used.</p>
 <p>Set the <code>contract_end_year</code> to be equal to the calendar year the contracts are due to expire.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LaLiga players with expiring contracts in 2022</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>laliga_expiring <span class="ot">&lt;-</span> <span class="fu">tm_expiring_contracts</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">contract_end_year =</span> <span class="dv">2023</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># English League One players with expiring contracts in 2022</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>league_one_expiring <span class="ot">&lt;-</span> <span class="fu">tm_expiring_contracts</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">contract_end_year =</span> <span class="dv">2023</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- LaLiga players with expiring contracts in 2022: -----#</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>laliga_expiring <span class="ot">&lt;-</span> <span class="fu">tm_expiring_contracts</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">contract_end_year =</span> <span class="dv">2023</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(laliga_expiring)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 114</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 14</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name           &lt;chr&gt; &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, …</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country             &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_url            &lt;chr&gt; &quot;https://www.transfermarkt.com/laliga/startseite/w…</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Jan Oblak&quot;, &quot;Carlos Soler&quot;, &quot;Memphis Depay&quot;, &quot;Gav…</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/jan-oblak/profil/sp…</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Goalkeeper&quot;, &quot;Central Midfield&quot;, &quot;Centre-Forward&quot;…</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;Slovenia&quot;, &quot;Spain&quot;, &quot;Netherlands&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; NA, NA, &quot;Ghana&quot;, NA, &quot;Netherlands&quot;, NA, &quot;Guadeloup…</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club        &lt;chr&gt; &quot;Atlético de Madrid&quot;, &quot;Valencia CF&quot;, &quot;FC Barcelona…</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_expiry     &lt;date&gt; 2023-06-30, 2023-06-30, 2023-06-30, 2023-06-30, 2…</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_option     &lt;chr&gt; &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, …</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 6.0e+07, 5.0e+07, 4.5e+07, 4.0e+07, 4.0e+07, 4.0e+…</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ transfer_fee        &lt;dbl&gt; 16000000, NA, 0, NA, 3900000, NA, 72000000, NA, 40…</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ agent               &lt;chr&gt; &quot;Miha Mlakar&quot;, &quot;Promoesport&quot;, &quot;TEAM DEPAY&quot;, &quot;Puyol…</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can even do it for non-standard leagues - English League One players with expiring contracts in 2022: -----#</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># league_one_expiring &lt;- tm_expiring_contracts(country_name = &quot;&quot;,</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                contract_end_year = 2023,</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                league_url = &quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;)</span></span></code></pre></div>
 </div>
 <div id="league-injuries" class="section level3">
 <h3>League Injuries</h3>
 <p>To get a list of all reported <em>current</em> injuries for a selected league, use the <code>tm_league_injuries()</code> function:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get all current injuries for LaLiga</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>laliga_injuries <span class="ot">&lt;-</span> <span class="fu">tm_league_injuries</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all current injuries for League One in England</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>league_one_injuries <span class="ot">&lt;-</span> <span class="fu">tm_league_injuries</span>(<span class="at">country_name =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">league_url =</span> <span class="st">&quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get all current injuries for LaLiga</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>laliga_injuries <span class="ot">&lt;-</span> <span class="fu">tm_league_injuries</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(laliga_injuries)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 33</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 14</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name           &lt;chr&gt; &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, …</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country             &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_url            &lt;chr&gt; &quot;https://www.transfermarkt.com/laliga/startseite/w…</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Thomas Lemar&quot;, &quot;Näis Djouahra&quot;, &quot;Iñigo Ruiz de Ga…</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/thomas-lemar/profil…</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Attacking Midfield&quot;, &quot;Left Winger&quot;, &quot;Central Midf…</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club        &lt;chr&gt; &quot;Atlético de Madrid&quot;, &quot;Real Sociedad&quot;, &quot;RCD Mallor…</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age                 &lt;dbl&gt; 26, 22, 28, 29, 28, 32, 25, 18, 21, 34, 28, 30, 22…</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;France&quot;, &quot;France&quot;, &quot;Spain&quot;, &quot;Brazil&quot;, &quot;Colombia&quot;,…</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; &quot;Guadeloupe&quot;, &quot;Algeria&quot;, NA, NA, &quot;Spain&quot;, NA, NA, …</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injury              &lt;chr&gt; &quot;Muscle Injury&quot;, &quot;Muscle Injury&quot;, &quot;Cruciate Ligame…</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_since       &lt;date&gt; 2022-03-09, 2022-03-08, 2022-02-21, 2022-02-28, 2…</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_until       &lt;date&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 4.0e+07, 4.0e+05, 2.5e+06, 4.5e+07, 2.0e+05, 6.0e+…</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can even do it for non-standard leagues - get all current injuries for League One in England</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co"># league_one_injuries &lt;- tm_league_injuries(country_name = &quot;&quot;,</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                league_url = &quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;)</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -279,28 +395,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="transfer-activity-by-team" class="section level3">
 <h3>Transfer activity by team</h3>
 <p>To get all the arrivals and departures for a team (or teams) in a season and data regarding the transfer (transfer value, contract length, where they came from/went to, etc), the <code>tm_team_transfers()</code> function can be used. This function can return either <code>summer</code>, <code>winter</code> or <code>all</code> for both <code>transfer_windows</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>epl_xfers_2020 <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> team_urls, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for one team: -----#</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_team_transfers</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>, <span class="at">transfer_window =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(bayern)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 25</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 21</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ team_name          &lt;chr&gt; &quot;Bayern Munich&quot;, &quot;Bayern Munich&quot;, &quot;Bayern Munich&quot;, …</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league             &lt;chr&gt; &quot;Bundesliga&quot;, &quot;Bundesliga&quot;, &quot;Bundesliga&quot;, &quot;Bundesli…</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country            &lt;chr&gt; &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, &quot;German…</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season             &lt;chr&gt; &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;20…</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ transfer_type      &lt;chr&gt; &quot;Arrivals&quot;, &quot;Arrivals&quot;, &quot;Arrivals&quot;, &quot;Arrivals&quot;, &quot;Ar…</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name        &lt;chr&gt; &quot;Leroy Sané&quot;, &quot;Marc Roca&quot;, &quot;Bouna Sarr&quot;, &quot;Douglas C…</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url         &lt;chr&gt; &quot;https://www.transfermarkt.com/leroy-sane/profil/sp…</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_position    &lt;chr&gt; &quot;Left Winger&quot;, &quot;Defensive Midfield&quot;, &quot;Right-Back&quot;, …</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_age         &lt;chr&gt; &quot;24&quot;, &quot;23&quot;, &quot;28&quot;, &quot;30&quot;, &quot;18&quot;, &quot;23&quot;, &quot;31&quot;, &quot;19&quot;, &quot;19…</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_nationality &lt;chr&gt; &quot;Germany&quot;, &quot;Spain&quot;, &quot;Senegal&quot;, &quot;Brazil&quot;, &quot;France&quot;, …</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ club_2             &lt;chr&gt; &quot;Man City&quot;, &quot;Espanyol&quot;, &quot;Marseille&quot;, &quot;Juventus&quot;, &quot;P…</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league_2           &lt;chr&gt; &quot;Premier League&quot;, &quot;LaLiga2&quot;, &quot;Ligue 1&quot;, &quot;Serie A&quot;, …</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country_2          &lt;chr&gt; &quot;England&quot;, &quot;Spain&quot;, &quot;France&quot;, &quot;Italy&quot;, &quot;France&quot;, &quot;G…</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ transfer_fee       &lt;dbl&gt; 6.0e+07, 9.0e+06, 8.0e+06, 2.5e+05, 0.0e+00, 0.0e+0…</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ is_loan            &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, TRU…</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ transfer_notes     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;loan transfer&quot;, &quot;-&quot;, &quot;…</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ window             &lt;chr&gt; &quot;Summer&quot;, &quot;Summer&quot;, &quot;Summer&quot;, &quot;Summer&quot;, &quot;Summer&quot;, &quot;…</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ in_squad           &lt;dbl&gt; 45, 37, 38, 26, 11, 40, 42, 14, 12, 16, 50, 3, NA, …</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appearances        &lt;dbl&gt; 44, 11, 15, 20, 6, 4, 32, 2, 5, 7, 37, 0, NA, 0, 1,…</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals              &lt;dbl&gt; 10, 0, 0, 1, 0, 0, 9, 0, 0, 0, 7, 0, NA, 0, 0, 0, N…</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minutes_played     &lt;dbl&gt; 2627, 519, 810, 663, 113, 360, 1313, 69, 102, 230, …</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#----- or for multiple teams: -----#</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co"># team_urls &lt;- tm_league_team_urls(country_name = &quot;England&quot;, start_year = 2020)</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co"># epl_xfers_2020 &lt;- tm_team_transfers(team_url = team_urls, transfer_window = &quot;all&quot;)</span></span></code></pre></div>
 </div>
 <div id="squad-player-stats" class="section level3">
 <h3>Squad Player Stats</h3>
 <p>To get basic statistics (goals, appearances, minutes played, etc) for all games played by players for a squad season, the <code>tm_squad_stats()</code> function can be used:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or for multiple teams:</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>epl_team_players_2020 <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> team_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for one team: -----#</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>bayern <span class="ot">&lt;-</span> <span class="fu">tm_squad_stats</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-bayern-munchen/startseite/verein/27/saison_id/2020&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(bayern)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 45</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 12</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ team_name      &lt;chr&gt; &quot;Bayern Munich&quot;, &quot;Bayern Munich&quot;, &quot;Bayern Munich&quot;, &quot;Bay…</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league         &lt;chr&gt; &quot;Bundesliga&quot;, &quot;Bundesliga&quot;, &quot;Bundesliga&quot;, &quot;Bundesliga&quot;,…</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country        &lt;chr&gt; &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, …</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name    &lt;chr&gt; &quot;Manuel Neuer&quot;, &quot;Alexander Nübel&quot;, &quot;Sven Ulreich&quot;, &quot;Ron…</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url     &lt;chr&gt; &quot;https://www.transfermarkt.com/manuel-neuer/profil/spie…</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_pos     &lt;chr&gt; &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;,…</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_age     &lt;dbl&gt; 34, 23, 31, 21, 18, 19, 28, 24, 24, 24, 18, 20, 31, 20,…</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality    &lt;chr&gt; &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, &quot;Germany&quot;, …</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ in_squad       &lt;dbl&gt; 47, 40, 3, 12, 4, 39, 46, 46, 40, 44, 11, 16, 47, 4, 38…</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appearances    &lt;dbl&gt; 46, 4, 0, 0, 0, 35, 45, 37, 33, 36, 6, 7, 39, 1, 15, 1,…</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals          &lt;dbl&gt; 0, 0, 0, 0, 0, 1, 2, 1, 2, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0…</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minutes_played &lt;dbl&gt; 4200, 360, 0, 0, 0, 2589, 3793, 2691, 2516, 2924, 113, …</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#----- or for multiple teams: -----#</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># team_urls &lt;- tm_league_team_urls(country_name = &quot;England&quot;, start_year = 2020)</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># epl_team_players_2020 &lt;- tm_squad_stats(team_url = team_urls)</span></span></code></pre></div>
 </div>
 <div id="player-valuations" class="section level3">
 <h3>Player Valuations</h3>
 <p>To get player valuations for all teams in a league season, use the <code>get_player_market_values()</code> function:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>big_5_valuations <span class="ot">&lt;-</span> <span class="fu">get_player_market_values</span>(<span class="at">country_name =</span> <span class="fu">c</span>(<span class="st">&quot;England&quot;</span>, <span class="st">&quot;Spain&quot;</span>, <span class="st">&quot;France&quot;</span>, <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Germany&quot;</span>),</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">start_year =</span> <span class="dv">2021</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can do it for a single league: -----#</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>a_league_valuations <span class="ot">&lt;-</span> <span class="fu">get_player_market_values</span>(<span class="at">country_name =</span> <span class="st">&quot;Australia&quot;</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(a_league_valuations)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 330</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 19</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name                &lt;chr&gt; &quot;A-League Men&quot;, &quot;A-League Men&quot;, &quot;A-League Men…</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ region                   &lt;chr&gt; &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia…</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country                  &lt;chr&gt; &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, &quot;Austr…</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season_start_year        &lt;int&gt; 2021, 2021, 2021, 2021, 2021, 2021, 2021, 202…</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ squad                    &lt;chr&gt; &quot;Melbourne City FC&quot;, &quot;Melbourne City FC&quot;, &quot;Me…</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_num               &lt;chr&gt; &quot;1&quot;, &quot;33&quot;, &quot;42&quot;, &quot;4&quot;, &quot;22&quot;, &quot;5&quot;, &quot;36&quot;, &quot;34&quot;, …</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name              &lt;chr&gt; &quot;Tom Glover&quot;, &quot;Matthew Sutton&quot;, &quot;Ahmad Taleb&quot;…</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_position          &lt;chr&gt; &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;, &quot;Ce…</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_dob               &lt;date&gt; 1997-12-24, 2000-03-07, 2002-12-04, 1991-01-…</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_age               &lt;dbl&gt; 24, 22, 19, 31, 28, 34, 19, 23, 33, 19, 30, 2…</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_nationality       &lt;chr&gt; &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, &quot;Portu…</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_height_mtrs       &lt;chr&gt; &quot;1.96&quot;, NA, NA, &quot;1.82&quot;, &quot;1.87&quot;, &quot;1.88&quot;, NA, &quot;…</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_foot              &lt;chr&gt; &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;right&quot;, &quot;left&quot;, &quot;right&quot;, &quot; &quot;,…</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date_joined              &lt;chr&gt; &quot;2019-08-06&quot;, &quot;2020-09-10&quot;, &quot;2020-12-01&quot;, &quot;20…</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ joined_from              &lt;chr&gt; &quot;Tottenham Hotspur U23&quot;, &quot;Melbourne Victory&quot;,…</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_expiry          &lt;chr&gt; &quot;2023-06-30&quot;, &quot;2022-06-30&quot;, &quot;2023-06-30&quot;, &quot;20…</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value_euro &lt;dbl&gt; 800000, 100000, 50000, 500000, 450000, 300000…</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url               &lt;chr&gt; &quot;https://www.transfermarkt.com/tom-glover/pro…</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can also do it for multiple leagues: -----#</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co"># big_5_valuations &lt;- get_player_market_values(country_name = c(&quot;England&quot;, &quot;Spain&quot;, &quot;France&quot;, &quot;Italy&quot;, &quot;Germany&quot;),</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                                        start_year = 2021)</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can also do it for non standard leagues: -----#</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co"># league_one_valuations &lt;- get_player_market_values(country_name = &quot;&quot;,</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                                        start_year = 2021,</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                                        league_url = &quot;https://www.transfermarkt.com/league-one/startseite/wettbewerb/GB3&quot;)</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -310,26 +497,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="player-bios" class="section level3">
 <h3>Player Bios</h3>
 <p>To get information about a player, like their age, foot, where they were born, who they play for, their contract details, social media accounts and a whole lot more, use the <code>tm_player_bio()</code> function.:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a single player </span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>hazard_bio <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_url =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple players:</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># can make use of a tm helper function:</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>burnley_player_urls <span class="ot">&lt;-</span> <span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass all those URLs to the tm_player_bio</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>burnley_bios <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_urls =</span> burnley_player_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for a single player: -----#</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hazard_bio <span class="ot">&lt;-</span> <span class="fu">tm_player_bio</span>(<span class="at">player_url =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(hazard_bio)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 1</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 19</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name          &lt;chr&gt; &quot;Eden Hazard&quot;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ name_in_home_country &lt;chr&gt; &quot;Eden Michael Hazard&quot;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date_of_birth        &lt;chr&gt; &quot;1991-01-07&quot;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ place_of_birth       &lt;chr&gt; &quot;La Louvière&quot;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age                  &lt;chr&gt; &quot;31&quot;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ height               &lt;dbl&gt; 1.75</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ citizenship          &lt;chr&gt; &quot;Belgium&quot;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position             &lt;chr&gt; &quot;attack - Left Winger&quot;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ foot                 &lt;chr&gt; &quot;right&quot;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_agent         &lt;chr&gt; &quot;Relatives&quot;</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club         &lt;chr&gt; &quot;Real Madrid&quot;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ joined               &lt;chr&gt; &quot;2019-07-01&quot;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_expires     &lt;chr&gt; &quot;2024-06-30&quot;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ outfitter            &lt;chr&gt; &quot;Nike&quot;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ twitter              &lt;chr&gt; &quot;http://twitter.com/hazardeden10&quot;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ facebook             &lt;chr&gt; &quot;http://www.facebook.com/edenhazard/&quot;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ instagram            &lt;chr&gt; &quot;http://www.instagram.com/hazardeden_10/&quot;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_valuation     &lt;dbl&gt; 1.8e+07</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ URL                  &lt;chr&gt; &quot;https://www.transfermarkt.com/eden-hazard/profil…</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for multiple players: -----#</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co"># # can make use of a tm helper function:</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co"># burnley_player_urls &lt;- tm_team_player_urls(team_url = &quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2020&quot;)</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># # then pass all those URLs to the tm_player_bio</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co"># burnley_bios &lt;- tm_player_bio(player_urls = burnley_player_urls)</span></span></code></pre></div>
 </div>
 <div id="player-injury-history" class="section level3">
 <h3>Player Injury History</h3>
 <p>To be able to get an individual player(s) injury history from transfermarkt, use the <code>tm_player_injury_history()</code> function.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for a single player</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hazard_injuries <span class="ot">&lt;-</span> <span class="fu">tm_player_injury_history</span>(<span class="at">player_urls =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for multiple players:</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># can make use of a tm helper function:</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>burnley_player_urls <span class="ot">&lt;-</span> <span class="fu">tm_team_player_urls</span>(<span class="at">team_url =</span> <span class="st">&quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2021&quot;</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass all those URLs to the tm_player_bio</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>burnley_player_injuries <span class="ot">&lt;-</span> <span class="fu">tm_player_injury_history</span>(<span class="at">player_urls =</span> burnley_player_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for a single player: -----#</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>hazard_injuries <span class="ot">&lt;-</span> <span class="fu">tm_player_injury_history</span>(<span class="at">player_urls =</span> <span class="st">&quot;https://www.transfermarkt.com/eden-hazard/profil/spieler/50202&quot;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(hazard_injuries)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 29</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 9</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name    &lt;chr&gt; &quot;Eden Hazard&quot;, &quot;Eden Hazard&quot;, &quot;Eden Hazard&quot;, &quot;Eden Haza…</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url     &lt;chr&gt; &quot;https://www.transfermarkt.com/eden-hazard/profil/spiel…</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season_injured &lt;chr&gt; &quot;21/22&quot;, &quot;21/22&quot;, &quot;21/22&quot;, &quot;20/21&quot;, &quot;20/21&quot;, &quot;20/21&quot;, &quot;…</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injury         &lt;chr&gt; &quot;Abdominal Influenza&quot;, &quot;Muscular problems&quot;, &quot;Hamstring …</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_since  &lt;date&gt; 2021-11-19, 2021-10-08, 2021-06-28, 2021-05-21, 2021-0…</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_until  &lt;date&gt; 2021-11-30, 2021-10-22, 2021-08-12, 2021-05-23, 2021-0…</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ duration       &lt;chr&gt; &quot;11 days&quot;, &quot;14 days&quot;, &quot;45 days&quot;, &quot;2 days&quot;, &quot;38 days&quot;, &quot;…</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ games_missed   &lt;chr&gt; &quot;3&quot;, &quot;1&quot;, NA, &quot;1&quot;, &quot;8&quot;, &quot;7&quot;, &quot;8&quot;, &quot;1&quot;, &quot;6&quot;, &quot;2&quot;, &quot;2&quot;, &quot;…</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ club           &lt;chr&gt; &quot;Real Madrid&quot;, &quot;Real Madrid&quot;, &quot;Real Madrid&quot;, &quot;Real Madr…</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for multiple players: -----#</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># # can make use of a tm helper function:</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># burnley_player_urls &lt;- tm_team_player_urls(team_url = &quot;https://www.transfermarkt.com/fc-burnley/startseite/verein/1132/saison_id/2021&quot;)</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co"># # then pass all those URLs to the tm_player_bio</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co"># burnley_player_injuries &lt;- tm_player_injury_history(player_urls = burnley_player_urls)</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -340,25 +561,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="club-staff-history" class="section level3">
 <h3>Club Staff History</h3>
 <p>You can extract all employees by role in a club’s history using <code>tm_team_staff_history()</code>.</p>
-<p>The list of roles that can be passed to the <code>staff_roles</code> argument can be found <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/transfermarkt_staff/tm_staff_types.csv">here</a></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then use the URLs to pass to the function, and select the role you wish to see results for</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>club_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>club_caretaker_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Caretaker Manager&quot;</span>)</span></code></pre></div>
+<p>The list of roles that can be passed to the <code>staff_roles</code> argument can be found <a href="https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/transfermarkt_staff/tm_staff_types.csv">here</a>, and they’re also listed below:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#----- then use the URLs to pass to the function, and select the role you wish to see results for: -----#</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>club_manager_history <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_history</span>(<span class="at">team_urls =</span> epl_teams, <span class="at">staff_role =</span> <span class="st">&quot;Manager&quot;</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(club_manager_history)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 532</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 17</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ team_name                   &lt;chr&gt; &quot;Manchester City&quot;, &quot;Manchester City&quot;, &quot;Man…</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league                      &lt;chr&gt; &quot;Premier League&quot;, &quot;Premier League&quot;, &quot;Premi…</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country                     &lt;chr&gt; &quot;England&quot;, &quot;England&quot;, &quot;England&quot;, &quot;England&quot;…</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_role                  &lt;chr&gt; &quot;Manager&quot;, &quot;Manager&quot;, &quot;Manager&quot;, &quot;Manager&quot;…</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_name                  &lt;chr&gt; &quot;Pep Guardiola&quot;, &quot;Manuel Pellegrini&quot;, &quot;Rob…</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_url                   &lt;chr&gt; &quot;https://www.transfermarkt.com/pep-guardio…</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_dob                   &lt;chr&gt; &quot;Jan 18, 1971&quot;, &quot;Sep 16, 1953&quot;, &quot;Nov 27, 1…</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_nationality           &lt;chr&gt; &quot;Spain&quot;, &quot;Chile&quot;, &quot;Italy&quot;, &quot;Wales&quot;, &quot;Swede…</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_nationality_secondary &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appointed                   &lt;date&gt; 2016-07-01, 2013-07-01, 2009-12-19, 2008-…</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ end_date                    &lt;date&gt; NA, 2016-06-30, 2013-05-13, 2009-12-19, 2…</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ days_in_post                &lt;dbl&gt; 2089, 1095, 1241, 563, 332, 794, 1386, 118…</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matches                     &lt;dbl&gt; 337, 166, 191, 77, 45, 97, 176, 95, 12, 0,…</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ wins                        &lt;dbl&gt; 251, 101, 113, 37, 19, 34, 77, 39, 4, 0, 9…</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ draws                       &lt;dbl&gt; 36, 27, 38, 15, 11, 19, 39, 22, 4, 0, 11, …</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ losses                      &lt;dbl&gt; 50, 38, 40, 25, 15, 44, 60, 34, 4, 0, 20, …</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ ppg                         &lt;dbl&gt; 2.34, 1.99, 1.97, 1.64, 1.51, 1.25, 1.53, …</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co">#----- can also get other roles: -----#</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co"># club_caretaker_manager_history &lt;- tm_team_staff_history(team_urls = epl_teams, staff_role = &quot;Caretaker Manager&quot;)</span></span></code></pre></div>
 </div>
 <div id="staff-members-history" class="section level3">
 <h3>Staff Member’s History</h3>
 <p>To be able to get all roles held by a selected staff member(s), the <code>tm_staff_job_history()</code> function can be used.</p>
 <p>The function accepts one argument, <code>staff_urls</code>, which can be extracted using <code>tm_team_staff_urls()</code> explained in the helpers section above.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>epl_teams <span class="ot">&lt;-</span> <span class="fu">tm_league_team_urls</span>(<span class="at">country_name =</span> <span class="st">&quot;England&quot;</span>, <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># then you can pass these URLs to the function and get job histories for the selected staff members</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>epl_gk_coach_job_histories <span class="ot">&lt;-</span> <span class="fu">tm_staff_job_history</span>(<span class="at">staff_urls =</span> epl_gk_coaches)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get a list of team URLs for the EPL 2021/22 season</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># epl_teams &lt;- tm_league_team_urls(country_name = &quot;England&quot;, start_year = 2021)</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get all EPL goal keeping coaches for the 2021/22 season</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>epl_gk_coaches <span class="ot">&lt;-</span> <span class="fu">tm_team_staff_urls</span>(<span class="at">team_urls =</span> epl_teams[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="at">staff_role =</span> <span class="st">&quot;Goalkeeping Coach&quot;</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># then you can pass these URLs to the function and get job histories for the selected staff members</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>epl_gk_coach_job_histories <span class="ot">&lt;-</span> <span class="fu">tm_staff_job_history</span>(<span class="at">staff_urls =</span> epl_gk_coaches)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(epl_gk_coach_job_histories)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 17</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 23</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ name              &lt;chr&gt; &quot;Xabier Mancisidor&quot;, &quot;Xabier Mancisidor&quot;, &quot;Xabier Ma…</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club      &lt;chr&gt; &quot;Man City&quot;, &quot;Man City&quot;, &quot;Man City&quot;, &quot;Man City&quot;, &quot;Man…</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_role      &lt;chr&gt; &quot;Goalkeeping Coach&quot;, &quot;Goalkeeping Coach&quot;, &quot;Goalkeepi…</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date_of_birth     &lt;chr&gt; &quot;May 24, 1970&quot;, &quot;May 24, 1970&quot;, &quot;May 24, 1970&quot;, &quot;May…</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ place_of_birth    &lt;chr&gt; &quot;Pasaia&quot;, &quot;Pasaia&quot;, &quot;Pasaia&quot;, &quot;Pasaia&quot;, &quot;Pasaia&quot;, &quot;I…</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ citizenship       &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Englan…</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position          &lt;chr&gt; &quot;Goalkeeping Coach&quot;, &quot;Goalkeeping Coach&quot;, &quot;Goalkeepi…</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ club              &lt;chr&gt; &quot;Man City&quot;, &quot;Málaga CF&quot;, &quot;Real Madrid&quot;, &quot;Real Socied…</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appointed         &lt;chr&gt; &quot;2013-06-24&quot;, &quot;2011-01-04&quot;, &quot;2009-06-02&quot;, &quot;1998-10-2…</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_expiry   &lt;chr&gt; NA, &quot;2013-06-23&quot;, &quot;2010-05-27&quot;, &quot;2009-06-01&quot;, &quot;1998-…</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ days_in_charge    &lt;dbl&gt; 3192, 901, 359, 3874, 113, 1359, 729, 3916, 729, 111…</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matches           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA, N…</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ wins              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, NA, N…</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ draws             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA, N…</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ losses            &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA, N…</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ players_used      &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 18, NA, …</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ avg_goals_for     &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.…</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ avg_goals_against &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.…</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ ppm               &lt;dbl&gt; 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.…</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_url         &lt;chr&gt; &quot;https://www.transfermarkt.com/xabier-mancisidor/pro…</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ coaching_licence  &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, &quot;UEFA A Licence&quot;, &quot;UEFA …</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ agent             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;Paulo Roberto C…</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ avg_term_as_coach &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, &quot;0.02 Years&quot;, &quot;0…</span></span></code></pre></div>
 </div>
 </div>
 

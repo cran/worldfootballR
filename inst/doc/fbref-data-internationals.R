@@ -6,6 +6,9 @@ knitr::opts_chunk$set(
   warning=FALSE
 )
 
+## ----cran-installation, eval=FALSE--------------------------------------------
+#  install.packages("worldfootballR")
+
 ## ----gh-installation, eval=FALSE----------------------------------------------
 #  # install.packages("devtools")
 #  devtools::install_github("JaseZiv/worldfootballR")

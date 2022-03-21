@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-02-08" />
+<meta name="date" content="2022-03-21" />
 
 <title>Extracting data from FBref for International Matches</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from FBref for International Matches</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-02-08</h4>
+<h4 class="date">2022-03-21</h4>
 
 
 
@@ -152,14 +152,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://fbref.com/en/">FBref</a></li>
 <li><a href="https://www.transfermarkt.com/">Transfermarkt</a></li>
 <li><a href="https://understat.com/">Understat</a></li>
+<li><a href="https://www.fotmob.com/">Fotmob</a></li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
-<p>You can install the <code>worldfootballR</code> package from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
+<p>You can install the CRAN version of <a href="https://CRAN.R-project.org/package=worldfootballR"><strong><code>worldfootballR</code></strong></a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;worldfootballR&quot;</span>)</span></code></pre></div>
+<p>You can install the released version of <a href="https://github.com/JaseZiv/worldfootballR/"><strong><code>worldfootballR</code></strong></a> from <a href="https://github.com/JaseZiv/worldfootballR">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
 <hr />
 </div>
 <div id="usage" class="section level2">
@@ -169,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>For functions to extract data from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fbref-data.html">here</a></li>
 <li>For functions to extract data from Transfermarkt, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-transfermarkt-data.html">here</a></li>
 <li>For functions to extract data from Understat, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-understat-data.html">here</a></li>
-<li>For functions to extract data for international matches from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/fbref-data-internationals.html">here</a></li>
+<li>For functions to extract data from fotmob, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fotmob-data.html">here</a></li>
 </ul>
 <p>This vignette will cover the functions to extract data for international matches from FBref.com.</p>
 <p>The functions in this document are all documented in the FBref data vignette, however the method for using these functions for international matches differs from those played in domestic leagues.</p>
@@ -185,13 +188,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="get-match-urls" class="section level3">
 <h3>Get match urls</h3>
 <p>To get the match URLs needed to pass in to some of the match-level functions below, <code>get_match_urls()</code> can be used.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>wc_2018_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2018</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/1/history/World-Cup-Seasons&quot;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>friendly_int_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>euro_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/676/history/European-Championship-Seasons&quot;</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>copa_2019_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2019</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/685/history/Copa-America-Seasons&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>wc_2018_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2018</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/1/history/World-Cup-Seasons&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>friendly_int_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>euro_2021_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/676/history/European-Championship-Seasons&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>copa_2019_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2019</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/685/history/Copa-America-Seasons&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -202,43 +205,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Get match results</h3>
 <p>To get the match results (and additional metadata), the following function can be used.</p>
 <p>To use this functionality, simply leave <code>country = &#39;&#39;</code> and pass the non-domestic league URL</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># euro 2016 results</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>euro_2016_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2016</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/676/history/European-Championship-Seasons&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2019 Copa America results:</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>copa_2019_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2019</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/685/history/Copa-America-Seasons&quot;</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># for international friendlies:</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>international_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># euro 2016 results</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>euro_2016_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2016</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/676/history/European-Championship-Seasons&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2019 Copa America results:</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>copa_2019_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2019</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/685/history/Copa-America-Seasons&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># for international friendlies:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>international_results <span class="ot">&lt;-</span> <span class="fu">get_match_results</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2021</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/218/history/Friendlies-M-Seasons&quot;</span>)</span></code></pre></div>
 </div>
 <div id="get-match-report" class="section level3">
 <h3>Get match report</h3>
 <p>This function will return similar results to that of <code>get_match_results()</code>, however <code>get_match_report()</code> will provide some additional information. It will also only provide it for a single match, not the whole season:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match report data for 2018 world cup</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>wc_2018_report <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> wc_2018_urls)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match report data for 2021 international friendlies</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>friendlies_report <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> friendly_int_2021_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match report data for 2018 world cup</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>wc_2018_report <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> wc_2018_urls)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match report data for 2021 international friendlies</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>friendlies_report <span class="ot">&lt;-</span> <span class="fu">get_match_report</span>(<span class="at">match_url =</span> friendly_int_2021_urls)</span></code></pre></div>
 </div>
 <div id="get-match-summaries" class="section level3">
 <h3>Get match summaries</h3>
 <p>This function will return the main events that occur during a match, including goals, substitutions and red/yellow cards:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get the URLs for the 2016 Euros</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>euro_2016_match_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2016</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/676/history/European-Championship-Seasons&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass these to the function to get match summaries:</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>euro_2016_events <span class="ot">&lt;-</span> <span class="fu">get_match_summary</span>(euro_2016_match_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first get the URLs for the 2016 Euros</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>euro_2016_match_urls <span class="ot">&lt;-</span> <span class="fu">get_match_urls</span>(<span class="at">country =</span> <span class="st">&quot;&quot;</span>, <span class="at">gender =</span> <span class="st">&quot;M&quot;</span>, <span class="at">season_end_year =</span> <span class="dv">2016</span>, <span class="at">tier =</span> <span class="st">&quot;&quot;</span>, <span class="at">non_dom_league_url =</span> <span class="st">&quot;https://fbref.com/en/comps/676/history/European-Championship-Seasons&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then pass these to the function to get match summaries:</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>euro_2016_events <span class="ot">&lt;-</span> <span class="fu">get_match_summary</span>(euro_2016_match_urls)</span></code></pre></div>
 </div>
 <div id="get-match-lineups" class="section level3">
 <h3>Get match lineups</h3>
 <p>This function will return a dataframe of all players listed for that match, including whether they started on the pitch, or on the bench.</p>
 <p>From version 0.2.7, this function now also returns some summary performance data for each player that played, including their position, minutes played, goals, cards, etc.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match lineups</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>copa_2019_lineups <span class="ot">&lt;-</span> <span class="fu">get_match_lineups</span>(<span class="at">match_url =</span> copa_2019_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function to extract match lineups</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>copa_2019_lineups <span class="ot">&lt;-</span> <span class="fu">get_match_lineups</span>(<span class="at">match_url =</span> copa_2019_urls)</span></code></pre></div>
 </div>
 <div id="get-shooting-and-shot-creation-events" class="section level3">
 <h3>Get shooting and shot creation events</h3>
 <p>The below function allows users to extract shooting and shot creation event data for a match or selected matches. The data returned includes who took the shot, when, with which body part and from how far away. Additionally, the player creating the chance and also the creation before this are included in the data.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>shots_wc_2018 <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(wc_2018_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>shots_wc_2018 <span class="ot">&lt;-</span> <span class="fu">get_match_shooting</span>(wc_2018_urls)</span></code></pre></div>
 </div>
 <div id="get-advanced-match-statistics" class="section level3">
 <h3>Get advanced match statistics</h3>
@@ -255,9 +258,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><em>keeper</em></li>
 </ul>
 <p>The function can be used for either all players individually:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_player <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> wc_2018_urls, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;player&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_player <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> wc_2018_urls, <span class="at">stat_type =</span> <span class="st">&quot;possession&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;player&quot;</span>)</span></code></pre></div>
 <p>Or used for the team totals for each match:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_team <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> wc_2018_urls, <span class="at">stat_type =</span> <span class="st">&quot;passing_types&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;team&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>advanced_match_stats_team <span class="ot">&lt;-</span> <span class="fu">get_advanced_match_stats</span>(<span class="at">match_url =</span> wc_2018_urls, <span class="at">stat_type =</span> <span class="st">&quot;passing_types&quot;</span>, <span class="at">team_or_player =</span> <span class="st">&quot;team&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>

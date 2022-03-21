@@ -1,0 +1,314 @@
+---
+title: "Extracting data from fotmob"
+author: "Tony ElHabr"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Extracting data from fotmob}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message=FALSE,
+  warning=FALSE
+)
+```
+
+## Overview
+
+This package is designed to allow users to extract various world football results and player statistics from the following popular football (soccer) data sites:
+
+-   [FBref](https://fbref.com/en/)
+-   [Transfermarkt](https://www.transfermarkt.com/)
+-   [Understat](https://understat.com/)
+-   [Fotmob](https://www.fotmob.com/)
+
+## Installation
+
+You can install the CRAN version of [**`worldfootballR`**](https://CRAN.R-project.org/package=worldfootballR) with:
+
+```{r cran-installation, eval=FALSE}
+install.packages("worldfootballR")
+```
+
+You can install the released version of [**`worldfootballR`**](https://github.com/JaseZiv/worldfootballR/) from [GitHub](https://github.com/JaseZiv/worldfootballR) with:
+
+```{r gh-installation, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("JaseZiv/worldfootballR")
+```
+
+```{r load_libs, warning=FALSE, message=FALSE}
+library(worldfootballR)
+library(dplyr)
+library(tidyr)
+```
+
+------------------------------------------------------------------------
+
+## Usage
+
+Package vignettes have been built to help you get started with the package.
+
+-   For functions to extract data from FBref, see [here](https://jaseziv.github.io/worldfootballR/articles/extract-fbref-data.html)
+-   For functions to extract data from Transfermarkt, see [here](https://jaseziv.github.io/worldfootballR/articles/extract-transfermarkt-data.html)
+-   For functions to extract data from Understat, see [here](https://jaseziv.github.io/worldfootballR/articles/extract-understat-data.html)
+-   For functions to extract data for international matches from FBref, see [here](https://jaseziv.github.io/worldfootballR/articles/fbref-data-internationals.html)
+
+This vignette will cover the functions to extract data from fotmob.com
+
+------------------------------------------------------------------------
+
+## fotmob Helper Functions
+
+There are currently no helper functions for fotmob functions.
+
+------------------------------------------------------------------------
+
+## League Season-Level Data
+
+fotmob has data for just about every league that you can think of, including all of the Big 5 leagues.
+
+### Team Stats
+
+Use `fotmob_get_season_stats` to retrieve values for a specified stat, season, and league. Currently the available stat types are:
+
+-   accurate_pass
+-   big_chance_created
+-   big_chance_missed
+-   clean_sheet
+-   effective_clearance
+-   xg (goals are in the `sub_stat_value` column)
+-   xg_conceded (goals conceded are in the `sub_stat_value` column)
+-   goals_conceded_per_match
+-   goals_per_match
+-   ontarget_scoring_att
+-   penalty_won
+-   poss_won_att_3rd
+-   possession_percentage
+-   rating
+-   red_card
+-   saves
+-   won_tackle
+-   yellow_card
+
+```{r epl_team_xg_2021}
+epl_team_xg_2021 <- fotmob_get_season_stats(
+  country = "ENG",
+  league_name = "Premier League",
+  season = "2020/2021",
+  stat_type = "xg",
+  team_or_player = "team"
+)
+
+epl_team_xg_2021 %>%
+  dplyr::select(
+    league_id = id,
+    league_name = name,
+    season_id,
+    season_name,
+    team_id,
+    team_name = participant_name,
+    matches_played,
+    xg = stat_value,
+    g = sub_stat_value
+  ) %>%
+  dplyr::glimpse()
+```
+
+You can retrieve data for multiple leagues and/or season at the same time.
+
+```{r team_xg_conceded_2021}
+team_xg_conceded_2021 <- fotmob_get_season_stats(
+  country =     c("ITA",     "ESP"),
+  league_name = c("Serie A", "LaLiga"),
+  season = c("2020/2021", "2021/2022"),
+  stat_type = "xg_conceded",
+  team_or_player = "team"
+)
+
+## 2 leagues x 20 teams x 2 seasons = 80 records
+team_xg_conceded_2021 %>% nrow()
+```
+
+At this time, only one `stat_type` and one `team_or_player` can be retrieved at a time.
+
+### Player Stats
+
+You can also use `fotmob_get_season_stats` to retrieve stats for players.
+
+-   accurate_pass
+-   big_chance_created
+-   big_chance_missed
+-   clean_sheet
+-   effective_clearance
+-   xg
+-   xg_conceded
+-   assist
+-   goals
+-   mins_played_goal (minutes played per goal)
+-   ontarget_scoring_att
+-   penalty_won
+-   poss_won_att_3rd
+-   rating
+-   red_card
+-   saves
+-   won_contest
+-   won_tackle
+-   yellow_card
+
+```{r epl_player_xg_2021}
+epl_player_xg_2021 <- fotmob_get_season_stats(
+  country = "ENG",
+  league_name = "Premier League",
+  season = "2020/2021",
+  stat_type = "xg",
+  team_or_player = "player"
+)
+
+epl_player_xg_2021 %>%
+  dplyr::select(
+    league_id = id,
+    league_name = name,
+    season_id,
+    season_name,
+    team_id,
+    ## NOTE: particiant_id is a typo on behalf of fotmob! We leave it as is.
+    player_id = particiant_id,
+    player_name = participant_name,
+    minutes_played,
+    matches_played,
+    xg = stat_value,
+    g = sub_stat_value
+  ) %>%
+  dplyr::glimpse()
+```
+
+### Match Results
+
+Matches for one or multiple leagues can be retrieved with `fotmob_get_league_matches`. Currently only the current season's matches can be retrieved.
+
+```{r fotmob_get_league_matches}
+league_matches <- fotmob_get_league_matches(
+  country =     c("ENG",            "ESP"   ),
+  league_name = c("Premier League", "LaLiga")
+)
+
+league_matches_unnested <- league_matches %>%
+  dplyr::select(match_id = id, home, away) %>%
+  tidyr::unnest_wider(c(home, away), names_sep = "_")
+dplyr::glimpse(league_matches_unnested)
+```
+
+fotmob also lists data for all leagues by date. Use `fotmob_get_matches_by_date` to select matches occurring on specific day(s) and filter down to the league(s) that you care about.
+
+```{r fotmob_get_matches_by_date}
+results <- fotmob_get_matches_by_date(date = c("20210925", "20210926"))
+dplyr::glimpse(results)
+```
+
+```{r fotmob_match_ids}
+filtered_results <- results %>%
+  dplyr::select(primary_id, ccode, league_name = name, matches) %>%
+  dplyr::filter(league_name == "Premier League", ccode == "ENG")
+
+# one way of getting data out of the results
+unnested_results <- filtered_results %>% 
+  tidyr::unnest_longer(matches)
+
+match_ids <- unnested_results %>% 
+  dplyr::pull(matches) %>% 
+  dplyr::pull(id)
+match_ids
+```
+
+Note that fotmob returns nested data.frames or lists for some elements. Nested components have camel case names.
+
+```{r fotmob_unnested_results}
+unnested_results %>% 
+  dplyr::pull(matches) %>% 
+  dplyr::glimpse()
+```
+
+### Standings
+
+Standings for one or multiple leagues can be retrieved with `fotmob_get_league_tables`. Currently only the current season's standings can be retrieved.
+
+```{r fotmob_get_league_tables}
+league_tables <- fotmob_get_league_tables(
+  country =     c("ENG",            "ESP"   ),
+  league_name = c("Premier League", "LaLiga")
+)
+# or
+# league_tables <- fotmob_get_league_tables(league_id = c(47, 87))
+
+away_league_tables <- league_tables %>%
+  dplyr::filter(table_type == "away")
+dplyr::glimpse(away_league_tables)
+```
+
+------------------------------------------------------------------------
+
+## Match-Level Data
+
+### Match Shooting Locations
+
+To get shooting locations for an individual match along with expected goals (xG), expected goals on target (xGoT), etc., use the `fotmob_get_match_details()` function.
+
+```{r fotmob_match_details}
+fotmob_matches <- c(3609994, 3610132)
+match_details <- fotmob_get_match_details(fotmob_matches)
+dplyr::glimpse(match_details)
+```
+
+```{r fotmob_match_shots}
+match_shots <- match_details %>% 
+  dplyr::select(
+    match_id,
+    shots
+  ) %>% 
+  tidyr::unnest(shots)
+dplyr::glimpse(match_shots)
+```
+
+There is one nested element in the returned data.frame for `on_goal_shot`. As with the nested elements returned by `fotmob_get_matches_by_date`, columns in nested elements have camel case names. (Here, it's only `zoomRatio`.)
+
+*NOTE: The below code block depends on `tidyr 1.2.0`*
+
+```{r on_goal_shots}
+match_shots %>%
+  dplyr::select(on_goal_shot) %>%
+  tidyr::unnest_wider(
+    on_goal_shot
+  )
+```
+
+Be very careful with interpreting `x` and `y` from `on_goal_shot`. They're not on the same scale as `x` and `y` in the top-level of the result returned from `fotmob_get_match_details`!
+
+### Players
+
+You can also extract players from matches with the `fotmob_get_match_players()` function.
+
+```{r fotmob_players}
+players <- fotmob_get_match_players(fotmob_matches)
+dplyr::glimpse(players)
+```
+
+```{r salah_shotmap}
+salah <- players %>% dplyr::filter(id == "292462")
+salah_shotmap <- salah %>% 
+  dplyr::select(player_id = id, shotmap) %>% 
+  tidyr::unnest(shotmap)
+dplyr::glimpse(salah_shotmap)
+```
+
+```{r salah_stats}
+salah_stats <- salah %>% 
+  dplyr::select(player_id = id, stats) %>% 
+  tidyr::unnest(stats)
+dplyr::glimpse(salah_stats)
+```

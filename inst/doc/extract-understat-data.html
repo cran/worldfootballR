@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-02-08" />
+<meta name="date" content="2022-03-21" />
 
 <title>Extracting data from Understat</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from Understat</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-02-08</h4>
+<h4 class="date">2022-03-21</h4>
 
 
 
@@ -152,14 +152,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="https://fbref.com/en/">FBref</a></li>
 <li><a href="https://www.transfermarkt.com/">Transfermarkt</a></li>
 <li><a href="https://understat.com/">Understat</a></li>
+<li><a href="https://www.fotmob.com/">Fotmob</a></li>
 </ul>
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
-<p>You can install the <code>worldfootballR</code> package from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
+<p>You can install the CRAN version of <a href="https://CRAN.R-project.org/package=worldfootballR"><strong><code>worldfootballR</code></strong></a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;worldfootballR&quot;</span>)</span></code></pre></div>
+<p>You can install the released version of <a href="https://github.com/JaseZiv/worldfootballR/"><strong><code>worldfootballR</code></strong></a> from <a href="https://github.com/JaseZiv/worldfootballR">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;JaseZiv/worldfootballR&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(worldfootballR)</span></code></pre></div>
 <hr />
 </div>
 <div id="usage" class="section level2">
@@ -168,7 +171,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>For functions to extract data from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fbref-data.html">here</a></li>
 <li>For functions to extract data from Transfermarkt, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-transfermarkt-data.html">here</a></li>
-<li>For functions to extract data from Understat, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-understat-data.html">here</a></li>
+<li>For functions to extract data from fotmob, see <a href="https://jaseziv.github.io/worldfootballR/articles/extract-fotmob-data.html">here</a></li>
 <li>For functions to extract data for international matches from FBref, see <a href="https://jaseziv.github.io/worldfootballR/articles/fbref-data-internationals.html">here</a></li>
 </ul>
 <p>This vignette will cover the functions to extract data from understat.com</p>
@@ -179,7 +182,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="team-urls" class="section level3">
 <h3>Team URLs</h3>
 <p>To get a list of all season team URLs for selected teams, use the <code>understat_team_meta()</code> function (note, to get team names, it might be advisable to look at Understat.com’s spelling of the team names and pass that through to the function):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">understat_team_meta</span>(<span class="at">team_name =</span> <span class="fu">c</span>(<span class="st">&quot;Liverpool&quot;</span>, <span class="st">&quot;Manchester City&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">understat_team_meta</span>(<span class="at">team_name =</span> <span class="fu">c</span>(<span class="st">&quot;Liverpool&quot;</span>, <span class="st">&quot;Manchester City&quot;</span>))</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -197,15 +200,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div id="match-results" class="section level3">
 <h3>Match Results</h3>
-<p>To be able to extract match results from Understat, which not only have results and expected goals, but they also provide a probablity of a team winning.</p>
+<p>To be able to extract match results from Understat, which not only have results and expected goals, but they also provide a probability of a team winning.</p>
 <p>To extract the data, use the <code>understat_league_match_results()</code> function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL results:</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>epl_results <span class="ot">&lt;-</span> <span class="fu">understat_league_match_results</span>(<span class="at">league =</span> <span class="st">&quot;EPL&quot;</span>, <span class="at">season_start_year =</span> <span class="dv">2020</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get the EPL results:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>epl_results <span class="ot">&lt;-</span> <span class="fu">understat_league_match_results</span>(<span class="at">league =</span> <span class="st">&quot;EPL&quot;</span>, <span class="at">season_start_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(epl_results)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 380</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 18</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ league        &lt;chr&gt; &quot;EPL&quot;, &quot;EPL&quot;, &quot;EPL&quot;, &quot;EPL&quot;, &quot;EPL&quot;, &quot;EPL&quot;, &quot;EPL&quot;, &quot;EPL&quot;, …</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season        &lt;chr&gt; &quot;2020/2021&quot;, &quot;2020/2021&quot;, &quot;2020/2021&quot;, &quot;2020/2021&quot;, &quot;202…</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ match_id      &lt;chr&gt; &quot;14086&quot;, &quot;14087&quot;, &quot;14090&quot;, &quot;14091&quot;, &quot;14092&quot;, &quot;14093&quot;, &quot;1…</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ isResult      &lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TR…</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_id       &lt;chr&gt; &quot;228&quot;, &quot;78&quot;, &quot;87&quot;, &quot;81&quot;, &quot;76&quot;, &quot;82&quot;, &quot;238&quot;, &quot;220&quot;, &quot;72&quot;,…</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_team     &lt;chr&gt; &quot;Fulham&quot;, &quot;Crystal Palace&quot;, &quot;Liverpool&quot;, &quot;West Ham&quot;, &quot;We…</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_abbr     &lt;chr&gt; &quot;FLH&quot;, &quot;CRY&quot;, &quot;LIV&quot;, &quot;WHU&quot;, &quot;WBA&quot;, &quot;TOT&quot;, &quot;SHE&quot;, &quot;BRI&quot;, …</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_id       &lt;chr&gt; &quot;83&quot;, &quot;74&quot;, &quot;245&quot;, &quot;86&quot;, &quot;75&quot;, &quot;72&quot;, &quot;229&quot;, &quot;80&quot;, &quot;76&quot;, …</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_team     &lt;chr&gt; &quot;Arsenal&quot;, &quot;Southampton&quot;, &quot;Leeds&quot;, &quot;Newcastle United&quot;, &quot;…</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_abbr     &lt;chr&gt; &quot;ARS&quot;, &quot;SOU&quot;, &quot;LED&quot;, &quot;NEW&quot;, &quot;LEI&quot;, &quot;EVE&quot;, &quot;WOL&quot;, &quot;CHE&quot;, …</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_goals    &lt;dbl&gt; 0, 1, 4, 0, 0, 0, 0, 1, 5, 4, 1, 2, 2, 0, 0, 4, 1, 1, 2,…</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_goals    &lt;dbl&gt; 3, 0, 3, 2, 3, 1, 2, 3, 2, 3, 3, 1, 5, 3, 2, 2, 0, 3, 3,…</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_xG       &lt;dbl&gt; 0.126327, 1.395690, 3.154120, 0.861445, 0.352997, 0.8229…</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_xG       &lt;dbl&gt; 2.162870, 1.262670, 0.269813, 1.659110, 2.955810, 1.2679…</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ datetime      &lt;chr&gt; &quot;2020-09-12 11:30:00&quot;, &quot;2020-09-12 14:00:00&quot;, &quot;2020-09-1…</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ forecast_win  &lt;dbl&gt; 0.0037, 0.3916, 0.9658, 0.1506, 0.0070, 0.2200, 0.1683, …</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ forecast_draw &lt;dbl&gt; 0.0476, 0.3022, 0.0296, 0.2480, 0.0358, 0.2977, 0.2906, …</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ forecast_loss &lt;dbl&gt; 0.9487, 0.3062, 0.0046, 0.6014, 0.9572, 0.4823, 0.5411, …</span></span></code></pre></div>
 </div>
 <div id="season-shooting-locations" class="section level3">
 <h3>Season Shooting locations</h3>
 <p>To get shooting locations for a whole season in supported leagues, use the <code>understat_league_season_shots()</code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ligue1_shot_location <span class="ot">&lt;-</span> <span class="fu">understat_league_season_shots</span>(<span class="at">league =</span> <span class="st">&quot;Ligue 1&quot;</span>, <span class="at">season_start_year =</span> <span class="dv">2020</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ligue1_shot_location <span class="ot">&lt;-</span> <span class="fu">understat_league_season_shots</span>(<span class="at">league =</span> <span class="st">&quot;Ligue 1&quot;</span>, <span class="at">season_start_year =</span> <span class="dv">2020</span>)</span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -215,7 +239,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="match-shooting-locations" class="section level3">
 <h3>Match Shooting Locations</h3>
 <p>To get shooting locations for an individual match, use the <code>understat_match_shots()</code> function:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>wba_liv_shots <span class="ot">&lt;-</span> <span class="fu">understat_match_shots</span>(<span class="at">match_url =</span> <span class="st">&quot;https://understat.com/match/14789&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wba_liv_shots <span class="ot">&lt;-</span> <span class="fu">understat_match_shots</span>(<span class="at">match_url =</span> <span class="st">&quot;https://understat.com/match/14789&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(wba_liv_shots)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 36</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ id              &lt;chr&gt; &quot;422440&quot;, &quot;422441&quot;, &quot;422442&quot;, &quot;422450&quot;, &quot;422456&quot;, &quot;422…</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minute          &lt;dbl&gt; 9, 11, 14, 35, 46, 47, 50, 61, 70, 77, 2, 3, 5, 23, 26…</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ result          &lt;chr&gt; &quot;MissedShots&quot;, &quot;MissedShots&quot;, &quot;Goal&quot;, &quot;BlockedShot&quot;, &quot;…</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ X               &lt;dbl&gt; 0.869, 0.965, 0.881, 0.883, 0.957, 0.712, 0.767, 0.942…</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Y               &lt;dbl&gt; 0.441, 0.460, 0.356, 0.336, 0.590, 0.403, 0.590, 0.626…</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG              &lt;dbl&gt; 0.03135269, 0.14474539, 0.23826571, 0.28253871, 0.0260…</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player          &lt;chr&gt; &quot;Semi Ajayi&quot;, &quot;Okay Yokuslu&quot;, &quot;Hal Robson-Kanu&quot;, &quot;Hal …</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_away       &lt;chr&gt; &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;a&quot;,…</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_id       &lt;chr&gt; &quot;4490&quot;, &quot;6932&quot;, &quot;1738&quot;, &quot;1738&quot;, &quot;964&quot;, &quot;7153&quot;, &quot;7153&quot;,…</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ situation       &lt;chr&gt; &quot;SetPiece&quot;, &quot;SetPiece&quot;, &quot;OpenPlay&quot;, &quot;OpenPlay&quot;, &quot;FromC…</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season          &lt;chr&gt; &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;…</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ shotType        &lt;chr&gt; &quot;Head&quot;, &quot;Head&quot;, &quot;LeftFoot&quot;, &quot;LeftFoot&quot;, &quot;Head&quot;, &quot;LeftF…</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ match_id        &lt;chr&gt; &quot;14789&quot;, &quot;14789&quot;, &quot;14789&quot;, &quot;14789&quot;, &quot;14789&quot;, &quot;14789&quot;, …</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_team       &lt;chr&gt; &quot;West Bromwich Albion&quot;, &quot;West Bromwich Albion&quot;, &quot;West …</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_team       &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;L…</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_goals      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_goals      &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date            &lt;chr&gt; &quot;2021-05-16 15:30:00&quot;, &quot;2021-05-16 15:30:00&quot;, &quot;2021-05…</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_assisted &lt;chr&gt; &quot;Matheus Pereira&quot;, &quot;Darnell Furlong&quot;, &quot;Matheus Pereira…</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ lastAction      &lt;chr&gt; &quot;Cross&quot;, &quot;Chipped&quot;, &quot;Pass&quot;, &quot;HeadPass&quot;, &quot;Aerial&quot;, &quot;Sta…</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -225,8 +272,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="team-shooting-locations" class="section level3">
 <h3>Team Shooting Locations</h3>
 <p>To get all shots taken and conceded by a team during a season, use the <code>understat_team_season_shots()</code> function:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>man_city_shots <span class="ot">&lt;-</span> <span class="fu">understat_team_season_shots</span>(<span class="at">team_url =</span> <span class="st">&quot;https://understat.com/team/Manchester_City/2020&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for one team:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>man_city_shots <span class="ot">&lt;-</span> <span class="fu">understat_team_season_shots</span>(<span class="at">team_url =</span> <span class="st">&quot;https://understat.com/team/Manchester_City/2020&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(man_city_shots)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 886</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ id              &lt;chr&gt; &quot;378528&quot;, &quot;378533&quot;, &quot;378537&quot;, &quot;378538&quot;, &quot;378539&quot;, &quot;378…</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minute          &lt;dbl&gt; 15, 40, 53, 55, 58, 59, 64, 73, 77, 86, 7, 10, 19, 29,…</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ result          &lt;chr&gt; &quot;BlockedShot&quot;, &quot;MissedShots&quot;, &quot;MissedShots&quot;, &quot;BlockedS…</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ X               &lt;dbl&gt; 0.789, 0.892, 0.860, 0.811, 0.822, 0.886, 0.869, 0.803…</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Y               &lt;dbl&gt; 0.564, 0.409, 0.501, 0.496, 0.398, 0.473, 0.259, 0.467…</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG              &lt;dbl&gt; 0.034228612, 0.036804341, 0.103135295, 0.053397592, 0.…</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player          &lt;chr&gt; &quot;Pedro Neto&quot;, &quot;Raúl Jiménez&quot;, &quot;Daniel Podence&quot;, &quot;Rúben…</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_away       &lt;chr&gt; &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;a&quot;,…</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_id       &lt;chr&gt; &quot;6382&quot;, &quot;4105&quot;, &quot;8291&quot;, &quot;6853&quot;, &quot;8291&quot;, &quot;4105&quot;, &quot;6853&quot;…</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ situation       &lt;chr&gt; &quot;OpenPlay&quot;, &quot;FromCorner&quot;, &quot;OpenPlay&quot;, &quot;OpenPlay&quot;, &quot;Ope…</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season          &lt;chr&gt; &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;, &quot;2020&quot;…</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ shotType        &lt;chr&gt; &quot;LeftFoot&quot;, &quot;Head&quot;, &quot;LeftFoot&quot;, &quot;LeftFoot&quot;, &quot;RightFoot…</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ match_id        &lt;chr&gt; &quot;14105&quot;, &quot;14105&quot;, &quot;14105&quot;, &quot;14105&quot;, &quot;14105&quot;, &quot;14105&quot;, …</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_team       &lt;chr&gt; &quot;Wolverhampton Wanderers&quot;, &quot;Wolverhampton Wanderers&quot;, …</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_team       &lt;chr&gt; &quot;Manchester City&quot;, &quot;Manchester City&quot;, &quot;Manchester City…</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_goals      &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_goals      &lt;dbl&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date            &lt;chr&gt; &quot;2020-09-21 19:15:00&quot;, &quot;2020-09-21 19:15:00&quot;, &quot;2020-09…</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_assisted &lt;chr&gt; &quot;Daniel Podence&quot;, &quot;Adama Traoré&quot;, &quot;Adama Traoré&quot;, &quot;Ped…</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ lastAction      &lt;chr&gt; &quot;Pass&quot;, &quot;Cross&quot;, &quot;Pass&quot;, &quot;Pass&quot;, &quot;Chipped&quot;, &quot;Cross&quot;, &quot;…</span></span></code></pre></div>
 </div>
 <div id="team-stat-breakdowns" class="section level3">
 <h3>Team Stat Breakdowns</h3>
@@ -240,9 +310,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Attack speed</li>
 <li>Result</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>team_urls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://understat.com/team/Liverpool/2020&quot;</span>,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>               <span class="st">&quot;https://understat.com/team/Manchester_City/2020&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>team_breakdown <span class="ot">&lt;-</span> <span class="fu">understat_team_stats_breakdown</span>(<span class="at">urls =</span> team_urls)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can get data for single teams at a time: -----#</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>team_breakdown <span class="ot">&lt;-</span> <span class="fu">understat_team_stats_breakdown</span>(<span class="at">team_urls =</span> <span class="st">&quot;https://understat.com/team/Liverpool/2020&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(team_breakdown)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 34</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 11</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ team_name         &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, …</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season_start_year &lt;dbl&gt; 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021, 2021…</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ stat_group_name   &lt;chr&gt; &quot;situation&quot;, &quot;situation&quot;, &quot;situation&quot;, &quot;situation&quot;, …</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ stat_name         &lt;chr&gt; &quot;OpenPlay&quot;, &quot;FromCorner&quot;, &quot;SetPiece&quot;, &quot;DirectFreekic…</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ shots             &lt;int&gt; 466, 94, 23, 22, 6, 532, 33, 31, 13, 2, 302, 135, 10…</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals             &lt;int&gt; 49, 11, 2, 0, 6, 59, 6, 1, 2, 0, 32, 15, 8, 11, 2, 6…</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG                &lt;dbl&gt; 59.4529072, 9.1182850, 1.8527942, 1.3437831, 4.56701…</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ against.shots     &lt;int&gt; 252, 40, 21, 12, 8, 296, 20, 9, 7, 1, 161, 80, 45, 3…</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ against.goals     &lt;int&gt; 28, 6, 3, 1, 4, 38, 2, 1, 0, 1, 17, 12, 5, 3, 5, 8, …</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ against.xG        &lt;dbl&gt; 33.1091679, 4.2281565, 3.9210227, 0.6303308, 6.08935…</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ time              &lt;int&gt; NA, NA, NA, NA, NA, 3147, 216, 134, 81, 12, 1914, 73…</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Or for multiple teams: -----#</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co"># team_urls &lt;- c(&quot;https://understat.com/team/Liverpool/2020&quot;,</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                &quot;https://understat.com/team/Manchester_City/2020&quot;)</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># team_breakdown &lt;- understat_team_stats_breakdown(team_urls = team_urls)</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -252,13 +340,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="player-shooting-locations" class="section level3">
 <h3>Player Shooting Locations</h3>
 <p>To get shooting locations for all games a player has participated in (for as long as Understat has data for), use the <code>understat_player_shots()</code> function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>raheem_sterling_shots <span class="ot">&lt;-</span> <span class="fu">understat_player_shots</span>(<span class="at">player_url =</span> <span class="st">&quot;https://understat.com/player/618&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>raheem_sterling_shots <span class="ot">&lt;-</span> <span class="fu">understat_player_shots</span>(<span class="at">player_url =</span> <span class="st">&quot;https://understat.com/player/618&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(raheem_sterling_shots)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 579</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 20</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ id              &lt;chr&gt; &quot;14490&quot;, &quot;14491&quot;, &quot;14496&quot;, &quot;14497&quot;, &quot;14779&quot;, &quot;15104&quot;, …</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minute          &lt;dbl&gt; 20, 22, 47, 53, 8, 7, 69, 74, 65, 81, 19, 25, 47, 50, …</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ result          &lt;chr&gt; &quot;SavedShot&quot;, &quot;Goal&quot;, &quot;SavedShot&quot;, &quot;MissedShots&quot;, &quot;Miss…</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ X               &lt;dbl&gt; 0.853, 0.856, 0.816, 0.745, 0.857, 0.959, 0.940, 0.968…</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Y               &lt;dbl&gt; 0.695, 0.496, 0.377, 0.443, 0.470, 0.615, 0.524, 0.646…</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG              &lt;dbl&gt; 0.04070334, 0.31140882, 0.05760121, 0.02548105, 0.0726…</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player          &lt;chr&gt; &quot;Raheem Sterling&quot;, &quot;Raheem Sterling&quot;, &quot;Raheem Sterling…</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_away       &lt;chr&gt; &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;h&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;h&quot;, &quot;h&quot;, &quot;a&quot;,…</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_id       &lt;chr&gt; &quot;618&quot;, &quot;618&quot;, &quot;618&quot;, &quot;618&quot;, &quot;618&quot;, &quot;618&quot;, &quot;618&quot;, &quot;618&quot;…</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ situation       &lt;chr&gt; &quot;OpenPlay&quot;, &quot;OpenPlay&quot;, &quot;OpenPlay&quot;, &quot;OpenPlay&quot;, &quot;OpenP…</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season          &lt;chr&gt; &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;…</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ shotType        &lt;chr&gt; &quot;LeftFoot&quot;, &quot;RightFoot&quot;, &quot;RightFoot&quot;, &quot;RightFoot&quot;, &quot;Ri…</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ match_id        &lt;chr&gt; &quot;4756&quot;, &quot;4756&quot;, &quot;4756&quot;, &quot;4756&quot;, &quot;4768&quot;, &quot;4777&quot;, &quot;4777&quot;…</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_team       &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;M…</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_team       &lt;chr&gt; &quot;Southampton&quot;, &quot;Southampton&quot;, &quot;Southampton&quot;, &quot;Southamp…</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ home_goals      &lt;dbl&gt; 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 1, 1, 1, 1, …</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ away_goals      &lt;dbl&gt; 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date            &lt;chr&gt; &quot;2014-08-17 13:30:00&quot;, &quot;2014-08-17 13:30:00&quot;, &quot;2014-08…</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_assisted &lt;chr&gt; &quot;Philippe Coutinho&quot;, &quot;Jordan Henderson&quot;, &quot;Jordan Hende…</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ lastAction      &lt;chr&gt; &quot;Pass&quot;, &quot;Throughball&quot;, &quot;Pass&quot;, &quot;Pass&quot;, &quot;Chipped&quot;, &quot;Pas…</span></span></code></pre></div>
 </div>
 <div id="team-player-season-stats" class="section level3">
 <h3>Team Player Season Stats</h3>
 <p>To get stats for all players of selected teams, run the <code>understat_team_players_stats()</code> function.</p>
 <p>Note: Team URLs cal be extracted using <code>understat_team_meta()</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>team_players <span class="ot">&lt;-</span> <span class="fu">understat_team_players_stats</span>(<span class="at">team_url =</span> <span class="fu">c</span>(<span class="st">&quot;https://understat.com/team/Liverpool/2020&quot;</span>, <span class="st">&quot;https://understat.com/team/Manchester_City/2020&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>team_players <span class="ot">&lt;-</span> <span class="fu">understat_team_players_stats</span>(<span class="at">team_url =</span> <span class="fu">c</span>(<span class="st">&quot;https://understat.com/team/Liverpool/2020&quot;</span>, <span class="st">&quot;https://understat.com/team/Manchester_City/2020&quot;</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(team_players)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 52</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 19</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ season       &lt;chr&gt; &quot;2020/2021&quot;, &quot;2020/2021&quot;, &quot;2020/2021&quot;, &quot;2020/2021&quot;, &quot;2020…</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_id    &lt;dbl&gt; 1250, 838, 482, 6854, 771, 1791, 229, 332, 605, 833, 966,…</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name  &lt;chr&gt; &quot;Mohamed Salah&quot;, &quot;Sadio Mané&quot;, &quot;Roberto Firmino&quot;, &quot;Diogo …</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ games        &lt;dbl&gt; 37, 35, 36, 19, 38, 36, 24, 10, 21, 5, 13, 33, 38, 24, 17…</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ time         &lt;dbl&gt; 3085, 2805, 2882, 1114, 2961, 3040, 1865, 701, 1710, 370,…</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals        &lt;dbl&gt; 22, 11, 9, 9, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0…</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xG           &lt;dbl&gt; 20.25084664, 14.82854776, 12.86021341, 7.05772054, 2.8174…</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ assists      &lt;dbl&gt; 5, 7, 7, 0, 0, 7, 0, 2, 1, 0, 1, 0, 7, 2, 1, 0, 0, 1, 0, …</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xA           &lt;dbl&gt; 6.52852610, 7.78775485, 6.11686340, 1.76252108, 1.6629218…</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ shots        &lt;dbl&gt; 126, 94, 83, 46, 31, 55, 22, 5, 14, 4, 8, 1, 19, 19, 15, …</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ key_passes   &lt;dbl&gt; 55, 61, 44, 12, 21, 77, 30, 3, 14, 0, 2, 0, 65, 12, 7, 0,…</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ yellow_cards &lt;dbl&gt; 0, 3, 2, 2, 1, 2, 4, 2, 0, 1, 0, 1, 2, 2, 2, 0, 0, 3, 0, …</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ red_cards    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position     &lt;chr&gt; &quot;F M S&quot;, &quot;F M S&quot;, &quot;F M S&quot;, &quot;F M S&quot;, &quot;M S&quot;, &quot;D S&quot;, &quot;M S&quot;, …</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ team_name    &lt;chr&gt; &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Liverpool&quot;, &quot;Live…</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npg          &lt;dbl&gt; 16, 11, 9, 9, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0…</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ npxG         &lt;dbl&gt; 15.68383364, 14.82854776, 12.86021341, 7.05772054, 2.8174…</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xGChain      &lt;dbl&gt; 28.9682335, 24.9989232, 25.2714578, 10.9729747, 13.922181…</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ xGBuildup    &lt;dbl&gt; 9.8002357, 6.0576563, 10.1985501, 4.0760965, 10.4762768, …</span></span></code></pre></div>
 <hr />
 </div>
 </div>
