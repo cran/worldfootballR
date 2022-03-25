@@ -159,7 +159,7 @@ dplyr::glimpse(salah_shotmap)
 
 ## ----salah_stats--------------------------------------------------------------
 salah_stats <- salah %>% 
-  dplyr::select(player_id = id, stats) %>% 
+  dplyr::select(stats) %>% 
   tidyr::unnest(stats)
 dplyr::glimpse(salah_stats)
 

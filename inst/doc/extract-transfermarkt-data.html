@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-03-21" />
+<meta name="date" content="2022-03-25" />
 
 <title>Extracting data from Transfermarkt</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from Transfermarkt</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-03-21</h4>
+<h4 class="date">2022-03-25</h4>
 
 
 
@@ -299,7 +299,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals_against       &lt;dbl&gt; 1, 1, 0, 1, 1, 0, 1, 0, 4, 0, 0, 3, 2, 2, 1, 0, 1,…</span></span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age_debut           &lt;chr&gt; &quot;17 years 24 days&quot;, &quot;17 years 06 months 23 days&quot;, …</span></span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ value_at_debut      &lt;dbl&gt; NA, NA, 1.0e+05, 5.0e+05, 8.0e+06, NA, 4.0e+05, NA…</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 4.0e+07, NA, 3.0e+06, 5.0e+06, 8.0e+06, NA, 4.0e+0…</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 6.0e+07, NA, 3.0e+06, 5.0e+06, 8.0e+06, NA, 4.0e+0…</span></span>
 <span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appearances         &lt;dbl&gt; 24, 4, 2, 4, 6, 1, 1, 1, 7, 12, 8, 3, 19, 4, 3, 1,…</span></span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ goals               &lt;dbl&gt; 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0,…</span></span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ minutes_played      &lt;dbl&gt; 1587, 112, 125, 97, 189, 10, 4, 10, 418, 285, 430,…</span></span>
@@ -338,22 +338,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#----- LaLiga players with expiring contracts in 2022: -----#</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>laliga_expiring <span class="ot">&lt;-</span> <span class="fu">tm_expiring_contracts</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>, <span class="at">contract_end_year =</span> <span class="dv">2023</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(laliga_expiring)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 114</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 116</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 14</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name           &lt;chr&gt; &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, …</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country             &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_url            &lt;chr&gt; &quot;https://www.transfermarkt.com/laliga/startseite/w…</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Jan Oblak&quot;, &quot;Carlos Soler&quot;, &quot;Memphis Depay&quot;, &quot;Gav…</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/jan-oblak/profil/sp…</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Goalkeeper&quot;, &quot;Central Midfield&quot;, &quot;Centre-Forward&quot;…</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;Slovenia&quot;, &quot;Spain&quot;, &quot;Netherlands&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; NA, NA, &quot;Ghana&quot;, NA, &quot;Netherlands&quot;, NA, &quot;Guadeloup…</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club        &lt;chr&gt; &quot;Atlético de Madrid&quot;, &quot;Valencia CF&quot;, &quot;FC Barcelona…</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Gavi&quot;, &quot;Jan Oblak&quot;, &quot;Carlos Soler&quot;, &quot;Memphis Depa…</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/gavi/profil/spieler…</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Central Midfield&quot;, &quot;Goalkeeper&quot;, &quot;Central Midfiel…</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;Spain&quot;, &quot;Slovenia&quot;, &quot;Spain&quot;, &quot;Netherlands&quot;, &quot;Spai…</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; NA, NA, NA, &quot;Ghana&quot;, NA, NA, &quot;Guadeloupe&quot;, NA, &quot;Ne…</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club        &lt;chr&gt; &quot;FC Barcelona&quot;, &quot;Atlético de Madrid&quot;, &quot;Valencia CF…</span></span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_expiry     &lt;date&gt; 2023-06-30, 2023-06-30, 2023-06-30, 2023-06-30, 2…</span></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_option     &lt;chr&gt; &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, &quot;-&quot;, …</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 6.0e+07, 5.0e+07, 4.5e+07, 4.0e+07, 4.0e+07, 4.0e+…</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ transfer_fee        &lt;dbl&gt; 16000000, NA, 0, NA, 3900000, NA, 72000000, NA, 40…</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ agent               &lt;chr&gt; &quot;Miha Mlakar&quot;, &quot;Promoesport&quot;, &quot;TEAM DEPAY&quot;, &quot;Puyol…</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 6.0e+07, 6.0e+07, 5.0e+07, 4.5e+07, 4.0e+07, 4.0e+…</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ transfer_fee        &lt;dbl&gt; NA, 16000000, NA, 0, NA, NA, 72000000, 40000000, 3…</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ agent               &lt;chr&gt; &quot;Puyol, De la Peña &amp; Sostres&quot;, &quot;Miha Mlakar&quot;, &quot;Pro…</span></span>
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can even do it for non-standard leagues - English League One players with expiring contracts in 2022: -----#</span></span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># league_one_expiring &lt;- tm_expiring_contracts(country_name = &quot;&quot;,</span></span>
@@ -366,22 +366,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># to get all current injuries for LaLiga</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>laliga_injuries <span class="ot">&lt;-</span> <span class="fu">tm_league_injuries</span>(<span class="at">country_name =</span> <span class="st">&quot;Spain&quot;</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(laliga_injuries)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 33</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 34</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 14</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name           &lt;chr&gt; &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, &quot;LaLiga&quot;, …</span></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ country             &lt;chr&gt; &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spain&quot;, &quot;Spai…</span></span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_url            &lt;chr&gt; &quot;https://www.transfermarkt.com/laliga/startseite/w…</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Thomas Lemar&quot;, &quot;Näis Djouahra&quot;, &quot;Iñigo Ruiz de Ga…</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name         &lt;chr&gt; &quot;Thomas Lemar&quot;, &quot;Iñigo Ruiz de Galarreta&quot;, &quot;Näis D…</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_url          &lt;chr&gt; &quot;https://www.transfermarkt.com/thomas-lemar/profil…</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Attacking Midfield&quot;, &quot;Left Winger&quot;, &quot;Central Midf…</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club        &lt;chr&gt; &quot;Atlético de Madrid&quot;, &quot;Real Sociedad&quot;, &quot;RCD Mallor…</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age                 &lt;dbl&gt; 26, 22, 28, 29, 28, 32, 25, 18, 21, 34, 28, 30, 22…</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;France&quot;, &quot;France&quot;, &quot;Spain&quot;, &quot;Brazil&quot;, &quot;Colombia&quot;,…</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; &quot;Guadeloupe&quot;, &quot;Algeria&quot;, NA, NA, &quot;Spain&quot;, NA, NA, …</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injury              &lt;chr&gt; &quot;Muscle Injury&quot;, &quot;Muscle Injury&quot;, &quot;Cruciate Ligame…</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_since       &lt;date&gt; 2022-03-09, 2022-03-08, 2022-02-21, 2022-02-28, 2…</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ position            &lt;chr&gt; &quot;Attacking Midfield&quot;, &quot;Central Midfield&quot;, &quot;Left Wi…</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club        &lt;chr&gt; &quot;Atlético de Madrid&quot;, &quot;RCD Mallorca&quot;, &quot;Real Socied…</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ age                 &lt;dbl&gt; 26, 28, 22, 32, 29, 18, 25, 21, 34, 28, 22, 30, 22…</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ nationality         &lt;chr&gt; &quot;France&quot;, &quot;Spain&quot;, &quot;France&quot;, &quot;Denmark&quot;, &quot;Brazil&quot;, …</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ second_nationality  &lt;chr&gt; &quot;Guadeloupe&quot;, NA, &quot;Algeria&quot;, NA, NA, &quot;Dominican Re…</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injury              &lt;chr&gt; &quot;Muscle Injury&quot;, &quot;Cruciate Ligament Injury&quot;, &quot;Musc…</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_since       &lt;date&gt; 2022-03-09, 2022-02-21, 2022-03-08, 2022-02-07, 2…</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ injured_until       &lt;date&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 4.0e+07, 4.0e+05, 2.5e+06, 4.5e+07, 2.0e+05, 6.0e+…</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_market_value &lt;dbl&gt; 4.0e+07, 2.0e+06, 4.0e+05, 6.0e+06, 4.5e+07, 5.0e+…</span></span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Can even do it for non-standard leagues - get all current injuries for League One in England</span></span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co"># league_one_injuries &lt;- tm_league_injuries(country_name = &quot;&quot;,</span></span>
@@ -458,7 +458,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>a_league_valuations <span class="ot">&lt;-</span> <span class="fu">get_player_market_values</span>(<span class="at">country_name =</span> <span class="st">&quot;Australia&quot;</span>,</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">start_year =</span> <span class="dv">2021</span>)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">glimpse</span>(a_league_valuations)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 330</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 331</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Columns: 19</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ comp_name                &lt;chr&gt; &quot;A-League Men&quot;, &quot;A-League Men&quot;, &quot;A-League Men…</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ region                   &lt;chr&gt; &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia&quot;, &quot;Asia…</span></span>
@@ -469,10 +469,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_name              &lt;chr&gt; &quot;Tom Glover&quot;, &quot;Matthew Sutton&quot;, &quot;Ahmad Taleb&quot;…</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_position          &lt;chr&gt; &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;, &quot;Goalkeeper&quot;, &quot;Ce…</span></span>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_dob               &lt;date&gt; 1997-12-24, 2000-03-07, 2002-12-04, 1991-01-…</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_age               &lt;dbl&gt; 24, 22, 19, 31, 28, 34, 19, 23, 33, 19, 30, 2…</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_age               &lt;dbl&gt; 24, 22, 19, 31, 29, 34, 19, 24, 33, 19, 30, 2…</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_nationality       &lt;chr&gt; &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, &quot;Portu…</span></span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ current_club             &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_height_mtrs       &lt;chr&gt; &quot;1.96&quot;, NA, NA, &quot;1.82&quot;, &quot;1.87&quot;, &quot;1.88&quot;, NA, &quot;…</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_height_mtrs       &lt;chr&gt; &quot;1.96&quot;, &quot;1.8&quot;, NA, &quot;1.82&quot;, &quot;1.87&quot;, &quot;1.88&quot;, &quot;1…</span></span>
 <span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_foot              &lt;chr&gt; &quot; &quot;, &quot; &quot;, &quot; &quot;, &quot;right&quot;, &quot;left&quot;, &quot;right&quot;, &quot; &quot;,…</span></span>
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ date_joined              &lt;chr&gt; &quot;2019-08-06&quot;, &quot;2020-09-10&quot;, &quot;2020-12-01&quot;, &quot;20…</span></span>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ joined_from              &lt;chr&gt; &quot;Tottenham Hotspur U23&quot;, &quot;Melbourne Victory&quot;,…</span></span>
@@ -519,7 +519,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ twitter              &lt;chr&gt; &quot;http://twitter.com/hazardeden10&quot;</span></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ facebook             &lt;chr&gt; &quot;http://www.facebook.com/edenhazard/&quot;</span></span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ instagram            &lt;chr&gt; &quot;http://www.instagram.com/hazardeden_10/&quot;</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_valuation     &lt;dbl&gt; 1.8e+07</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ player_valuation     &lt;dbl&gt; 1.6e+07</span></span>
 <span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ URL                  &lt;chr&gt; &quot;https://www.transfermarkt.com/eden-hazard/profil…</span></span>
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#----- for multiple players: -----#</span></span>
@@ -580,11 +580,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ staff_nationality_secondary &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</span></span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appointed                   &lt;date&gt; 2016-07-01, 2013-07-01, 2009-12-19, 2008-…</span></span>
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ end_date                    &lt;date&gt; NA, 2016-06-30, 2013-05-13, 2009-12-19, 2…</span></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ days_in_post                &lt;dbl&gt; 2089, 1095, 1241, 563, 332, 794, 1386, 118…</span></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matches                     &lt;dbl&gt; 337, 166, 191, 77, 45, 97, 176, 95, 12, 0,…</span></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ wins                        &lt;dbl&gt; 251, 101, 113, 37, 19, 34, 77, 39, 4, 0, 9…</span></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ draws                       &lt;dbl&gt; 36, 27, 38, 15, 11, 19, 39, 22, 4, 0, 11, …</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ losses                      &lt;dbl&gt; 50, 38, 40, 25, 15, 44, 60, 34, 4, 0, 20, …</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ days_in_post                &lt;dbl&gt; 2093, 1095, 1241, 563, 332, 794, 1386, 118…</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matches                     &lt;dbl&gt; 337, 166, 191, 77, 45, 97, 176, 95, 20, 0,…</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ wins                        &lt;dbl&gt; 251, 101, 113, 37, 19, 34, 77, 39, 5, 0, 9…</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ draws                       &lt;dbl&gt; 36, 27, 38, 15, 11, 19, 39, 22, 6, 0, 11, …</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ losses                      &lt;dbl&gt; 50, 38, 40, 25, 15, 44, 60, 34, 9, 0, 20, …</span></span>
 <span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ ppg                         &lt;dbl&gt; 2.34, 1.99, 1.97, 1.64, 1.51, 1.25, 1.53, …</span></span>
 <span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co">#----- can also get other roles: -----#</span></span>
@@ -615,7 +615,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ club              &lt;chr&gt; &quot;Man City&quot;, &quot;Málaga CF&quot;, &quot;Real Madrid&quot;, &quot;Real Socied…</span></span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ appointed         &lt;chr&gt; &quot;2013-06-24&quot;, &quot;2011-01-04&quot;, &quot;2009-06-02&quot;, &quot;1998-10-2…</span></span>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ contract_expiry   &lt;chr&gt; NA, &quot;2013-06-23&quot;, &quot;2010-05-27&quot;, &quot;2009-06-01&quot;, &quot;1998-…</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ days_in_charge    &lt;dbl&gt; 3192, 901, 359, 3874, 113, 1359, 729, 3916, 729, 111…</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ days_in_charge    &lt;dbl&gt; 3196, 901, 359, 3874, 113, 1363, 729, 3920, 729, 115…</span></span>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ matches           &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA, N…</span></span>
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ wins              &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0, NA, N…</span></span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ draws             &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA, N…</span></span>

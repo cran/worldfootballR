@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jason Zivkovic" />
 
-<meta name="date" content="2022-03-21" />
+<meta name="date" content="2022-03-25" />
 
 <title>Extracting data from FBref</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Extracting data from FBref</h1>
 <h4 class="author">Jason Zivkovic</h4>
-<h4 class="date">2022-03-21</h4>
+<h4 class="date">2022-03-25</h4>
 
 
 
@@ -732,9 +732,9 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Att Mid / Wingers&quot;, &quot;Att Mid / Wingers&quot;, &quot;Att Mid / W…</span></span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.49, 0.36, 0.43, 0.06, 0.12, 0.03, 0.00, 0.54, 0.45, …</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 93, 92, 89, 85, 90, 87, 58, 97, 97, 96, 99, 93, 99, 97…</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, …</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.44, 0.34, 0.38, 0.06, 0.13, 0.03, 0.00, 0.53, 0.43, …</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 86, 91, 84, 85, 90, 86, 58, 97, 95, 95, 99, 86, 99, 96…</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 2873, 2873, 2873, 2873, 2873, 2873, 2873, 2873, 2873, …</span></span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">#----- Get scouting report for the players secondary position (second position listed in fbref): -----#</span></span>
@@ -746,9 +746,9 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Versus          &lt;chr&gt; &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwards&quot;, &quot;Forwa…</span></span>
 <span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ StatGroup       &lt;chr&gt; &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Standard&quot;, &quot;Stand…</span></span>
 <span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Statistic       &lt;chr&gt; &quot;Goals&quot;, &quot;Assists&quot;, &quot;Non-Penalty Goals&quot;, &quot;Penalty Kick…</span></span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.49, 0.36, 0.43, 0.06, 0.12, 0.03, 0.00, 0.54, 0.45, …</span></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 66, 97, 69, 61, 77, 90, 56, 80, 83, 99, 96, 66, 98, 85…</span></span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, 2963, …</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Per90           &lt;dbl&gt; 0.44, 0.34, 0.38, 0.06, 0.13, 0.03, 0.00, 0.53, 0.43, …</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Percentile      &lt;dbl&gt; 57, 96, 58, 63, 76, 90, 56, 79, 79, 99, 95, 57, 98, 81…</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ BasedOnMinutes  &lt;dbl&gt; 2873, 2873, 2873, 2873, 2873, 2873, 2873, 2873, 2873, …</span></span>
 <span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ scouting_period &lt;chr&gt; &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;Last 365 Days&quot;, &quot;La…</span></span></code></pre></div>
 </div>
 <div id="get-player-season-stats" class="section level3">
@@ -889,7 +889,7 @@ scout &lt;- fb_player_scouting_report(player_url = &quot;https://fbref.com/en/pl
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Player                     &lt;chr&gt; &quot;Danny Andrew&quot;, &quot;Alex Cairns&quot;, &quot;Tom Clarke&quot;…</span></span>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Nation                     &lt;chr&gt; &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;ENG&quot;, &quot;NIR&quot;, &quot;…</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Pos                        &lt;chr&gt; &quot;DF,MF&quot;, &quot;GK&quot;, &quot;DF&quot;, &quot;DF,MF&quot;, &quot;MF&quot;, &quot;MF&quot;, &quot;…</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age                        &lt;chr&gt; &quot;31-088&quot;, &quot;29-076&quot;, &quot;34-090&quot;, &quot;25-149&quot;, &quot;26…</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Age                        &lt;chr&gt; &quot;31-092&quot;, &quot;29-080&quot;, &quot;34-094&quot;, &quot;25-153&quot;, &quot;26…</span></span>
 <span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ MP_Playing_Time            &lt;dbl&gt; 36, 35, 29, 30, 31, 23, 25, 26, 20, 22, 17,…</span></span>
 <span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Starts_Playing_Time        &lt;dbl&gt; 36, 35, 29, 27, 25, 21, 20, 19, 18, 17, 15,…</span></span>
 <span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ Min_Playing_Time           &lt;dbl&gt; 3138, 3150, 2580, 2473, 2239, 1824, 1719, 1…</span></span>
