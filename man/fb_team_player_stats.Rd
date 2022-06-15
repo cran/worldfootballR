@@ -4,12 +4,14 @@
 \alias{fb_team_player_stats}
 \title{Get fbref Team's Player Season Statistics}
 \usage{
-fb_team_player_stats(team_urls, stat_type)
+fb_team_player_stats(team_urls, stat_type, time_pause = 3)
 }
 \arguments{
 \item{team_urls}{the URL(s) of the teams(s) (can come from fb_teams_urls())}
 
-\item{stat_type}{the type of statistic required
+\item{stat_type}{the type of statistic required}
+
+\item{time_pause}{the wait time (in seconds) between page loads
 
 The statistic type options (stat_type) include:
 
@@ -25,6 +27,7 @@ Returns the team's players season stats for a selected team(s) and stat type
 }
 \examples{
 \dontrun{
+try({
 fb_team_player_stats("https://fbref.com/en/squads/d6a369a2/Fleetwood-Town-Stats",
                        stat_type = 'standard')
 
@@ -33,5 +36,6 @@ league_url <- fb_league_urls(country = "ENG", gender = "M",
 team_urls <- fb_teams_urls(league_url)
 multiple_playing_time <- fb_team_player_stats(team_urls,
                          stat_type = "playing_time")
+})
 }
 }

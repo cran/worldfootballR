@@ -4,7 +4,14 @@
 \alias{get_season_team_stats}
 \title{Get season team stats}
 \usage{
-get_season_team_stats(country, gender, season_end_year, tier, stat_type)
+get_season_team_stats(
+  country,
+  gender,
+  season_end_year,
+  tier,
+  stat_type,
+  time_pause = 3
+)
 }
 \arguments{
 \item{country}{the three character country code for all countries}
@@ -15,7 +22,9 @@ get_season_team_stats(country, gender, season_end_year, tier, stat_type)
 
 \item{tier}{the tier of the league, ie '1st' for the EPL or '2nd' for the Championship and so on}
 
-\item{stat_type}{the type of team statistics the user requires
+\item{stat_type}{the type of team statistics the user requires}
+
+\item{time_pause}{the wait time (in seconds) between page loads
 
 The statistic type options (stat_type) include:
 
@@ -31,7 +40,9 @@ returns a dataframe of a selected team statistic type for a selected league seas
 Returns different team season statistics results for a given league season and stat type
 }
 \examples{
-\donttest{
+\dontrun{
+try({
 get_season_team_stats("ITA", "M", 2021, "1st", "defense")
+})
 }
 }

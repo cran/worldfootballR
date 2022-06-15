@@ -4,10 +4,12 @@
 \alias{get_match_report}
 \title{Get match report}
 \usage{
-get_match_report(match_url)
+get_match_report(match_url, time_pause = 3)
 }
 \arguments{
 \item{match_url}{the fbref.com URL for the required match}
+
+\item{time_pause}{the wait time (in seconds) between page loads}
 }
 \value{
 returns a dataframe with the match details for a selected match
@@ -17,7 +19,9 @@ Returns match report details for selected matches
 }
 \examples{
 \dontrun{
+try({
 match <- get_match_urls(country = "AUS", gender = "F", season_end_year = 2021, tier = "1st")[1]
-get_match_report(match_url = match)
+df <- get_match_report(match_url = match)
+})
 }
 }

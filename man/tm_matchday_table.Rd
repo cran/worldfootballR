@@ -13,7 +13,7 @@ tm_matchday_table(country_name, start_year, matchday, league_url = NA)
 
 \item{matchday}{the matchweek number. Can be a vector of matchdays}
 
-\item{league_url}{league url from transfermarkt.com. To be used when country_name not avalilable in main function}
+\item{league_url}{league url from transfermarkt.com. To be used when country_name not available in main function}
 }
 \value{
 returns a dataframe of the table for a selected league and matchday
@@ -23,7 +23,9 @@ Returns the league table for each chosen matchday from transfermarkt
 }
 \examples{
 \dontrun{
+try({
 tm_matchday_table(country_name="England", start_year="2020", matchday=1)
 tm_matchday_table(country_name="England", start_year="2020", matchday=c(1:5))
+})
 }
 }

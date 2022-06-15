@@ -1,4 +1,19 @@
 
+#' @importFrom purrr map_dfr
+#' @importFrom dplyr mutate across
+#' @importFrom rlang .data
+#' @importFrom stats setNames
+.wrap_fotmob_match_f <- function(match_ids, f) {
+  purrr::map_dfr(
+    stats::setNames(match_ids, match_ids),
+    f,
+    .id = "match_id"
+  ) %>%
+    dplyr::mutate(
+      dplyr::across(.data$match_id, as.integer)
+    )
+}
+
 #' Get fotmob match player details by match id
 #'
 #' Returns match details from fotmob.com
@@ -7,10 +22,9 @@
 #'
 #' @return returns a dataframe of match players
 #'
-#' @importFrom purrr map_dfr
-#'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' try({
 #' library(dplyr)
 #' library(tidyr)
 #' ## single match
@@ -23,16 +37,17 @@
 #'
 #' ## multiple matches
 #' fotmob_get_match_players(c(3609987, 3609979))
+#' })
 #' }
 #' @export
 fotmob_get_match_players <- function(match_ids) {
-  purrr::map_dfr(match_ids, .fotmob_get_single_match_players)
+  .wrap_fotmob_match_f(match_ids, .fotmob_get_single_match_players)
 }
 
 #' @importFrom glue glue
 #' @importFrom jsonlite fromJSON
 #' @importFrom tibble as_tibble tibble
-#' @importFrom purrr pluck map_dfr possibly
+#' @importFrom purrr pluck map_dfr map2_dfr possibly
 #' @importFrom dplyr bind_cols select filter distinct any_of
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom rlang .data
@@ -41,7 +56,7 @@ fotmob_get_match_players <- function(match_ids) {
 .fotmob_get_single_match_players <- function(match_id) {
   # CRAN feedback was to remove this from the existing functions so I have for now
   # print(glue::glue("Scraping match data from fotmob for match {match_id}."))
-  main_url <- "https://www.fotmob.com/"
+  main_url <- "https://www.fotmob.com/api/"
   url <- paste0(main_url, "matchDetails?matchId=", match_id)
 
   f <- function(url) {
@@ -52,7 +67,7 @@ fotmob_get_match_players <- function(match_ids) {
     starters <- lineup$players
     bench <- lineup$bench
     stopifnot(length(starters) == 2) ## 2 teams
-    stopifnot(length(bench) == 2) ## 2 teams
+    stopifnot(length(bench) == 2)
 
     .clean_positions <- function(p) {
 
@@ -158,20 +173,32 @@ fotmob_get_match_players <- function(match_ids) {
       rows
     }
 
+    add_team_info <- function(p, i) {
+      res <- .clean_positions(p)
+      res$team_id <- lineup$teamId[i]
+      res$team_name <- lineup$teamName[i]
+      res %>%
+        dplyr::relocate(
+          .data$team_id,
+          .data$team_name,
+          .before = 1
+        )
+    }
+
     res <- dplyr::bind_rows(
-      purrr::map_dfr(
-        starters,
-        ~purrr::map_dfr(
-          .x,
-          .clean_positions
+      purrr::map2_dfr(
+        starters, seq_along(starters),
+        ~purrr::map2_dfr(
+          .x, .y,
+          add_team_info
         )
       ) %>%
         dplyr::mutate(
           is_starter = TRUE
         ),
-      purrr::map_dfr(
-        bench,
-        .clean_positions
+      purrr::map2_dfr(
+        bench, seq_along(bench),
+        add_team_info
       ) %>%
         dplyr::mutate(
           is_starter = FALSE
@@ -180,8 +207,20 @@ fotmob_get_match_players <- function(match_ids) {
       tibble::as_tibble()
     ## Overwrite the existing variables since the away team value is "bad".
     ##   See https://github.com/JaseZiv/worldfootballR/issues/93
-    res$home_team_id <- table$teams[1]
-    res$away_team_id <- table$teams[2]
+    ## For non-domestic leagues, the table element will not have a teams element
+    ##   See https://github.com/JaseZiv/worldfootballR/issues/111
+    coerce_team_id <- function(df, side) {
+      idx <- ifelse(side == "home", 1, 2)
+      team_col <- sprintf("%s_team_id", side)
+      df[[team_col]] <- ifelse(
+        is.logical(table) | !("teams" %in% names(table)),
+        df[[team_col]],
+        table$teams[idx]
+      )
+      df
+    }
+    res <- coerce_team_id(res, "home")
+    res <- coerce_team_id(res, "away")
     res
   }
 

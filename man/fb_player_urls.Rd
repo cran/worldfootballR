@@ -4,10 +4,12 @@
 \alias{fb_player_urls}
 \title{Get fbref Player URLs}
 \usage{
-fb_player_urls(team_url)
+fb_player_urls(team_url, time_pause = 3)
 }
 \arguments{
 \item{team_url}{the player's team URL (can be from fb_team_urls())}
+
+\item{time_pause}{the wait time (in seconds) between page loads}
 }
 \value{
 returns a character vector of all fbref player URLs for a selected team
@@ -16,7 +18,9 @@ returns a character vector of all fbref player URLs for a selected team
 Returns the URLs for all players for a given team
 }
 \examples{
-\donttest{
+\dontrun{
+try({
 fb_player_urls("https://fbref.com/en/squads/fd962109/Fulham-Stats")
+})
 }
 }

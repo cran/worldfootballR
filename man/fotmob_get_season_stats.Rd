@@ -9,88 +9,114 @@ fotmob_get_season_stats(
   league_name,
   league_id,
   season_name,
-  team_or_player,
-  stat_type
+  team_or_player = c("team", "player"),
+  stat_name,
+  stat_league_name = league_name,
+  cached = TRUE
 )
 }
 \arguments{
 \item{country}{Three character country code. Can be one or multiple. If provided, `league_name` must also be provided (of the same length)}
 
-\item{league_name}{League names. If provided, `country` must also be provided (of the same length)}
+\item{league_name}{League names. If provided, `country` must also be provided (of the same length).}
 
 \item{league_id}{Fotmob ID for the league. Only used if `country` and `league_name` are not specified.}
 
-\item{season_name}{Season names in the format `"2021/2022"`. Multiple allowed. If multiple leagues are specified, season stats are retrieved for each league.
-
-Note that not Fotmob currently only goes back as far as `"2016/2017"`. Some leagues may not have data for that far back.}
+\item{season_name}{Season names in the format `"2021/2022"`. Multiple allowed. If multiple leagues are specified, season stats are retrieved for each league.}
 
 \item{team_or_player}{return statistics for either \code{"team"} or \code{"player"}. Can only be one or the other.}
 
-\item{stat_type}{the type of statistic. Can only be one.
-For \code{entity = "player"}, must be one of the following:
+\item{stat_name}{the type of statistic. Can be more than one.
+`stat_name` must be one of the following for \code{"player"}:
+
 \itemize{
-\item{"accurate_pass"}
-\item{"big_chance_created"}
-\item{"big_chance_missed"}
-\item{"clean_sheet"}
-\item{"effective_clearance"}
-\item{"xg"}
-\item{"xg_conceded"}
-\item{"assist"}
-\item{"goals"}
-\item{"mins_played_goal"}
-\item{"ontarget_scoring_att"}
-\item{"penalty_won"}
-\item{"poss_won_att_3rd"}
-\item{"rating"}
-\item{"red_card"}
-\item{"saves"}
-\item{"total_att_assist"}
-\item{"won_contest"}
-\item{"won_tackle"}
-\item{"yellow_card"}
+\item{Accurate long balls per 90}
+\item{Accurate passes per 90}
+\item{Assists}
+\item{Big chances created}
+\item{Big chances missed}
+\item{Blocks per 90}
+\item{Chances created}
+\item{Clean sheets}
+\item{Clearances per 90}
+\item{Expected assist (xA)}
+\item{Expected assist (xA) per 90}
+\item{Expected goals (xG)}
+\item{Expected goals (xG) per 90}
+\item{Expected goals on target (xGOT)}
+\item{FotMob rating}
+\item{Fouls committed per 90}
+\item{Goals + Assists}
+\item{Goals conceded per 90}
+\item{Goals per 90}
+\item{Goals prevented}
+\item{Interceptions per 90}
+\item{Penalties conceded}
+\item{Penalties won}
+\item{Possession won final 3rd per 90}
+\item{Red cards}
+\item{Save percentage}
+\item{Saves per 90}
+\item{Shots on target per 90}
+\item{Shots per 90}
+\item{Successful dribbles per 90}
+\item{Successful tackles per 90}
+\item{Top scorer}
+\item{xG + xA per 90}
+\item{Yellow cards}
 }
-For `entity = "team"` all of the same stats are available, with the exception of:
+
+For \code{"team"}, `stat_name` must be one of the following:
 \itemize{
-\item{"goals"}
-\item{"assist"}
-\item{"won_contest"}
+\item{Accurate crosses per match}
+\item{Accurate long balls per match}
+\item{Accurate passes per match}
+\item{Average possession}
+\item{Big chances created}
+\item{Big chances missed}
+\item{Clean sheets}
+\item{Clearances per match}
+\item{Expected goals}
+\item{FotMob rating}
+\item{Fouls per match}
+\item{Goals conceded per match}
+\item{Goals per match}
+\item{Interceptions per match}
+\item{Penalties awarded}
+\item{Penalties conceded}
+\item{Possession won final 3rd per match}
+\item{Red cards}
+\item{Saves per match}
+\item{Shots on target per match}
+\item{Successful tackles per match}
+\item{xG conceded}
+\item{Yellow cards}
 }
-Additional stats available for \code{"team"} are:
-\itemize{
-\item{"goals_conceded_per_match"}
-\item{"goals_per_match"}
-\item{"possession_percentage"}
-}}
+
+Fotmob has changed these stat names over time, so this list may be out-dated. If you try an invalid stat name, you should see an error message indicating which ones are available.}
+
+\item{stat_league_name}{Same format as `league_name`. If not provided explicitly, then it takes on the same value as `league_name`. If provided explicitly, should be of the same length as `league_name` (or `league_id` if `league_name` is not provided).
+
+Note that not Fotmob currently only goes back as far as `"2016/2017"`. Some leagues may not have data for that far back.}
+
+\item{cached}{Whether to load the dataframe from the \href{https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/fotmob-leagues/all_leagues.csv}{data CSV}. This is faster and most likely what you want to do, unless you identify a league that's being tracked by fotmob that's not in this pre-saved CSV.}
 }
 \value{
-returns a dataframe of league standings
+returns a dataframe of team or player stats
 }
 \description{
 Returns team or player season-long statistics standings from fotmob.com.
 }
 \examples{
-\dontrun{
+\donttest{
+try({
 epl_team_xg_2021 <- fotmob_get_season_stats(
   country = "ENG",
   league_name = "Premier League",
   season = "2020/2021",
-  stat_type = "xg",
+  stat_type = "Expected goals",
   team_or_player = "team"
 )
-
-## fotmob doesn't has data for 2016/2017 for some leagues, but not all.
-##   you'll see a warning about this and receive an empty dataframe
-get_epl_season_stats(
-  season = "2016/2017"
-)
-
-epl_player_xg_2021 <- get_epl_season_stats(
-  country = "ENG",
-  league_name = "Premier League",
-  season = "2020/2021",
-  stat_type = "xg",
-  team_or_player = "player"
-)
+})
 }
 }

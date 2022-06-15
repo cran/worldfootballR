@@ -4,14 +4,16 @@
 \alias{fb_player_match_logs}
 \title{Get fbref Player Match Logs}
 \usage{
-fb_player_match_logs(player_url, season_end_year, stat_type)
+fb_player_match_logs(player_url, season_end_year, stat_type, time_pause = 3)
 }
 \arguments{
 \item{player_url}{the URL of the player (can come from fb_player_urls())}
 
 \item{season_end_year}{the year the season(s) concludes}
 
-\item{stat_type}{the type of statistic required
+\item{stat_type}{the type of statistic required}
+
+\item{time_pause}{the wait time (in seconds) between page loads
 
 The statistic type options (stat_type) include:
 
@@ -25,8 +27,10 @@ returns a dataframe of a player's match logs for a season
 Returns all match logs for a selected player, season and stat type
 }
 \examples{
-\dontrun{
+\donttest{
+try({
 fb_player_match_logs("https://fbref.com/en/players/3bb7b8b4/Ederson",
 season_end_year = 2021, stat_type = 'summary')
+})
 }
 }

@@ -1,3 +1,150 @@
+# worldfootballR 0.5.6
+
+* CRAN submission
+
+***
+
+# worldfootballR 0.5.3.4001
+
+### Bugs
+
+* `player_transfer_history()` no longer throwing errors for retired players and also addressed changed HTML on transfermarkt returning no data [#127](https://github.com/JaseZiv/worldfootballR/issues/127)
+
+***
+
+# worldfootballR 0.5.3.3000
+
+### Bugs
+
+* `fotmob_get_league_ids()` - now uses new endpoint for league ids (data in script element no longer has data). This function is internally used by `fotmob_get_league_matches()`, `fotmob_get_league_tables()`, and `fotmob_get_season_stats()`, which would have been broken if `cached=FALSE` was specified.
+
+***
+
+# worldfootballR 0.5.3.2000
+
+### Improvements
+
+To respect FBref's rate limiting rules, all functions have now been updated to have a default pause of three seconds between page loads, up from two seconds which was originally requested.
+
+
+***
+
+# worldfootballR 0.5.3.1000
+
+### Bugs
+
+Now starting to have load functions:
+
+* `get_match_report()` and `get_advanced_match_stats()` - now reporting the match date and away team name again. Additionally, `Home_Goals` and `Away_Goals` text strings now clean strings (tabs and line breaks removed) [#128](https://github.com/JaseZiv/worldfootballR/issues/128)
+
+
+***
+
+# worldfootballR 0.5.3
+
+### Improvements
+
+Now starting to have load functions:
+
+* `load_match_results()` - function to load pre stored data similar to `get_match_results()`
+* `load_fb_big5_advanced_season_stats()` - function to load pre stored data similar to `fb_big5_advanced_season_stats()`
+
+***
+
+# worldfootballR 0.5.2.3000
+
+### Bugs
+
+* `fotmob_get_leage_matches()` and `fotmob_get_league_tables()` after changes to names in JSON response (`fixtures` -> `matches`, `tableData` -> `table`) [#121](https://github.com/JaseZiv/worldfootballR/issues/121), [#122](https://github.com/JaseZiv/worldfootballR/issues/122)
+* Various fotmob functions affected by addition of `api/` in URL
+* New names to player stats outdated docs for `fotmob_get_season_stats()`
+
+# worldfootballR 0.5.2.2000
+
+### Bugs
+
+* `player_transfer_history()` updated after html changes on Transfermarkt caused function to return zero row data frame [#120](https://github.com/JaseZiv/worldfootballR/issues/120)
+
+***
+
+# worldfootballR 0.5.2.1000
+
+### Bugs
+
+* `tm_player_bio()` addresses where some data points don't exist for some players and returns NAs
+* `understat_team_stats_breakdown()` now returns the correct `season_start_year` value [#119](https://github.com/JaseZiv/worldfootballR/issues/119)
+* tests and vignettes for fotmob stat functions changed to lowercase for second word in `stat_name` [#118](https://github.com/JaseZiv/worldfootballR/issues/118)
+
+***
+
+# worldfootballR 0.5.2
+
+### Improvements
+
+* All FBref functions now contain a user defined pause (`time_pause`) before each page load to abide by their new rate limiting rules. See [here](https://www.sports-reference.com/bot-traffic.html). Default is set to `2` seconds
+* Internal function`.get_each_season_results()` exported now
+
+***
+
+# worldfootballR 0.5.1.6000
+
+### Bugs
+
+* `fotmob_get_seasons_stats` failed for non-domestic leagues, even when setting `cached=TRUE`. Fix was to add logic such that the latest season for a given league is found from the "See More" links on a generic stats page.
+
+### Improvements / Breaking Changes
+
+* Additional processing logic added such that `fotmob_get_league_tables` works properly for international tournaments.
+* The `stat_type` argument in `fotmob_get_seasons_stats` renamed to `stat_name` to reflect the different set of values that it takes. Valid values are now equivalent to the options that can be found on the stats page in the browser, e.g. [the Liverpool player stats page](https://www.fotmob.com/leagues/47/stats/season/16390/players/goals/team/8650/liverpool-players). 
+
+***
+
+# worldfootballR 0.5.1.5000
+
+### Bugs
+
+* `fotmob_get_match_players` failed for non-domestic leagues because the `team` element does id not exist under the `table` element. Fix is to have more robust element for assigning team ids for players.
+
+***
+
+# worldfootballR 0.5.1.4000
+
+
+### Improvements / Breaking Changes
+
+* `tm_player_bio()` now also returns the player's maximum valuation (`max_player_valuation`) and the date that max valuation was recorded (`max_player_valuation_date`). **Note:** there will now be an additional two columns to the output
+
+
+### Bugs
+
+* `tm_player_bio` returning player number instead of name and also NAs for valuation [#109](https://github.com/JaseZiv/worldfootballR/issues/109)
+
+
+***
+
+# worldfootballR 0.5.1.3000
+
+### Improvements
+
+* `fotmob_get_season_stats` gains `stat_league_name` and can now be used for all leagues since seasons are programmatically scraped
+
+***
+
+# worldfootballR 0.5.1.2000
+
+### Improvements
+
+* `fotmob_get_league_matches` and `fotmob_get_league_tables` now check 2 places for the league endpoint since it changes occasionally.
+* `fotmob_get_match_players` gets 3 additional columns: `match_id`, `team_id`, `team_name`. [#105](https://github.com/JaseZiv/worldfootballR/issues/105)
+
+***
+
+# worldfootballR 0.5.1.1000
+
+* Set minimum R version to 4.0.0
+
+***
+
 # worldfootballR 0.5.1
 
 * Modifications based on CRAN feedback to updates for CRAN submission

@@ -5,7 +5,7 @@
 #' @param country_name the country of the league's players
 #' @param start_year the start year of the season (2020 for the 20/21 season)
 #' @param matchday the matchweek number. Can be a vector of matchdays
-#' @param league_url league url from transfermarkt.com. To be used when country_name not avalilable in main function
+#' @param league_url league url from transfermarkt.com. To be used when country_name not available in main function
 #'
 #' @return returns a dataframe of the table for a selected league and matchday
 #'
@@ -17,8 +17,10 @@
 #'
 #' @examples
 #' \dontrun{
+#' try({
 #' tm_matchday_table(country_name="England", start_year="2020", matchday=1)
 #' tm_matchday_table(country_name="England", start_year="2020", matchday=c(1:5))
+#' })
 #' }
 tm_matchday_table <- function(country_name, start_year, matchday, league_url=NA) {
 

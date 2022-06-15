@@ -15,8 +15,10 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' try({
 #' fb_league_urls(country = "ENG", gender = "M", season_end_year = 2021, tier = '1st')
+#' })
 #' }
 fb_league_urls <- function(country, gender, season_end_year, tier = "1st") {
 
@@ -48,6 +50,7 @@ fb_league_urls <- function(country, gender, season_end_year, tier = "1st") {
 #' Returns the URLs for all teams for a given league
 #'
 #' @param league_url the league URL (can be from fb_league_urls())
+#' @param time_pause the wait time (in seconds) between page loads
 #'
 #' @return returns a character vector of all fbref team URLs for a selected league
 #'
@@ -57,12 +60,17 @@ fb_league_urls <- function(country, gender, season_end_year, tier = "1st") {
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' try({
 #' fb_teams_urls("https://fbref.com/en/comps/9/Premier-League-Stats")
+#' })
 #' }
-fb_teams_urls <- function(league_url) {
+fb_teams_urls <- function(league_url, time_pause=3) {
 
   # .pkg_message("Scraping team URLs")
+
+  # put sleep in as per new user agreement on FBref
+  Sys.sleep(time_pause)
 
   league_season_page <- xml2::read_html(league_url)
 
@@ -82,6 +90,7 @@ fb_teams_urls <- function(league_url) {
 #' Returns the URLs for all players for a given team
 #'
 #' @param team_url the player's team URL (can be from fb_team_urls())
+#' @param time_pause the wait time (in seconds) between page loads
 #'
 #' @return returns a character vector of all fbref player URLs for a selected team
 #'
@@ -91,14 +100,19 @@ fb_teams_urls <- function(league_url) {
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' try({
 #' fb_player_urls("https://fbref.com/en/squads/fd962109/Fulham-Stats")
+#' })
 #' }
-fb_player_urls <- function(team_url) {
+fb_player_urls <- function(team_url, time_pause=3) {
 
   # .pkg_message("Scraping Player URLs")
 
   main_url <- "https://fbref.com"
+
+  # put sleep in as per new user agreement on FBref
+  Sys.sleep(time_pause)
 
   player_page <- xml2::read_html(team_url)
 
@@ -117,7 +131,7 @@ fb_player_urls <- function(team_url) {
 #'
 #' @param country_name the country of the league's players
 #' @param start_year the start year of the season (2020 for the 20/21 season)
-#' @param league_url league url from transfermarkt.com. To be used when country_name not avalilable in main function
+#' @param league_url league url from transfermarkt.com. To be used when country_name not available in main function
 #'
 #' @return returns a character vector of all transfermarkt team URLs for a selected league
 #'
@@ -266,8 +280,11 @@ tm_team_staff_urls <- function(team_urls, staff_role) {
 #' @return a data.frame
 #'
 #' @export
-#' @examples \dontrun{
+#' @examples
+##' \dontrun{
+#' try({
 #' understat_team_meta(team_name = c("Liverpool", "Manchester City"))
+#' })
 #' }
 understat_team_meta <- function(team_names) {
   f_possibly <- purrr::possibly(.understat_team_meta, otherwise = data.frame())

@@ -12,7 +12,8 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' try({
 #' library(dplyr)
 #' library(tidyr)
 #'
@@ -20,6 +21,7 @@
 #' results %>%
 #'   dplyr::select(primaryId, ccode, league_name = name, matches) %>%
 #'   tidyr::unnest_longer(matches)
+#' })
 #' }
 #'
 fotmob_get_matches_by_date <- function(dates) {
@@ -37,7 +39,7 @@ fotmob_get_matches_by_date <- function(dates) {
   # CRAN feedback was to remove this from the existing functions so I have for now
   # print(glue::glue('Scraping match results data from fotmob for "{date}".'))
 
-  main_url <- "https://www.fotmob.com/"
+  main_url <- "https://www.fotmob.com/api/"
 
   is_date <- lubridate::is.Date(date)
   if(is_date) {
@@ -63,10 +65,9 @@ fotmob_get_matches_by_date <- function(dates) {
 #'
 #' @return returns a dataframe of match shots
 #'
-#' @importFrom purrr map_dfr
-#'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' try({
 #' library(dplyr)
 #' library(tidyr)
 #' results <- fotmob_get_matches_by_date(date = "20210926")
@@ -78,10 +79,11 @@ fotmob_get_matches_by_date <- function(dates) {
 #'   dplyr::pull(id)
 #' match_ids # 3609987 3609979
 #' details <- fotmob_get_match_details(match_ids)
+#' })
 #' }
 #' @export
 fotmob_get_match_details <- function(match_ids) {
-  purrr::map_dfr(match_ids, .fotmob_get_single_match_details)
+  .wrap_fotmob_match_f(match_ids, .fotmob_get_single_match_details)
 }
 
 #' @importFrom glue glue
@@ -93,7 +95,7 @@ fotmob_get_match_details <- function(match_ids) {
 .fotmob_get_single_match_details <- function(match_id) {
   # CRAN feedback was to remove this from the existing functions so I have for now
   # print(glue::glue("Scraping match data from fotmob for match {match_id}."))
-  main_url <- "https://www.fotmob.com/"
+  main_url <- "https://www.fotmob.com/api/"
   url <- paste0(main_url, "matchDetails?matchId=", match_id)
 
   f <- function(url) {
@@ -125,7 +127,7 @@ fotmob_get_match_details <- function(match_ids) {
   general <- resp$general
   scalars <- data.frame(
     stringsAsFactors = FALSE,
-    match_id = general$matchId,
+    match_id = general$matchId, ## don't technically need this since `.fotmob_get_single_match_details` is wrapped with `.wrap_fotmob_match_id_f`
     match_round = ifelse(is.null(general$matchRound), "", general$matchRound),
     league_id = general$leagueId,
     league_name = general$leagueName,

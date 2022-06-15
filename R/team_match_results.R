@@ -3,6 +3,7 @@
 #' Returns all game results for a team in a given season
 #'
 #' @param team_url the URL for the team season
+#' @param time_pause the wait time (in seconds) between page loads
 #'
 #' @return returns a dataframe with the results of all games played by the selected team(s)
 #'
@@ -14,16 +15,24 @@
 #'
 #' @examples
 #' \dontrun{
+#' try({
 #' # for single teams:
 #' man_city_url <- "https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats"
 #' get_team_match_results(man_city_url)
+#' })
 #' }
 
-get_team_match_results <- function(team_url) {
+get_team_match_results <- function(team_url, time_pause=3) {
   # .pkg_message("Scraping team match logs...")
 
-  get_each_team_log <- function(team_url) {
+  time_wait <- time_pause
+
+  get_each_team_log <- function(team_url, time_pause=time_wait) {
     pb$tick()
+
+    # put sleep in as per new user agreement on FBref
+    Sys.sleep(time_pause)
+
     team_page <- xml2::read_html(team_url)
 
     team_name <- sub('.*\\/', '', team_url) %>% gsub("-Stats", "", .) %>% gsub("-", " ", .)

@@ -4,10 +4,12 @@
 \alias{get_team_match_results}
 \title{Get team match results}
 \usage{
-get_team_match_results(team_url)
+get_team_match_results(team_url, time_pause = 3)
 }
 \arguments{
 \item{team_url}{the URL for the team season}
+
+\item{time_pause}{the wait time (in seconds) between page loads}
 }
 \value{
 returns a dataframe with the results of all games played by the selected team(s)
@@ -17,8 +19,10 @@ Returns all game results for a team in a given season
 }
 \examples{
 \dontrun{
+try({
 # for single teams:
 man_city_url <- "https://fbref.com/en/squads/b8fd03ef/Manchester-City-Stats"
 get_team_match_results(man_city_url)
+})
 }
 }

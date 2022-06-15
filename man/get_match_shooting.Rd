@@ -4,10 +4,12 @@
 \alias{get_match_shooting}
 \title{Get match shooting event data}
 \usage{
-get_match_shooting(match_url)
+get_match_shooting(match_url, time_pause = 3)
 }
 \arguments{
 \item{match_url}{the fbref.com URL for the required match}
+
+\item{time_pause}{the wait time (in seconds) between page loads}
 }
 \value{
 returns a dataframe
@@ -17,8 +19,10 @@ Returns detailed player shooting data for home and away teams for a selected mat
 }
 \examples{
 \dontrun{
+try({
 match <- "https://fbref.com/en/matches/bf52349b/Fulham-Arsenal-September-12-2020-Premier-League"
-get_match_shooting(match_url = match)
+df <- get_match_shooting(match_url = match)
+})
 }
 
 }

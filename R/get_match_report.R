@@ -8,8 +8,8 @@
 #'
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @noRd
 #'
-
 .get_match_report_page <- function(match_page) {
 
   # seasons <- read.csv("https://raw.githubusercontent.com/JaseZiv/worldfootballR_data/master/raw-data/all_leages_and_cups/all_competitions.csv", stringsAsFactors = F)
@@ -23,24 +23,23 @@
 
     # tryCatch( {League <- each_game_page %>% rvest::html_nodes("h1+ div a") %>% rvest::html_text()}, error = function(e) {League <- NA})
     tryCatch( {League_URL <- each_game_page %>% rvest::html_nodes("h1+ div a") %>% rvest::html_attr("href") %>% paste0("https://fbref.com", .)}, error = function(e) {League <- NA})
-    tryCatch( {Match_Date <- each_game_page %>% rvest::html_nodes("div:nth-child(1) div strong a") %>% rvest::html_text() %>% .[3]}, error = function(e) {Match_Date <- NA})
+    tryCatch( {Match_Date <- each_game_page %>% rvest::html_nodes(".venuetime") %>% rvest::html_attr("data-venue-date")}, error = function(e) {Match_Date <- NA})
     tryCatch( {Matchweek <- each_game_page %>% rvest::html_nodes("h1+ div") %>% rvest::html_text()}, error = function(e) {Matchweek <- NA})
 
     tryCatch( {Home_Team <- each_game_page %>% rvest::html_nodes("div:nth-child(1) div strong a") %>% rvest::html_text() %>% .[1]}, error = function(e) {Home_Team <- NA})
     tryCatch( {Home_Formation <- each_game_page %>% rvest::html_nodes(".lineup#a") %>% rvest::html_nodes("th") %>% rvest::html_text() %>% .[1] %>% gsub(".*\\(", "", .) %>% gsub("\\)", "", .)}, error = function(e) {Home_Formation <- NA})
     tryCatch( {Home_Score <- each_game_page %>% rvest::html_nodes(".scores") %>% rvest::html_nodes(".score") %>% rvest::html_text() %>% .[1]}, error = function(e) {Home_Score <- NA})
     tryCatch( {Home_xG <- each_game_page %>% rvest::html_nodes(".scores") %>% rvest::html_nodes(".score_xg") %>% rvest::html_text() %>% .[1]}, error = function(e) {Home_xG <- NA})
-    tryCatch( {Home_Goals <- each_game_page %>% rvest::html_nodes("#a") %>% .[[1]] %>% rvest::html_text()}, error = function(e) {Home_Goals <- NA}) %>%
-      stringr::str_remove_all("\n") %>% stringr::str_remove_all("\t")
+    tryCatch( {Home_Goals <- each_game_page %>% rvest::html_nodes("#a") %>% .[[1]] %>% rvest::html_text() %>%
+      stringr::str_squish()}, error = function(e) {Home_Goals <- NA})
     tryCatch( {Home_Yellow_Cards <- each_game_page %>% rvest::html_nodes(".cards") %>% .[1] %>% rvest::html_nodes("span.yellow_card, span.yellow_red_card") %>% length()}, error = function(e) {Home_Yellow_Cards <- 0})
     tryCatch( {Home_Red_Cards <- each_game_page %>% rvest::html_nodes(".cards") %>% .[1] %>% rvest::html_nodes("span.red_card, span.yellow_red_card") %>% length()}, error = function(e) {Home_Red_Cards <- 0})
 
-    tryCatch( {Away_Team <- each_game_page %>% rvest::html_nodes("div:nth-child(1) div strong a") %>% rvest::html_text() %>% .[2]}, error = function(e) {Away_Team <- NA})
+    tryCatch( {Away_Team <- each_game_page %>% rvest::html_nodes("div:nth-child(2) div strong a") %>% rvest::html_text() %>% .[2]}, error = function(e) {Away_Team <- NA})
     tryCatch( {Away_Formation <- each_game_page %>% rvest::html_nodes(".lineup#b") %>% rvest::html_nodes("th") %>% rvest::html_text() %>% .[1] %>% gsub(".*\\(", "", .) %>% gsub("\\)", "", .)}, error = function(e) {Away_Formation <- NA})
     tryCatch( {Away_Score <- each_game_page %>% rvest::html_nodes(".scores") %>% rvest::html_nodes(".score") %>%rvest:: html_text() %>% .[2]}, error = function(e) {Away_Score <- NA})
     tryCatch( {Away_xG <- each_game_page %>% rvest::html_nodes(".scores") %>% rvest::html_nodes(".score_xg") %>% rvest::html_text() %>% .[2]}, error = function(e) {Away_xG <- NA})
-    tryCatch( {Away_Goals <- each_game_page %>% rvest::html_nodes("#b") %>% .[[1]] %>% rvest::html_text()}, error = function(e) {Away_Goals <- NA}) %>%
-      stringr::str_remove_all("\n") %>% stringr::str_remove_all("\t")
+    tryCatch( {Away_Goals <- each_game_page %>% rvest::html_nodes("#b") %>% .[[1]] %>% rvest::html_text() %>% stringr::str_squish()}, error = function(e) {Away_Goals <- NA})
     tryCatch( {Away_Yellow_Cards <- each_game_page %>% rvest::html_nodes(".cards") %>% .[2] %>% rvest::html_nodes("span.yellow_card, span.yellow_red_card") %>% length()}, error = function(e) {Away_Yellow_Cards <- 0})
     tryCatch( {Away_Red_Cards <- each_game_page %>% rvest::html_nodes(".cards") %>% .[2] %>% rvest::html_nodes("span.red_card, span.yellow_red_card") %>% length()}, error = function(e) {Away_Red_Cards <- 0})
 
@@ -74,6 +73,7 @@
 #' Returns match report details for selected matches
 #'
 #' @param match_url the fbref.com URL for the required match
+#' @param time_pause the wait time (in seconds) between page loads
 #'
 #' @return returns a dataframe with the match details for a selected match
 #'
@@ -84,14 +84,22 @@
 #'
 #' @examples
 #' \dontrun{
+#' try({
 #' match <- get_match_urls(country = "AUS", gender = "F", season_end_year = 2021, tier = "1st")[1]
-#' get_match_report(match_url = match)
+#' df <- get_match_report(match_url = match)
+#' })
 #' }
 
-get_match_report <- function(match_url) {
+get_match_report <- function(match_url, time_pause=3) {
 
-  each_match_report <- function(match_url) {
+  time_wait <- time_pause
+
+  each_match_report <- function(match_url, time_pause=time_wait) {
     pb$tick()
+
+    # put sleep in as per new user agreement on FBref
+    Sys.sleep(time_pause)
+
     match_page <- tryCatch(xml2::read_html(match_url), error = function(e) NA)
 
     if(!is.na(match_page)) {

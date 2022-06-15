@@ -1,12 +1,13 @@
 Type: Package
 Package: worldfootballR
-Title: Functions to Extract and Clean World Football (Soccer) Data
-Version: 0.5.1
+Title: Extract and Clean World Football (Soccer) Data
+Version: 0.5.6
 Authors@R: c(
     person("Jason", "Zivkovic", , "jaseziv83@gmail.com", role = c("aut", "cre", "cph")),
-    person("Tony", "ElHabr", , "anthonyelhabr@gmail.com", role = "ctb")
+    person("Tony", "ElHabr", , "anthonyelhabr@gmail.com", role = "ctb"),
+      person(given = "Tan", family = "Ho", , "tan@tanho.ca", role = "ctb")
   )
-Description: A set of functions to allow users to obtain clean and tidy
+Description: Allow users to obtain clean and tidy
     football (soccer) game, team and player data. Data is collected from a
     number of popular sites, including 'FBref'<https://fbref.com/en/>,
     transfer and valuations data from
@@ -18,17 +19,19 @@ Description: A set of functions to allow users to obtain clean and tidy
 License: GPL-3
 URL: https://github.com/JaseZiv/worldfootballR
 BugReports: https://github.com/JaseZiv/worldfootballR/issues
-Imports: dplyr, glue, janitor, jsonlite, lubridate, magrittr, progress,
-        purrr, qdapRegex, readr, rlang, rvest (>= 1.0.0), stats,
-        stringi, stringr, tidyr (>= 1.2.0), utils, withr, xml2, tibble
+Depends: R (>= 4.0.0)
+Imports: dplyr, glue, httr, janitor, jsonlite, lubridate, magrittr,
+        progress, purrr, qdapRegex, readr, rlang, rvest (>= 1.0.0),
+        stats, stringi, stringr, tidyr (>= 1.2.0), utils, withr, xml2,
+        tibble, cli
 Suggests: knitr, rmarkdown, testthat
-VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 NeedsCompilation: no
-Packaged: 2022-03-25 04:06:33 UTC; zivkovij
+Packaged: 2022-06-14 23:44:46 UTC; zivkovij
 Author: Jason Zivkovic [aut, cre, cph],
-  Tony ElHabr [ctb]
+  Tony ElHabr [ctb],
+  Tan Ho [ctb]
 Maintainer: Jason Zivkovic <jaseziv83@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-03-25 16:00:02 UTC
+Date/Publication: 2022-06-15 09:50:02 UTC

@@ -6,6 +6,7 @@
 #' @param match_url the three character country code for all countries
 #' @param stat_type the type of team statistics the user requires
 #' @param team_or_player result either summarised for each team, or individual players
+#' @param time_pause the wait time (in seconds) between page loads
 #'
 #' The statistic type options (stat_type) include:
 #'
@@ -22,17 +23,23 @@
 #'
 #' @examples
 #' \dontrun{
+#' try({
 #' urls <- get_match_urls(country = "AUS", gender = "F", season_end_year = 2021, tier = "1st")
 #'
-#' get_advanced_match_stats(match_url=urls,stat_type="possession",team_or_player="player")
+#' df <- get_advanced_match_stats(match_url=urls,stat_type="possession",team_or_player="player")
+#' })
 #' }
 
-get_advanced_match_stats <- function(match_url, stat_type, team_or_player) {
+get_advanced_match_stats <- function(match_url, stat_type, team_or_player, time_pause=3) {
   main_url <- "https://fbref.com"
 
+  time_wait <- time_pause
 
-  get_each_match_statistic <- function(match_url) {
+  get_each_match_statistic <- function(match_url, time_pause=time_wait) {
     pb$tick()
+
+    # put sleep in as per new user agreement on FBref
+    Sys.sleep(time_pause)
 
     match_page <- tryCatch(xml2::read_html(match_url), error = function(e) NA)
 
@@ -102,7 +109,7 @@ get_advanced_match_stats <- function(match_url, stat_type, team_or_player) {
           home_stat <- cbind(Team, Home_Away, home_stat)
 
           Team <- match_page %>%
-            rvest::html_nodes("div:nth-child(1) div strong a") %>%
+            rvest::html_nodes("div:nth-child(2) div strong a") %>%
             rvest::html_text() %>% .[2]
 
           away_stat <- stat_df[2] %>%

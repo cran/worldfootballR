@@ -9,7 +9,7 @@
 
 #' @importFrom purrr transpose map_dfr
 #' @importFrom dplyr filter
-.fotmob_get_league_or_season_urls <- function(
+.fotmob_get_league_urls <- function(
   leagues,
   league_id = NULL,
   country = NULL,
@@ -18,7 +18,6 @@
   has_country <- !is.null(country)
   has_league_name <- !is.null(league_name)
   has_league_id <- !is.null(league_id)
-  is_league_ids <- !any(names(leagues) == "season_id")
   if(!has_league_id & !(has_country & has_league_name)) {
     stop(
       "Must provide `league_id` or both of `country` and `league_name`."
@@ -70,7 +69,7 @@
     length(league_id)
   )
 
-  if(is_league_ids & (n_urls < n_params)) {
+  if(n_urls < n_params) {
     warning(
       sprintf(
         "Found less leagues than specified (%s < %s).",
@@ -78,7 +77,7 @@
         n_params
       )
     )
-  } else if (is_league_ids & (n_urls > n_params)) {
+  } else if (n_urls > n_params) {
     warning(
       sprintf(
         "Found more leagues than specified (%s > %s).",
@@ -97,13 +96,11 @@
 #'
 #' @param cached Whether to load the dataframe from the \href{https://github.com/JaseZiv/worldfootballR_data/blob/master/raw-data/fotmob-leagues/all_leagues.csv}{data CSV}. This is faster and most likely what you want to do, unless you identify a league that's being tracked by fotmob that's not in this pre-saved CSV.
 #'
-#' @importFrom rvest read_html html_elements html_text
-#' @importFrom purrr keep map_dfr
-#' @importFrom stringr str_extract
-#' @importFrom jsonlite fromJSON
-#' @importFrom tibble as_tibble
+#' @importFrom httr POST content
+#' @importFrom purrr map_dfr
+#' @importFrom tibble enframe
 #' @importFrom dplyr rename
-#' @importFrom tidyr unnest
+#' @importFrom tidyr unnest_wider unnest_longer
 #' @importFrom janitor clean_names
 #' @export
 fotmob_get_league_ids <- function(cached = TRUE) {
@@ -111,30 +108,26 @@ fotmob_get_league_ids <- function(cached = TRUE) {
     return(.fotmob_load_csv("fotmob-leagues/all_leagues.csv"))
   }
 
-  page <- "https://www.fotmob.com/" %>%
-    rvest::read_html()
+  resp <- httr::POST("https://www.fotmob.com/api/allLeagues")
+  cont <- resp %>% httr::content()
 
-  league_element <- page %>%
-    rvest::html_elements("script") %>%
-    rvest::html_text(trim = TRUE) %>%
-    purrr::keep(stringr::str_detect, "lsLeague")
-
-  .extract_leagues <- function(rgx) {
-    league_element %>%
-      stringr::str_extract(rgx) %>%
-      jsonlite::fromJSON() %>%
-      tibble::as_tibble() %>%
+  .extract_leagues <- function(x) {
+    cont[[x]] %>%
+      tibble::enframe() %>%
+      dplyr::select(.data$value) %>%
+      tidyr::unnest_wider(.data$value) %>%
+      tidyr::unnest_longer(.data$leagues) %>%
       dplyr::rename(
         country = .data$name
       ) %>%
-      tidyr::unnest(.data$leagues) %>%
+      tidyr::unnest_wider(.data$leagues) %>%
       janitor::clean_names()
   }
 
   purrr::map_dfr(
     c(
-      '(?<=\\"international\\"[:]).*(?=\\,\\"countries\\")',
-      '(?<=\\"countries\\"[:]).*(?=\\,\\"userSettings\\":null[}]\\,\\"userSettings\\")'
+      "international",
+      "countries"
     ),
     .extract_leagues
   )
@@ -143,16 +136,30 @@ fotmob_get_league_ids <- function(cached = TRUE) {
 
 .fotmob_get_league_ids <- function(cached = TRUE, ...) {
   leagues <- fotmob_get_league_ids(cached = cached)
-  .fotmob_get_league_or_season_urls(
+  .fotmob_get_league_urls(
     leagues = leagues,
     ...
   )
 }
 
-#' @importFrom jsonlite fromJSON
-.fotmob_get_league_resp <- function(league_id) {
-  url <- sprintf("https://www.fotmob.com/leagues?id=%s", league_id)
-  jsonlite::fromJSON(url)
+.fotmob_get_league_resp <- function(league_id, page_url) {
+  url <- sprintf("https://www.fotmob.com/api/leagues?id=%s", league_id)
+  res <- .safely_from_json(url)
+  if(!is.null(res$result)) {
+    return(res$result)
+  }
+
+  build_id <- .fotmob_get_build_id()
+  first_url <- url
+  url <- sprintf("https://www.fotmob.com/_next/data/%s%s.json", build_id, page_url)
+  res <- .safely_from_json(url)
+  if(!is.null(res$result)) {
+    return(res$result)
+  }
+
+  stop(
+    sprintf("Could not identify the league endpoint at either %s or %s. Stopping with the following error from jsonlite::fromJSON:\n", first_url, url, res$error)
+  )
 }
 
 #' Get fotmob match results by league
@@ -160,20 +167,21 @@ fotmob_get_league_ids <- function(cached = TRUE) {
 #' Returns match results for all matches played on the selected date from fotmob.com.
 #'
 #' @param country Three character country code. Can be one or multiple. If provided, `league_name` must also be provided (of the same length)
-#' @param league_name League names. If provided, `country` must also be provided (of the same length)
+#' @param league_name League names. If provided, `country` must also be provided (of the same length).
 #' @param league_id Fotmob ID for the league. Only used if `country` and `league_name` are not specified.
 #' @inheritParams fotmob_get_league_ids
 #'
 #' @return returns a dataframe of league matches
 #'
-#' @importFrom purrr possibly map_dfr
+#' @importFrom purrr possibly map2_dfr
 #' @importFrom tibble tibble
 #' @importFrom rlang maybe_missing
 #'
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' try({
 #' library(dplyr)
 #' library(tidyr)
 #'
@@ -198,6 +206,7 @@ fotmob_get_league_ids <- function(cached = TRUE) {
 #' league_matches %>%
 #'   dplyr::select(match_id = id, home, away) %>%
 #'   tidyr::unnest_wider(c(home, away), names_sep = "_")
+#' })
 #' }
 fotmob_get_league_matches <- function(country, league_name, league_id, cached = TRUE) {
 
@@ -213,17 +222,27 @@ fotmob_get_league_matches <- function(country, league_name, league_id, cached = 
     quiet = FALSE,
     otherwise = tibble::tibble()
   )
-  purrr::map_dfr(
-    urls$id,
+  purrr::map2_dfr(
+    urls$id, urls$page_url,
     .fotmob_get_league_matches
   )
 }
 
+.fotmob_extract_data_from_page_props <- function(resp) {
+  league_id <- names(resp$pageProps$initialState$league)
+  resp$pageProps$initialState$league[[league_id]]$data
+}
+
 #' @importFrom janitor clean_names
 #' @importFrom tibble as_tibble
-.fotmob_get_league_matches <- function(league_id) {
-  resp <- .fotmob_get_league_resp(league_id)
-  resp$fixtures %>%
+.fotmob_get_league_matches <- function(league_id, page_url) {
+  resp <- .fotmob_get_league_resp(league_id, page_url)
+  f <- if("matches" %in% names(resp)) {
+    I
+  } else {
+    .fotmob_extract_data_from_page_props
+  }
+  f(resp)$matches %>%
     janitor::clean_names() %>%
     tibble::as_tibble()
 }
@@ -236,14 +255,15 @@ fotmob_get_league_matches <- function(country, league_name, league_id, cached = 
 #'
 #' @return returns a dataframe of league standings
 #'
-#' @importFrom purrr possibly map_dfr
+#' @importFrom purrr possibly map2_dfr
 #' @importFrom tibble tibble
 #' @importFrom rlang maybe_missing
 #'
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' try({
 #' library(dplyr)
 #' library(tidyr)
 #'
@@ -267,6 +287,7 @@ fotmob_get_league_matches <- function(country, league_name, league_id, cached = 
 #' # look at tables if only away matches are considered
 #' league_tables %>%
 #'   dplyr::filter(table_type == "away")
+#' })
 #' }
 fotmob_get_league_tables <- function(country, league_name, league_id, cached = TRUE) {
 
@@ -282,8 +303,8 @@ fotmob_get_league_tables <- function(country, league_name, league_id, cached = T
     quiet = FALSE,
     otherwise = tibble::tibble()
   )
-  purrr::map_dfr(
-    urls$id,
+  purrr::map2_dfr(
+    urls$id, urls$page_url,
     fp
   )
 }
@@ -291,15 +312,45 @@ fotmob_get_league_tables <- function(country, league_name, league_id, cached = T
 #' @importFrom janitor clean_names
 #' @importFrom tibble as_tibble
 #' @importFrom rlang .data
+#' @importFrom dplyr select all_of bind_rows rename mutate
 #' @importFrom tidyr pivot_longer unnest_longer unnest
-.fotmob_get_league_tables <- function(league_id) {
-  resp <- .fotmob_get_league_resp(league_id)
-  table <- resp$tableData$table %>%
+.fotmob_get_league_tables <- function(league_id, page_url) {
+  resp <- .fotmob_get_league_resp(league_id, page_url)
+  f <- if("table" %in% names(resp)) {
+    I
+  } else {
+    .fotmob_extract_data_from_page_props
+  }
+  table_init <- f(resp)$table
+  cols <- c("all", "home", "away")
+  table <- if("table" %in% names(table_init)) {
+    table_init$table %>% dplyr::select(dplyr::all_of(cols))
+  } else if("tables" %in% names(table_init)) {
+    tables <- dplyr::bind_rows(table_init$tables)
+    tables$all <- tables$table$all
+    tables$home <- tables$table$home
+    tables$away <- tables$table$away
+    tables %>%
+      dplyr::rename(
+        group_id = .data$leagueId,
+        group_page_url = .data$pageUrl,
+        group_name = .data$leagueName
+      ) %>%
+      dplyr::select(
+        -c(.data$table, .data$legend)
+      )
+  } else {
+    stop(
+      "Expected to find `table` or `tables` element but did not."
+    )
+  }
+  table <- table %>%
     janitor::clean_names() %>%
     tibble::as_tibble()
-  table %>%
+
+  res <- table %>%
     tidyr::pivot_longer(
-      colnames(table),
+      dplyr::all_of(cols),
       names_to = "table_type",
       values_to = "table"
     ) %>%
@@ -310,5 +361,15 @@ fotmob_get_league_tables <- function(country, league_name, league_id, cached = T
       .data$table
     ) %>%
     janitor::clean_names() %>%
-    tibble::as_tibble()
+    tibble::as_tibble() %>%
+    dplyr::rename(
+      team_page_url = .data$page_url
+    )
+
+  res %>%
+    dplyr::mutate(
+      league_id = !!league_id,
+      page_url = !!page_url,
+      .before = 1
+    )
 }

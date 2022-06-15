@@ -4,12 +4,14 @@
 \alias{fb_player_scouting_report}
 \title{Get fbref Full Player Scouting Report}
 \usage{
-fb_player_scouting_report(player_url, pos_versus)
+fb_player_scouting_report(player_url, pos_versus, time_pause = 3)
 }
 \arguments{
 \item{player_url}{the URL of the player (can come from fb_player_urls())}
 
 \item{pos_versus}{either "primary" or "secondary" as fbref offer comparisons against multiple positions}
+
+\item{time_pause}{the wait time (in seconds) between page loads}
 }
 \value{
 returns a dataframe of a player's full scouting information for all seasons available on FBref
@@ -19,6 +21,7 @@ Returns the scouting report for a selected player
 }
 \examples{
 \dontrun{
+try({
 fb_player_scouting_report(player_url = "https://fbref.com/en/players/d70ce98e/Lionel-Messi",
 pos_versus = "primary")
 
@@ -33,5 +36,6 @@ pos_versus = "secondary")
 # for the 2020-2021 La Liga season
 fb_player_scouting_report(player_url = "https://fbref.com/en/players/d70ce98e/Lionel-Messi",
 pos_versus = "secondary") \%>\% dplyr::filter(scouting_period == "2020-2021 La Liga")
+})
 }
 }
