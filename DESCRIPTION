@@ -1,7 +1,7 @@
 Type: Package
 Package: worldfootballR
 Title: Extract and Clean World Football (Soccer) Data
-Version: 0.5.6
+Version: 0.5.7
 Authors@R: c(
     person("Jason", "Zivkovic", , "jaseziv83@gmail.com", role = c("aut", "cre", "cph")),
     person("Tony", "ElHabr", , "anthonyelhabr@gmail.com", role = "ctb"),
@@ -9,7 +9,7 @@ Authors@R: c(
   )
 Description: Allow users to obtain clean and tidy
     football (soccer) game, team and player data. Data is collected from a
-    number of popular sites, including 'FBref'<https://fbref.com/en/>,
+    number of popular sites, including 'FBref',
     transfer and valuations data from
     'Transfermarkt'<https://www.transfermarkt.com/> and shooting location
     and other match stats data from 'Understat'<https://understat.com/>
@@ -28,10 +28,10 @@ Suggests: knitr, rmarkdown, testthat
 Encoding: UTF-8
 RoxygenNote: 7.2.0
 NeedsCompilation: no
-Packaged: 2022-06-14 23:44:46 UTC; zivkovij
+Packaged: 2022-07-11 03:45:13 UTC; zivkovij
 Author: Jason Zivkovic [aut, cre, cph],
   Tony ElHabr [ctb],
   Tan Ho [ctb]
 Maintainer: Jason Zivkovic <jaseziv83@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-06-15 09:50:02 UTC
+Date/Publication: 2022-07-11 07:40:02 UTC
