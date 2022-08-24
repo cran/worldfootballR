@@ -5,7 +5,12 @@
 #' @importFrom tidyr unnest
 #' @importFrom janitor clean_names
 #' @importFrom purrr safely
+#' @importFrom stringr str_detect str_replace_all
 .fotmob_get_single_season_stats <- function(league_id, season_id, stat) {
+
+  if (stringr::str_detect(season_id, '-')) {
+    season_id <- stringr::str_replace_all(season_id, '-', '\\/')
+  }
   url <- sprintf(
     "https://data.fotmob.com/stats/%s/season/%s/%s.json",
     league_id,
@@ -39,6 +44,31 @@
   x
 }
 
+#' @importFrom rvest html_text2 html_attr
+#' @importFrom stringr str_detect str_remove_all
+.extract_seasons_and_stats_from_options <- function(options) {
+  labels <- rvest::html_text2(options)
+  rgx <- "(^.*)(\\s)(20[012].*$)"
+  league_name <- labels %>% stringr::str_replace(rgx, "\\1")
+  season_or_stat_name <- labels %>% stringr::str_replace(rgx, "\\3")
+  league_name <- ifelse(season_or_stat_name == league_name, NA_character_, league_name)
+  is_season <- season_or_stat_name %>% stringr::str_detect("^2")
+  ids <- options %>% rvest::html_attr("value")
+  has_dash <- any(stringr::str_detect(ids[is_season], "-"))
+  if (has_dash) {
+    season_or_stat_name <- c(
+      paste0(season_or_stat_name[is_season], "-", stringr::str_remove_all(ids[is_season], "^.*-")),
+      season_or_stat_name[!is_season]
+    )
+  }
+  tibble::tibble(
+    league_name = league_name,
+    option_type = ifelse(is_season, "season", "stat"),
+    name = season_or_stat_name,
+    id = ids
+  )
+}
+
 #' @importFrom tibble tibble as_tibble
 #' @importFrom rvest read_html html_elements html_attr
 #' @importFrom stringr str_replace str_replace str_detect
@@ -46,12 +76,12 @@
 #' @importFrom dplyr distinct arrange bind_rows
 #' @importFrom purrr imap_lgl keep map_dfr
 .fotmob_get_stat_and_season_options <- function(
-  country,
-  league_name,
-  league_id,
-  team_or_player,
-  page_url,
-  cached
+    country,
+    league_name,
+    league_id,
+    team_or_player,
+    page_url,
+    cached
 ) {
 
   tables <- fotmob_get_league_tables(
@@ -60,35 +90,62 @@
     league_name = rlang::maybe_missing(league_name, NULL),
     league_id = rlang::maybe_missing(league_id, NULL)
   )
+
   url <- sprintf(
     "https://www.fotmob.com%s/%ss",
     stringr::str_replace(tables$page_url[1], "overview", "stats"),
     team_or_player
   )
   page <- url %>% rvest::read_html()
+
   see_all_button <- page %>% rvest::html_elements(".SeeAllButton")
   has_see_all_button <- length(see_all_button) > 0
 
-  if(has_see_all_button) {
+  options <- page %>% rvest::html_elements("option")
+  has_options <- length(options) > 0
+
+  if (has_see_all_button) {
+
     hrefs <- see_all_button %>% rvest::html_attr("href")
     next_url <- sprintf(
       "https://www.fotmob.com%s",
       hrefs[1]
     )
     next_page <- next_url %>% rvest::read_html()
-    option_elements <- next_page %>% rvest::html_elements("option")
-    labels <- option_elements %>% rvest::html_text2()
-    rgx <- "(^.*)(\\s)(20[012].*$)"
-    league_name <- labels %>% stringr::str_replace(rgx, "\\1")
-    season_name <- labels %>% stringr::str_replace(rgx, "\\3")
-    league_name <- ifelse(season_name == league_name, NA_character_, league_name)
-    is_season <- season_name %>% stringr::str_detect("^2")
-    tibble::tibble(
-      league_name = league_name,
-      option_type = ifelse(is_season, "season", "stat"),
-      name = season_name,
-      id = option_elements %>% rvest::html_attr("value")
+    options <- next_page %>% rvest::html_elements("option")
+    .extract_seasons_and_stats_from_options(options)
+    } else if (has_options) {
+
+    values <- options %>% rvest::html_attr("value")
+
+    parts <- values %>%
+      purrr::keep(~stringr::str_detect(.x, "season")) %>%
+      stringr::str_split("/")
+
+    if(length(parts) == 0) {
+      rlang::abort(glue::glue("Could not parse season ids from {url}."))
+    }
+
+    if(length(parts[[1]]) < 5) {
+      rlang::abort(glue::glue("Season ids not stored in expected format at {url}."))
+    }
+
+    season_ids <- parts %>%
+      purrr::map_chr(~purrr::pluck(.x, 4))
+
+    ## protect against the current season being in the offseason, unless there is no other season.
+    season_id <- ifelse(length(season_ids) > 1, season_ids[2], season_ids[1])
+    next_url <- sprintf(
+      "https://www.fotmob.com/leagues/%s/stats/season/%s/%ss/saves_team",
+      tables$league_id[1],
+      season_id,
+      team_or_player
     )
+
+    next_page <- next_url %>% rvest::read_html()
+    next_options <- next_page %>% rvest::html_elements("option")
+    .extract_seasons_and_stats_from_options(next_options)
+
   } else {
     resp <- .fotmob_get_league_resp_from_build_id(page_url, stats = TRUE)
     if(is.null(resp$result)) {
@@ -97,7 +154,8 @@
       )
     }
     stats <- .fotmob_extract_data_from_page_props(resp$result)$stats
-    seasons <- stats$seasons
+    seasons <- stats$seasonStatLinks$Name
+
     label <- sprintf("%ss", .upper1(team_or_player))
     valid_seasons <- setNames(seasons, seasons) %>%
       purrr::imap_lgl(
@@ -105,6 +163,7 @@
       ) %>%
       purrr::keep(isTRUE) %>%
       names()
+
     extract_options <- function(season) {
       all_stats_df <- stats[[season]][[sprintf("%ss", team_or_player)]] %>%
         dplyr::distinct(.data$header, .data$name, .data$fetchAllUrl)
@@ -234,14 +293,14 @@
 #' })
 #' }
 fotmob_get_season_stats <- function(
-  country,
-  league_name,
-  league_id,
-  season_name,
-  team_or_player = c("team", "player"),
-  stat_name,
-  stat_league_name = league_name,
-  cached = TRUE
+    country,
+    league_name,
+    league_id,
+    season_name,
+    team_or_player = c("team", "player"),
+    stat_name,
+    stat_league_name = league_name,
+    cached = TRUE
 ) {
 
   match.arg(team_or_player, several.ok = FALSE)
@@ -365,14 +424,14 @@ fotmob_get_season_stats <- function(
 #' @importFrom tibble tibble
 #' @importFrom rlang .data
 .fotmob_get_single_league_single_season_stats <- function(
-  country,
-  league_name,
-  league_id,
-  stat_name,
-  stat,
-  stat_league_name,
-  season_name,
-  season_options
+    country,
+    league_name,
+    league_id,
+    stat_name,
+    stat,
+    stat_league_name,
+    season_name,
+    season_options
 ) {
 
   filt_season_options <- season_options %>%
@@ -381,8 +440,7 @@ fotmob_get_season_stats <- function(
       .data$season_name == !!season_name
     )
 
-  n_season_options <- nrow(filt_season_options)
-
+    n_season_options <- nrow(filt_season_options)
   print_season_league_name_error <- function(stem) {
     glue::glue(
       '`season_name` = "{season_name}", `stat_league_name` = "{stat_league_name}" {stem}. Try one of the following `stat_league_name`, `season_name` pairs:\n{glue::glue_collapse(sprintf("%s, %s", season_options$league_name, season_options$season_name), "\n")}'
