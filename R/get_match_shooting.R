@@ -36,8 +36,8 @@ fb_match_shooting <- function(match_url, time_pause=3) {
 
     match_page <- .load_page(match_url)
 
-    tryCatch( {home_team <- match_page %>% rvest::html_nodes("div:nth-child(1) div strong a") %>% rvest::html_text() %>% .[1]}, error = function(e) {home_team <- NA})
-    tryCatch( {away_team <- match_page %>% rvest::html_nodes("div:nth-child(1) div strong a") %>% rvest::html_text() %>% .[2]}, error = function(e) {away_team <- NA})
+    tryCatch( {home_team <- match_page %>% rvest::html_nodes("div+ strong a") %>% rvest::html_text() %>% .[1]}, error = function(e) {home_team <- NA})
+    tryCatch( {away_team <- match_page %>% rvest::html_nodes("div+ strong a") %>% rvest::html_text() %>% .[2]}, error = function(e) {away_team <- NA})
 
     # home_away_df <- data.frame(Team=home_team, Home_Away="Home") %>%
     #   rbind(data.frame(Team=away_team, Home_Away = "Away"))
@@ -52,8 +52,13 @@ fb_match_shooting <- function(match_url, time_pause=3) {
 
       # function to clean home and away df
       prep_shot_df <- function(shot_df) {
-        names(shot_df) <- c("Minute", "Shooting_Player", "Squad", "Outcome", "Distance", "Body_Part", "Shot_Notes", "SCA1_Player", "SCA1_Event", "SCA2_Player", "SCA2_Event")
-        shot_df <- shot_df[-1, ]
+
+        var_names <- shot_df[1,] %>% as.character()
+        new_names <- paste(var_names, names(shot_df), sep = "_")
+        new_names <- gsub("_Var.[0-9]", "", new_names) %>% gsub(".1.1", ".1", .) %>% gsub(".2.1", ".2", .) %>% gsub("\\.", "_", .)
+
+        names(shot_df) <- new_names
+        shot_df <- shot_df[-1,]
 
         shot_df <- shot_df %>%
           dplyr::mutate(Match_Half = dplyr::case_when(
@@ -73,19 +78,20 @@ fb_match_shooting <- function(match_url, time_pause=3) {
 
       home_shot_df <- tryCatch(all_shots[2] %>% rvest::html_nodes("table") %>% rvest::html_table() %>% data.frame(), error = function(e) data.frame())
       if(nrow(home_shot_df > 0)) {
-        home_shot_df <- prep_shot_df(home_shot_df)
+        home_shot_df <- prep_shot_df(home_shot_df) %>%
+          dplyr::mutate(Home_Away = "Home")
       }
 
       away_shot_df <- tryCatch(all_shots[3] %>% rvest::html_nodes("table") %>% rvest::html_table() %>% data.frame(), error = function(e) data.frame())
       if(nrow(away_shot_df > 0)) {
-        away_shot_df <- prep_shot_df(away_shot_df)
+        away_shot_df <- prep_shot_df(away_shot_df) %>%
+          dplyr::mutate(Home_Away = "Away")
       }
 
       all_shot_df <- home_shot_df %>%
         rbind(away_shot_df)
 
       all_shot_df <- all_shot_df %>%
-        dplyr::mutate(Home_Away = ifelse(.data[["Squad"]] == home_team, "Home", "Away")) %>%
         dplyr::select(.data[["Date"]], .data[["Squad"]], .data[["Home_Away"]], .data[["Match_Half"]], dplyr::everything())
     } else {
       print(glue::glue("Detailed shot data unavailable for {match_url}"))
